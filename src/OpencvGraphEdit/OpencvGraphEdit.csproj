@@ -71,6 +71,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Components\DataStructures\DataStructures.csproj">
+      <Project>{D9CF4EE8-529A-4E57-9A06-6AA8903EE04F}</Project>
+      <Name>DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\FilterImplementation\FilterImplementation.csproj">
+      <Project>{4C784233-D24D-4AD6-A9CB-9710BDDB5AF5}</Project>
+      <Name>FilterImplementation</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
