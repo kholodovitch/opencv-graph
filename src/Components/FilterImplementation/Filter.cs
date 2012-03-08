@@ -1,6 +1,7 @@
 using System;
+using DataStructures;
 
-namespace DataStructures
+namespace FilterImplementation
 {
 	[Serializable]
 	public class Filter : IFilter

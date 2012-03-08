@@ -39,14 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DestinationBlock.cs" />
-    <Compile Include="Filter.cs" />
-    <Compile Include="Graph.cs" />
     <Compile Include="IFilter.cs" />
+    <Compile Include="IGraph.cs" />
     <Compile Include="IPin.cs" />
     <Compile Include="PinMediaType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SourceBlock.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
