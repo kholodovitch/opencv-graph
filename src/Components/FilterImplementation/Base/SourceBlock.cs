@@ -1,10 +1,9 @@
 ﻿using System;
-using DataStructures;
 
 namespace FilterImplementation.Base
 {
 	[Serializable]
-	public abstract class SourceBlock : IFilter
+	public abstract class SourceBlock : Filter
 	{
 		public abstract void Start();
 	}

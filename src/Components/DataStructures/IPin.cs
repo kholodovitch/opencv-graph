@@ -5,5 +5,7 @@ namespace DataStructures
 		PinMediaType MediaType { get; }
 
 		bool IsConnected { get; }
+
+		bool IsOutput { get; }
 	}
 }

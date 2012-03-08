@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasePin.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="IPin.cs" />

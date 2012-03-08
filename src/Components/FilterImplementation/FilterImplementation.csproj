@@ -51,10 +51,13 @@
     <Compile Include="Base\DestinationBlock.cs" />
     <Compile Include="Base\Filter.cs" />
     <Compile Include="FiltersHelper.cs" />
+    <Compile Include="Filters\Image\Blur.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphLoader.cs" />
+    <Compile Include="IFilterProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\SourceBlock.cs" />
+    <Compile Include="Source\SourceStaticImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataStructures\DataStructures.csproj">
@@ -62,6 +65,7 @@
       <Name>DataStructures</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,10 +1,9 @@
 using System;
-using DataStructures;
 
-namespace FilterImplementation
+namespace FilterImplementation.Base
 {
 	[Serializable]
-	public class DestinationBlock : IFilter
+	public class DestinationBlock : Filter
 	{
 	}
 }
