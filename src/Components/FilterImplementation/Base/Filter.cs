@@ -6,7 +6,7 @@ using DataStructures;
 namespace FilterImplementation.Base
 {
 	[Serializable]
-	public class Filter : IFilter
+	public abstract class Filter : IFilter
 	{
 		private readonly List<IPin> _pins = new List<IPin>();
 
@@ -26,5 +26,7 @@ namespace FilterImplementation.Base
 		{
 			_pins.Add(pin);
 		}
+
+		public abstract void Process();
 	}
 }

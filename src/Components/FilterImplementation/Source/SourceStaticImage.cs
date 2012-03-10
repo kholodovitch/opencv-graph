@@ -1,12 +1,16 @@
 ﻿using System;
 using DataStructures;
+using Emgu.CV;
+using Emgu.CV.Structure;
 using FilterImplementation.Base;
 
 namespace FilterImplementation.Source
 {
-	public class SourceStaticImage : SourceBlock
+	public abstract class SourceStaticImage : SourceBlock
 	{
-		private class OutpuPin : BasePin
+		private readonly OutpuPin _outpuPin;
+
+		private class OutpuPin : BasePin<Image<Gray, byte>>
 		{
 			public override PinMediaType MediaType
 			{
@@ -21,12 +25,13 @@ namespace FilterImplementation.Source
 
 		public SourceStaticImage()
 		{
-			AddPin(new OutpuPin());
+			_outpuPin = new OutpuPin();
+			AddPin(_outpuPin);
 		}
 
-		public override void Start()
+		public override void Process()
 		{
-			throw new NotImplementedException();
+			_outpuPin.SetData(null);
 		}
 	}
 }

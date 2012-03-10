@@ -3,7 +3,7 @@ using System;
 namespace FilterImplementation.Base
 {
 	[Serializable]
-	public class DestinationBlock : Filter
+	public abstract class DestinationBlock : Filter
 	{
 	}
 }

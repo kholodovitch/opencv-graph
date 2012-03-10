@@ -24,7 +24,7 @@ namespace FilterImplementation
 				_filters
 					.OfType<SourceBlock>()
 					.ToList()
-					.ForEach(x => x.Start());
+					.ForEach(x => x.Process());
 			}
 		}
 	}
