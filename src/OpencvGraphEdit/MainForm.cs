@@ -13,12 +13,10 @@ namespace OpencvGraphEdit
 			InitializeComponent();
 
 			var graph = new Graph();
-			string name = FiltersHelper.GetFilterTypes().First().FullName;
-			var y = (IFilter)Assembly.GetExecutingAssembly().CreateInstance(name);
+			var name = FiltersHelper.GetFilterTypes().First();
+            var y = (IFilter)name.Assembly.CreateInstance(name.FullName);
 			graph.AddSourceFilter(y);
-			graph.Start();
-
-			var t = GraphLoader.Load("");
+            GraphLoader.Save(graph, "graph.xml");
 		}
 	}
 }

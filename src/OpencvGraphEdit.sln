@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpencvGraphEdit", "OpencvGraphEdit.csproj", "{114AA58B-C542-4FD2-9A71-D9BB9D9851F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpencvGraphEdit", "OpencvGraphEdit\OpencvGraphEdit.csproj", "{114AA58B-C542-4FD2-9A71-D9BB9D9851F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "..\Components\DataStructures\DataStructures.csproj", "{D9CF4EE8-529A-4E57-9A06-6AA8903EE04F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStructures", "Components\DataStructures\DataStructures.csproj", "{D9CF4EE8-529A-4E57-9A06-6AA8903EE04F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{C97D3EA2-B6CE-4AEA-B24B-D51D767063A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualizer", "..\Components\Visualizer\Visualizer.csproj", "{470482A9-E34C-4EF9-8870-62AFF1AB15F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualizer", "Components\Visualizer\Visualizer.csproj", "{470482A9-E34C-4EF9-8870-62AFF1AB15F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterImplementation", "..\Components\FilterImplementation\FilterImplementation.csproj", "{4C784233-D24D-4AD6-A9CB-9710BDDB5AF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterImplementation", "Components\FilterImplementation\FilterImplementation.csproj", "{4C784233-D24D-4AD6-A9CB-9710BDDB5AF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
