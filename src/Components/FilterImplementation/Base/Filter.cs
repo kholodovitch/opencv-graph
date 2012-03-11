@@ -12,6 +12,11 @@ namespace FilterImplementation.Base
 
 		private readonly List<IFilterProperty> _properties = new List<IFilterProperty>();
 
+		protected Filter()
+		{
+			Guid = Guid.NewGuid();
+		}
+
 		protected IEnumerable<IPin> InputPins
 		{
 			get { return _pins.Where(x => !x.IsOutput).ToArray(); }
@@ -22,11 +27,17 @@ namespace FilterImplementation.Base
 			get { return _pins.Where(x => x.IsOutput).ToArray(); }
 		}
 
+		#region IFilter Members
+
+		public Guid Guid { get; set; }
+
+		public abstract void Process();
+
+		#endregion
+
 		protected void AddPin(IPin pin)
 		{
 			_pins.Add(pin);
 		}
-
-		public abstract void Process();
 	}
 }

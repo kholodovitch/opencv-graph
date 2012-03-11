@@ -6,7 +6,7 @@ namespace DataStructures
 	{
 		private T _data;
 
-		#region IPin Members
+		#region IPin<T> Members
 
 		public abstract PinMediaType MediaType { get; }
 

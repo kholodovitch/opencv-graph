@@ -8,6 +8,26 @@ namespace FilterImplementation.Filters.Image
 {
 	public class Blur : Filter
 	{
+		private readonly IPin<Image<Gray, byte>> _input;
+
+		public Blur()
+		{
+			_input = new ImagePin(false);
+			AddPin(_input);
+		}
+
+		public override void Process()
+		{
+			Image<Gray, byte> frame = ((IPin<Image<Gray, byte>>) InputPins.First()).GetData();
+
+			frame = frame.PyrDown();
+			frame = frame.PyrUp();
+
+			((IPin<Image<Gray, byte>>) OutputPins.First()).SetData(frame);
+		}
+
+		#region Nested type: ImagePin
+
 		private class ImagePin : BasePin<Image<Gray, byte>>
 		{
 			private readonly bool _isOutput;
@@ -28,22 +48,6 @@ namespace FilterImplementation.Filters.Image
 			}
 		}
 
-		private readonly IPin<Image<Gray, byte>> _input;
-
-		public Blur()
-		{
-			_input = new ImagePin(false);
-			AddPin(_input);
-		}
-
-		public override void Process()
-		{
-			var frame = ((IPin<Image<Gray, byte>>) InputPins.First()).GetData();
-
-			frame = frame.PyrDown();
-			frame = frame.PyrUp();
-
-			((IPin<Image<Gray, byte>>)OutputPins.First()).SetData(frame);
-		}
+		#endregion
 	}
 }
