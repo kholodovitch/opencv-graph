@@ -61,7 +61,7 @@ namespace OpencvGraphEdit
 			filter1.OutputPins.First().Connect(destFileImage1.InputPins.First());
 			graph.AddFilter(destFileImage1);
 
-			GraphLoader.Save(graph, "graph.xml", SaveOptions.AddComments);
+			GraphSaver.Save(graph, "graph.xml", SaveOptions.AddComments);
 
 			ThreadPool.QueueUserWorkItem(x => sourceFileImage.Process());
 			ThreadPool.QueueUserWorkItem(x => destFileImage1.Process());

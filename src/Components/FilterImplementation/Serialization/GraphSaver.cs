@@ -8,23 +8,18 @@ using FilterImplementation.Base;
 
 namespace FilterImplementation.Serialization
 {
-	public class GraphLoader
+	public class GraphSaver
 	{
-		private GraphLoader(SaveOptions options)
+		private GraphSaver(SaveOptions options)
 		{
 			AddComments = (options | SaveOptions.AddComments) == SaveOptions.AddComments;
 		}
 
 		private bool AddComments { get; set; }
 
-		public static IGraph Load(string path)
-		{
-			return null;
-		}
-
 		public static void Save(Graph graph, string path, SaveOptions options = SaveOptions.Default)
 		{
-			var graphLoader = new GraphLoader(options);
+			var graphLoader = new GraphSaver(options);
 			graphLoader.SaveInternal(graph, path);
 		}
 
