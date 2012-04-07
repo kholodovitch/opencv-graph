@@ -30,14 +30,15 @@ namespace FilterImplementation.Source
 
 		public override void Process()
 		{
-			_outputPin.SetData(new Image<Gray, byte>((string)_filepathProperty.Value));
+			var image = new Image<Bgr, byte>((string) _filepathProperty.Value);
+			_outputPin.SetData(image);
 		}
 
 		#endregion
 
 		#region Nested type: OutputPin
 
-		private class OutputPin : BasePin<Image<Gray, byte>>
+		private class OutputPin : BasePin<Image<Bgr, byte>>
 		{
 			public override string Name
 			{

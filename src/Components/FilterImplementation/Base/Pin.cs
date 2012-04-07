@@ -1,4 +1,5 @@
-﻿using DataStructures;
+﻿/*
+using DataStructures;
 
 namespace FilterImplementation.Base
 {
@@ -41,3 +42,4 @@ namespace FilterImplementation.Base
 		#endregion
 	}
 }
+*/

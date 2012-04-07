@@ -38,9 +38,9 @@ namespace FilterImplementation.Destination
 
 		#region Nested type: InputPin
 
-		private class InputPin : BasePin<Image<Gray, byte>>
+		private class InputPin : BasePin<Image<Bgr, byte>>
 		{
-			#region Overrides of BasePin<Image<Gray,byte>>
+			#region Overrides of BasePin<Image<Bgr,byte>>
 
 			public override string Name
 			{

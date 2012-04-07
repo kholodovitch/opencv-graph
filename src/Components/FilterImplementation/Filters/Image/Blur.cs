@@ -9,14 +9,15 @@ namespace FilterImplementation.Filters.Image
 {
 	internal class Blur : Filter
 	{
-		private readonly IPin<Image<Gray, byte>> _output;
-		private readonly IPin<Image<Gray, byte>> _input;
+		private readonly IPin<Image<Bgr, byte>> _output;
+		private readonly IPin<Image<Bgr, byte>> _input;
 
 		public Blur()
 		{
-			_input = new Image8bpcPin<Gray>("Input", false);
-			_output = new Image8bpcPin<Gray>("Output", true);
+			_input = new Image8bpcPin<Bgr>("Input", false);
+			_output = new Image8bpcPin<Bgr>("Output", true);
 			AddPin(_input);
+			AddPin(_output);
 		}
 
 		public override Guid TypeGuid
@@ -26,7 +27,7 @@ namespace FilterImplementation.Filters.Image
 
 		public override void Process()
 		{
-			Image<Gray, byte> frame = _input.GetData();
+			Image<Bgr, byte> frame = _input.GetData();
 
 			frame = frame.PyrDown();
 			frame = frame.PyrUp();

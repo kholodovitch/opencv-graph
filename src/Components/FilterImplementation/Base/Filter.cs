@@ -16,7 +16,7 @@ namespace FilterImplementation.Base
 			NodeGuid = Guid.NewGuid();
 		}
 
-		protected IEnumerable<IPin> InputPins
+		public IEnumerable<IPin> InputPins
 		{
 			get
 			{
@@ -25,7 +25,7 @@ namespace FilterImplementation.Base
 			}
 		}
 
-		protected IEnumerable<IPin> OutputPins
+		public IEnumerable<IPin> OutputPins
 		{
 			get
 			{

@@ -15,6 +15,15 @@ namespace DataStructures
 
 		bool IsConnected { get; }
 
+		IPin ConnectedTo { get; }
+
 		bool IsOutput { get; }
+
+		void Connect(IPin receivePin);
+
+		void ReceiveConnection(IPin receivePin);
+
+		void Disconnect();
+
 	}
 }

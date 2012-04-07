@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using FilterImplementation;
 using FilterImplementation.Base;
@@ -21,13 +22,29 @@ namespace OpencvGraphEdit
 			graph.AddFilter(sourceFileImage);
 			
 			Type first = FiltersHelper.GetFilterTypes().First();
-			var filter = (Filter)first.Assembly.CreateInstance(first.FullName);
-			graph.AddFilter(filter);
+			var filter0 = (Filter)first.Assembly.CreateInstance(first.FullName);
+			sourceFileImage.OutputPins.First().Connect(filter0.InputPins.First());
+			graph.AddFilter(filter0);
+			ThreadPool.QueueUserWorkItem(x => filter0.Process());
+			
+			var filter1 = (Filter)first.Assembly.CreateInstance(first.FullName);
+			filter0.OutputPins.First().Connect(filter1.InputPins.First());
+			graph.AddFilter(filter1);
+			ThreadPool.QueueUserWorkItem(x => filter1.Process());
+
+			var filter2 = (Filter)first.Assembly.CreateInstance(first.FullName);
+			filter1.OutputPins.First().Connect(filter2.InputPins.First());
+			graph.AddFilter(filter2);
+			ThreadPool.QueueUserWorkItem(x => filter2.Process());
 
 			var destFileImage = new DestFileImage();
 			destFileImage.Properties.First().Value = @"output.png";
+			filter2.OutputPins.First().Connect(destFileImage.InputPins.First());
 			graph.AddFilter(destFileImage);
 			GraphLoader.Save(graph, "graph.xml", SaveOptions.AddComments);
+
+			ThreadPool.QueueUserWorkItem(x => sourceFileImage.Process());
+			ThreadPool.QueueUserWorkItem(x => destFileImage.Process());
 		}
 	}
 }
