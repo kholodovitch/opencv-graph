@@ -5,7 +5,6 @@ using DataStructures;
 
 namespace FilterImplementation.Base
 {
-	[Serializable]
 	public abstract class Filter : IFilter
 	{
 		private readonly List<IPin> _pins = new List<IPin>();
@@ -35,9 +34,17 @@ namespace FilterImplementation.Base
 
 		public string Name { get; set; }
 
-		public abstract void Process();
+		public IEnumerable<IFilterProperty> Properties
+		{
+			get { return _properties.AsReadOnly(); }
+			set
+			{
+				_properties.Clear();
+				_properties.AddRange(value);
+			}
+		}
 
-		
+		public abstract void Process();
 
 		#endregion
 

@@ -1,6 +1,6 @@
-namespace FilterImplementation
+namespace DataStructures
 {
-	internal interface IFilterProperty
+	public interface IFilterProperty
 	{
 		string Name { get; }
 	}

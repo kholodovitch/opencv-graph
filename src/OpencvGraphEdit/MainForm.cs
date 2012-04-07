@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using DataStructures;
 using FilterImplementation;
 using FilterImplementation.Base;
+using FilterImplementation.Serialization;
 
 namespace OpencvGraphEdit
 {
@@ -16,7 +17,7 @@ namespace OpencvGraphEdit
 			var graph = new Graph();
 			Type name = FiltersHelper.GetFilterTypes().First();
 			var y = (Filter) name.Assembly.CreateInstance(name.FullName);
-			graph.Filters.Add(y);
+			graph.AddFilter(y);
 			GraphLoader.Save(graph, "graph.xml");
 		}
 	}
