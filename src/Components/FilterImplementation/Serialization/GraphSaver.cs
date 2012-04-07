@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Linq;
 using DataStructures;
 using FilterImplementation.Base;
+using FileFormat = FilterImplementation.Serialization.GraphFileFormat.Ver_0_1;
 
 namespace FilterImplementation.Serialization
 {
@@ -27,10 +28,10 @@ namespace FilterImplementation.Serialization
 		{
 			var xDoc = new XDocument();
 
-			var root = new XElement("OCVGraph");
-			root.Add(new XAttribute("FormatVersion", "0.1"));
+			var root = new XElement(GraphFileFormat.NodeRoot);
+			root.Add(new XAttribute(GraphFileFormat.NodeFormatVersion, FileFormat.Version));
 
-			var filtersNode = new XElement("Filters");
+			var filtersNode = new XElement(FileFormat.Node_Filters);
 			root.Add(filtersNode);
 
 			graph.Filters
@@ -57,13 +58,13 @@ namespace FilterImplementation.Serialization
 
 			var filterParams = new[]
 			                   	{
-			                   		new XAttribute("NodeGuid", filter.NodeGuid),
-			                   		new XAttribute("TypeGuid", filter.TypeGuid),
+			                   		new XAttribute(FileFormat.Node_Filter_NodeGuid, filter.NodeGuid),
+			                   		new XAttribute(FileFormat.Node_Filter_TypeGuid, filter.TypeGuid)
 			                   	};
-			var filterNode = new XElement("Filter", filterParams.Select(y => (object) y));
+			var filterNode = new XElement(FileFormat.Node_Filter, filterParams.Select(y => (object) y));
 
 			if (!string.IsNullOrEmpty(filter.Name))
-				filterNode.Add(new XAttribute("Name", filter.Name));
+				filterNode.Add(new XAttribute(FileFormat.Node_Filter_Name, filter.Name));
 
 			filter.Properties
 				.SelectMany(GetFilterPropertyNodes)
@@ -75,13 +76,13 @@ namespace FilterImplementation.Serialization
 
 		private IEnumerable<XNode> GetFilterPropertyNodes(IFilterProperty filterProperty)
 		{
-			var filterPropertyNode = new XElement("Property");
-			filterPropertyNode.Add(new XAttribute("Name", filterProperty.Name));
+			var filterPropertyNode = new XElement(FileFormat.Node_FilterProperty);
+			filterPropertyNode.Add(new XAttribute(FileFormat.Node_FilterProperty_Name, filterProperty.Name));
 
 			if (filterProperty.Value != null)
 			{
 				if (IsSerializableAsString(filterProperty.Type))
-					filterPropertyNode.Add(new XAttribute("Value", filterProperty.Value));
+					filterPropertyNode.Add(new XAttribute(FileFormat.Node_FilterProperty_Value, filterProperty.Value));
 				else
 					throw new NotImplementedException();
 			}
