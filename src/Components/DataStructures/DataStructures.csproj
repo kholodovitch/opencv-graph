@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasePin.cs" />
     <Compile Include="FilterPropertyType.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterProperty.cs" />

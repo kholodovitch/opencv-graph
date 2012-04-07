@@ -1,12 +1,5 @@
 namespace DataStructures
 {
-	public interface IPin<T> : IPin
-	{
-		T GetData();
-
-		void SetData(T value);
-	}
-
 	public interface IPin
 	{
 		string Name { get; }
@@ -24,6 +17,15 @@ namespace DataStructures
 		void ReceiveConnection(IPin receivePin);
 
 		void Disconnect();
+	}
 
+	public interface IInputPin : IPin
+	{
+		object GetData();
+	}
+
+	public interface IOutputPin : IPin
+	{
+		void SetData(object value);
 	}
 }

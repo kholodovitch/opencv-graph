@@ -1,20 +1,18 @@
-﻿/*
+﻿using System;
 using DataStructures;
 
 namespace FilterImplementation.Base
 {
-	public class Pin : IPin
+	public abstract class Pin : IPin
 	{
-		private readonly bool _isOutput;
 		private readonly PinMediaType _mediaType;
 		private readonly string _name;
-		private bool _isConnected;
+		private IPin _connectedTo;
 
-		public Pin(string name, PinMediaType mediaType, bool isOutput)
+		public Pin(string name, PinMediaType mediaType)
 		{
 			_name = name;
 			_mediaType = mediaType;
-			_isOutput = isOutput;
 		}
 
 		#region Implementation of IPin
@@ -29,17 +27,45 @@ namespace FilterImplementation.Base
 			get { return _mediaType; }
 		}
 
-		public bool IsConnected
+		public IPin ConnectedTo
 		{
-			get { return _isConnected; }
+			get { return _connectedTo; }
+			private set
+			{
+				_connectedTo = value;
+				OnConnected(_connectedTo);
+			}
 		}
 
-		public bool IsOutput
+		public abstract bool IsOutput { get; }
+
+		public bool IsConnected
 		{
-			get { return _isOutput; }
+			get { return ConnectedTo != null; }
+		}
+
+		public void Connect(IPin receivePin)
+		{
+			ConnectedTo = receivePin;
+			receivePin.ReceiveConnection(this);
+		}
+
+		public void ReceiveConnection(IPin receivePin)
+		{
+			ConnectedTo = receivePin;
+		}
+
+		public void Disconnect()
+		{
+			if (ConnectedTo == null)
+				return;
+
+			ConnectedTo.Disconnect();
+			ConnectedTo = null;
 		}
 
 		#endregion
+
+		public event Action<IPin> OnConnected = pin => { };
 	}
 }
-*/

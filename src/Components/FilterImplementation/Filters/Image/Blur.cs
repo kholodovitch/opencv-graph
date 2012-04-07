@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Linq;
+using System.Runtime.InteropServices;
 using DataStructures;
 using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using FilterImplementation.Base;
 
@@ -9,13 +10,13 @@ namespace FilterImplementation.Filters.Image
 {
 	internal class Blur : Filter
 	{
-		private readonly IPin<Image<Bgr, byte>> _output;
-		private readonly IPin<Image<Bgr, byte>> _input;
+		private readonly IOutputPin _output;
+		private readonly IInputPin _input;
 
 		public Blur()
 		{
-			_input = new Image8bpcPin<Bgr>("Input", false);
-			_output = new Image8bpcPin<Bgr>("Output", true);
+			_input = new InputPin("Input", PinMediaType.Image);
+			_output = new OutputPin("Output", PinMediaType.Image);
 			AddPin(_input);
 			AddPin(_output);
 		}
@@ -27,43 +28,17 @@ namespace FilterImplementation.Filters.Image
 
 		public override void Process()
 		{
-			Image<Bgr, byte> frame = _input.GetData();
+			var frame = (IImage) _input.GetData();
+			var mptr = (MIplImage)Marshal.PtrToStructure(frame.Ptr, typeof(MIplImage));
 
-			frame = frame.PyrDown();
-			frame = frame.PyrUp();
+			if (mptr.nChannels == 4 && mptr.depth == IPL_DEPTH.IPL_DEPTH_8U)
+			{
+				var image = (Image<Bgra, byte>) frame;
+				image = image.PyrDown();
+				frame = image.PyrUp();
+			}
 
 			_output.SetData(frame);
 		}
-
-		#region Nested type: ImagePin
-
-		private class Image8bpcPin<T> : BasePin<Image<T, byte>> where T : struct, IColor
-		{
-			private readonly string _name;
-			private readonly bool _isOutput;
-
-			public Image8bpcPin(string name, bool isOutput)
-			{
-				_name = name;
-				_isOutput = isOutput;
-			}
-
-			public override string Name
-			{
-				get { return _name; }
-			}
-
-			public override PinMediaType MediaType
-			{
-				get { return PinMediaType.Image; }
-			}
-
-			public override bool IsOutput
-			{
-				get { return _isOutput; }
-			}
-		}
-
-		#endregion
 	}
 }

@@ -17,7 +17,7 @@ namespace FilterImplementation.Source
 			_filepathProperty = new Property("FilePath", FilterPropertyType.String);
 			AddProperty(_filepathProperty);
 
-			_outputPin = new OutputPin();
+			_outputPin = new OutputPin("Image", PinMediaType.Image);
 			AddPin(_outputPin);
 		}
 
@@ -30,30 +30,8 @@ namespace FilterImplementation.Source
 
 		public override void Process()
 		{
-			var image = new Image<Bgr, byte>((string) _filepathProperty.Value);
+			var image = new Image<Bgra, byte>((string) _filepathProperty.Value);
 			_outputPin.SetData(image);
-		}
-
-		#endregion
-
-		#region Nested type: OutputPin
-
-		private class OutputPin : BasePin<Image<Bgr, byte>>
-		{
-			public override string Name
-			{
-				get { return "Image"; }
-			}
-
-			public override PinMediaType MediaType
-			{
-				get { return PinMediaType.Image; }
-			}
-
-			public override bool IsOutput
-			{
-				get { return true; }
-			}
 		}
 
 		#endregion
