@@ -14,7 +14,7 @@ namespace FilterImplementation.Base
 
 		protected Filter()
 		{
-			Guid = Guid.NewGuid();
+			NodeGuid = Guid.NewGuid();
 		}
 
 		protected IEnumerable<IPin> InputPins
@@ -29,9 +29,15 @@ namespace FilterImplementation.Base
 
 		#region IFilter Members
 
-		public Guid Guid { get; set; }
+		public Guid NodeGuid { get; set; }
+
+		public abstract Guid TypeGuid { get; }
+
+		public string Name { get; set; }
 
 		public abstract void Process();
+
+		
 
 		#endregion
 

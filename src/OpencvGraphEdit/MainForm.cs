@@ -1,8 +1,9 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using DataStructures;
 using FilterImplementation;
+using FilterImplementation.Base;
 
 namespace OpencvGraphEdit
 {
@@ -13,10 +14,10 @@ namespace OpencvGraphEdit
 			InitializeComponent();
 
 			var graph = new Graph();
-			var name = FiltersHelper.GetFilterTypes().First();
-            var y = (IFilter)name.Assembly.CreateInstance(name.FullName);
-			graph.AddSourceFilter(y);
-            GraphLoader.Save(graph, "graph.xml");
+			Type name = FiltersHelper.GetFilterTypes().First();
+			var y = (Filter) name.Assembly.CreateInstance(name.FullName);
+			graph.Filters.Add(y);
+			GraphLoader.Save(graph, "graph.xml");
 		}
 	}
 }

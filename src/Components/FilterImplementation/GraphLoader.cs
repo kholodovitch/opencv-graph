@@ -14,7 +14,7 @@ namespace FilterImplementation
 				return (Graph) Serializer.Deserialize(stream);
 		}
 
-		public static void Save(IGraph graph, string path)
+		public static void Save(Graph graph, string path)
 		{
 			using (FileStream stream = File.Create(path))
 				Serializer.Serialize(stream, graph);

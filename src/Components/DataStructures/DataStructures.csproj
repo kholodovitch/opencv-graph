@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BasePin.cs" />
     <Compile Include="IFilter.cs" />
+    <Compile Include="IFilterProperty.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="IPin.cs" />
     <Compile Include="PinMediaType.cs" />

@@ -54,7 +54,6 @@
     <Compile Include="Filters\Image\Blur.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="GraphLoader.cs" />
-    <Compile Include="IFilterProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Base\SourceBlock.cs" />
     <Compile Include="Source\SourceStaticImage.cs" />

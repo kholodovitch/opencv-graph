@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DataStructures;
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -14,6 +15,11 @@ namespace FilterImplementation.Filters.Image
 		{
 			_input = new ImagePin(false);
 			AddPin(_input);
+		}
+
+		public override Guid TypeGuid
+		{
+			get { return new Guid("48421E5C-5D99-4182-8B4E-1633D2567300"); }
 		}
 
 		public override void Process()
