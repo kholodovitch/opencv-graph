@@ -70,6 +70,12 @@ namespace FilterImplementation.Base
 				_pins.Add(pin);
 		}
 
+		protected void RemovePin(IPin pin)
+		{
+			lock (_pins)
+				_pins.Remove(pin);
+		}
+
 		protected void AddProperty(IFilterProperty property)
 		{
 			lock (_properties)

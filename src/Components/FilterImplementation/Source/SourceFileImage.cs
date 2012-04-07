@@ -3,11 +3,10 @@ using DataStructures;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using FilterImplementation.Base;
-using FilterImplementation.Filters.Source;
 
 namespace FilterImplementation.Source
 {
-	public class SourceFileImage : SourceBlock
+	public class SourceFileImage : Filter
 	{
 		private readonly OutputPin _outputPin;
 		private readonly Property _filepathProperty;

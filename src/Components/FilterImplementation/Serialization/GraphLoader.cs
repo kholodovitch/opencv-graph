@@ -98,6 +98,7 @@ namespace FilterImplementation.Serialization
 		{
 			switch (filterPropertyType)
 			{
+				case FilterPropertyType.UInteger:
 				case FilterPropertyType.String:
 					return true;
 

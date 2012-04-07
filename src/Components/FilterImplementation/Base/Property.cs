@@ -1,6 +1,7 @@
+using System;
 using DataStructures;
 
-namespace FilterImplementation.Filters.Source
+namespace FilterImplementation.Base
 {
 	internal class Property : IFilterProperty
 	{
@@ -15,6 +16,8 @@ namespace FilterImplementation.Filters.Source
 
 		#region Implementation of IFilterProperty
 
+		private object _value;
+
 		public string Name
 		{
 			get { return _name; }
@@ -25,8 +28,21 @@ namespace FilterImplementation.Filters.Source
 			get { return _type; }
 		}
 
-		public object Value { get; set; }
+		public object Value
+		{
+			get { return _value; }
+			set
+			{
+				if (_value == value)
+					return;
+
+				_value = value;
+				OnValueChanged(value);
+			}
+		}
 
 		#endregion
+
+		public event Action<object> OnValueChanged = o => { };
 	}
 }
