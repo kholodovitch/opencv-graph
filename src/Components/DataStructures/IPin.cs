@@ -9,6 +9,8 @@ namespace DataStructures
 
 	public interface IPin
 	{
+		string Name { get; }
+
 		PinMediaType MediaType { get; }
 
 		bool IsConnected { get; }

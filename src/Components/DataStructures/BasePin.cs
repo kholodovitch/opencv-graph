@@ -8,6 +8,8 @@ namespace DataStructures
 
 		#region IPin<T> Members
 
+		public abstract string Name { get; }
+
 		public abstract PinMediaType MediaType { get; }
 
 		public bool IsConnected

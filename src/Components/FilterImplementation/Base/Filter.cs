@@ -18,12 +18,20 @@ namespace FilterImplementation.Base
 
 		protected IEnumerable<IPin> InputPins
 		{
-			get { return _pins.Where(x => !x.IsOutput).ToArray(); }
+			get
+			{
+				lock (_pins) 
+					return _pins.Where(x => !x.IsOutput).ToArray();
+			}
 		}
 
 		protected IEnumerable<IPin> OutputPins
 		{
-			get { return _pins.Where(x => x.IsOutput).ToArray(); }
+			get
+			{
+				lock (_pins) 
+					return _pins.Where(x => x.IsOutput).ToArray();
+			}
 		}
 
 		#region IFilter Members
@@ -36,11 +44,18 @@ namespace FilterImplementation.Base
 
 		public IEnumerable<IFilterProperty> Properties
 		{
-			get { return _properties.AsReadOnly(); }
+			get
+			{
+				lock (_properties)
+					return _properties.AsReadOnly();
+			}
 			set
 			{
-				_properties.Clear();
-				_properties.AddRange(value);
+				lock (_properties)
+				{
+					_properties.Clear();
+					_properties.AddRange(value);
+				}
 			}
 		}
 
@@ -50,7 +65,14 @@ namespace FilterImplementation.Base
 
 		protected void AddPin(IPin pin)
 		{
-			_pins.Add(pin);
+			lock (_pins)
+				_pins.Add(pin);
+		}
+
+		protected void AddProperty(IFilterProperty property)
+		{
+			lock (_properties)
+				_properties.Add(property);
 		}
 	}
 }

@@ -7,13 +7,15 @@ using FilterImplementation.Base;
 
 namespace FilterImplementation.Filters.Image
 {
-	public class Blur : Filter
+	internal class Blur : Filter
 	{
+		private readonly IPin<Image<Gray, byte>> _output;
 		private readonly IPin<Image<Gray, byte>> _input;
 
 		public Blur()
 		{
-			_input = new ImagePin(false);
+			_input = new Image8bpcPin<Gray>("Input", false);
+			_output = new Image8bpcPin<Gray>("Output", true);
 			AddPin(_input);
 		}
 
@@ -24,23 +26,30 @@ namespace FilterImplementation.Filters.Image
 
 		public override void Process()
 		{
-			Image<Gray, byte> frame = ((IPin<Image<Gray, byte>>) InputPins.First()).GetData();
+			Image<Gray, byte> frame = _input.GetData();
 
 			frame = frame.PyrDown();
 			frame = frame.PyrUp();
 
-			((IPin<Image<Gray, byte>>) OutputPins.First()).SetData(frame);
+			_output.SetData(frame);
 		}
 
 		#region Nested type: ImagePin
 
-		private class ImagePin : BasePin<Image<Gray, byte>>
+		private class Image8bpcPin<T> : BasePin<Image<T, byte>> where T : struct, IColor
 		{
+			private readonly string _name;
 			private readonly bool _isOutput;
 
-			public ImagePin(bool isOutput)
+			public Image8bpcPin(string name, bool isOutput)
 			{
+				_name = name;
 				_isOutput = isOutput;
+			}
+
+			public override string Name
+			{
+				get { return _name; }
 			}
 
 			public override PinMediaType MediaType
