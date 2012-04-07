@@ -25,6 +25,8 @@ namespace FilterImplementation.Filters.Source
 			get { return _type; }
 		}
 
+		public object Value { get; set; }
+
 		#endregion
 	}
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -54,21 +55,55 @@ namespace FilterImplementation.Serialization
 				xDoc.Save(xw);
 		}
 
-		private IEnumerable<XNode> GetFilterNodes(Filter x)
+		private IEnumerable<XNode> GetFilterNodes(Filter filter)
 		{
 			if (AddComments)
-				yield return new XComment(string.Format(" {0} ", x.GetType().Name));
+				yield return new XComment(string.Format(" {0} ", filter.GetType().Name));
 
 			var filterParams = new[]
 			                   	{
-			                   		new XAttribute("NodeGuid", x.NodeGuid),
-			                   		new XAttribute("TypeGuid", x.TypeGuid),
+			                   		new XAttribute("NodeGuid", filter.NodeGuid),
+			                   		new XAttribute("TypeGuid", filter.TypeGuid),
 			                   	};
 			var filterNode = new XElement("Filter", filterParams.Select(y => (object) y));
 
-			if (!string.IsNullOrEmpty(x.Name))
-				filterNode.Add(new XAttribute("Name", x.Name));
+			if (!string.IsNullOrEmpty(filter.Name))
+				filterNode.Add(new XAttribute("Name", filter.Name));
+
+			filter.Properties
+				.SelectMany(GetFilterPropertyNodes)
+				.ToList()
+				.ForEach(filterNode.Add);
+
 			yield return filterNode;
+		}
+
+		private IEnumerable<XNode> GetFilterPropertyNodes(IFilterProperty filterProperty)
+		{
+			var filterPropertyNode = new XElement("Property");
+			filterPropertyNode.Add(new XAttribute("Name", filterProperty.Name));
+
+			if (filterProperty.Value != null)
+			{
+				if (IsSerializableAsString(filterProperty.Type))
+					filterPropertyNode.Add(new XAttribute("Value", filterProperty.Value));
+				else
+					throw new NotImplementedException();
+			}
+
+			yield return filterPropertyNode;
+		}
+
+		private bool IsSerializableAsString(FilterPropertyType filterPropertyType)
+		{
+			switch (filterPropertyType)
+			{
+				case FilterPropertyType.String:
+					return true;
+
+				default:
+					throw new ArgumentOutOfRangeException("filterPropertyType");
+			}
 		}
 	}
 }

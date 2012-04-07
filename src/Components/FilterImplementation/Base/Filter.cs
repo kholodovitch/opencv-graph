@@ -9,7 +9,7 @@ namespace FilterImplementation.Base
 	{
 		private readonly List<IPin> _pins = new List<IPin>();
 
-		private readonly List<IFilterProperty> _properties = new List<IFilterProperty>();
+		private readonly Dictionary<string, IFilterProperty> _properties = new Dictionary<string, IFilterProperty>();
 
 		protected Filter()
 		{
@@ -47,14 +47,15 @@ namespace FilterImplementation.Base
 			get
 			{
 				lock (_properties)
-					return _properties.AsReadOnly();
+					return _properties.Values;
 			}
 			set
 			{
 				lock (_properties)
 				{
 					_properties.Clear();
-					_properties.AddRange(value);
+					foreach (var filterProperty in value)
+						_properties[filterProperty.Name] = filterProperty;
 				}
 			}
 		}
@@ -72,7 +73,7 @@ namespace FilterImplementation.Base
 		protected void AddProperty(IFilterProperty property)
 		{
 			lock (_properties)
-				_properties.Add(property);
+				_properties.Add(property.Name, property);
 		}
 	}
 }

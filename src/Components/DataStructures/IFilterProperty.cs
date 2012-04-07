@@ -5,5 +5,7 @@ namespace DataStructures
 		string Name { get; }
 
 		FilterPropertyType Type { get; }
+
+		object Value { get; set; }
 	}
 }

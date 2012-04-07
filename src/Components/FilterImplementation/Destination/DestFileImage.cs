@@ -10,10 +10,12 @@ namespace FilterImplementation.Destination
 	public class DestFileImage : DestinationBlock
 	{
 		private readonly InputPin _inputPin;
+		private readonly Property _filepathProperty;
 
 		public DestFileImage()
 		{
-			AddProperty(new Property("FilePath", FilterPropertyType.String));
+			_filepathProperty = new Property("FilePath", FilterPropertyType.String);
+			AddProperty(_filepathProperty);
 
 			_inputPin = new InputPin();
 			AddPin(_inputPin);
@@ -28,8 +30,8 @@ namespace FilterImplementation.Destination
 
 		public override void Process()
 		{
-			var f = _inputPin.GetData();
-			f.Save("");
+			var image = _inputPin.GetData();
+			image.Save((string) _filepathProperty.Value);
 		}
 
 		#endregion

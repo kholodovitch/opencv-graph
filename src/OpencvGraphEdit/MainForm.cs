@@ -16,11 +16,17 @@ namespace OpencvGraphEdit
 			InitializeComponent();
 
 			var graph = new Graph();
-			Type name = FiltersHelper.GetFilterTypes().First();
-			var y = (Filter)name.Assembly.CreateInstance(name.FullName);
-			graph.AddFilter(new SourceFileImage());
-			graph.AddFilter(y);
-			graph.AddFilter(new DestFileImage());
+			var sourceFileImage = new SourceFileImage();
+			sourceFileImage.Properties.First().Value = @"input.png";
+			graph.AddFilter(sourceFileImage);
+			
+			Type first = FiltersHelper.GetFilterTypes().First();
+			var filter = (Filter)first.Assembly.CreateInstance(first.FullName);
+			graph.AddFilter(filter);
+
+			var destFileImage = new DestFileImage();
+			destFileImage.Properties.First().Value = @"output.png";
+			graph.AddFilter(destFileImage);
 			GraphLoader.Save(graph, "graph.xml", SaveOptions.AddComments);
 		}
 	}

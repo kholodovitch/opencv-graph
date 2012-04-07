@@ -10,10 +10,12 @@ namespace FilterImplementation.Source
 	public class SourceFileImage : SourceBlock
 	{
 		private readonly OutputPin _outputPin;
+		private readonly Property _filepathProperty;
 
 		public SourceFileImage()
 		{
-			AddProperty(new Property("FilePath", FilterPropertyType.String));
+			_filepathProperty = new Property("FilePath", FilterPropertyType.String);
+			AddProperty(_filepathProperty);
 
 			_outputPin = new OutputPin();
 			AddPin(_outputPin);
@@ -28,7 +30,7 @@ namespace FilterImplementation.Source
 
 		public override void Process()
 		{
-			_outputPin.SetData(new Image<Gray, byte>(""));
+			_outputPin.SetData(new Image<Gray, byte>((string)_filepathProperty.Value));
 		}
 
 		#endregion
