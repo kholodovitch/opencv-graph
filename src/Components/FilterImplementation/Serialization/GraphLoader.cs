@@ -1,23 +1,33 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using DataStructures;
 using FilterImplementation.Base;
 
 namespace FilterImplementation.Serialization
 {
-	public static class GraphLoader
+	public class GraphLoader
 	{
+		private GraphLoader(SaveOptions options)
+		{
+			AddComments = (options | SaveOptions.AddComments) == SaveOptions.AddComments;
+		}
+
+		private bool AddComments { get; set; }
+
 		public static IGraph Load(string path)
 		{
 			return null;
 		}
 
-		public static void Save(Graph graph, string path)
+		public static void Save(Graph graph, string path, SaveOptions options = SaveOptions.Default)
+		{
+			var graphLoader = new GraphLoader(options);
+			graphLoader.SaveInternal(graph, path);
+		}
+
+		private void SaveInternal(Graph graph, string path)
 		{
 			var xDoc = new XDocument();
 
@@ -36,17 +46,17 @@ namespace FilterImplementation.Serialization
 
 			var xws = new XmlWriterSettings
 			          	{
-							Indent = true, 
-							IndentChars = "\t"
+			          		Indent = true,
+			          		IndentChars = "\t"
 			          	};
 
 			using (XmlWriter xw = XmlWriter.Create(path, xws))
 				xDoc.Save(xw);
 		}
 
-		private static IEnumerable<XNode> GetFilterNodes(Filter x)
+		private IEnumerable<XNode> GetFilterNodes(Filter x)
 		{
-			if (true)
+			if (AddComments)
 				yield return new XComment(string.Format(" {0} ", x.GetType().Name));
 
 			var filterParams = new[]
@@ -58,7 +68,7 @@ namespace FilterImplementation.Serialization
 
 			if (!string.IsNullOrEmpty(x.Name))
 				filterNode.Add(new XAttribute("Name", x.Name));
-			yield return  filterNode;
+			yield return filterNode;
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace OpencvGraphEdit
 			Type name = FiltersHelper.GetFilterTypes().First();
 			var y = (Filter) name.Assembly.CreateInstance(name.FullName);
 			graph.AddFilter(y);
-			GraphLoader.Save(graph, "graph.xml");
+			GraphLoader.Save(graph, "graph.xml", SaveOptions.AddComments);
 		}
 	}
 }
