@@ -4,6 +4,8 @@ namespace DataStructures
 	{
 		string Name { get; }
 
+		IFilter Filter { get; set; }
+
 		PinMediaType MediaType { get; }
 
 		bool IsConnected { get; }

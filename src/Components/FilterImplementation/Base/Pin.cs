@@ -22,6 +22,8 @@ namespace FilterImplementation.Base
 			get { return _name; }
 		}
 
+		public IFilter Filter { get; set; }
+
 		public PinMediaType MediaType
 		{
 			get { return _mediaType; }

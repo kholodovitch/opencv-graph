@@ -28,8 +28,8 @@ namespace OpencvGraphEdit
 			}
 
 			GraphSaver.Save(graph, "graph0.xml", SaveOptions.AddComments);
-			graph = GraphLoader.Load("graph0.xml");
-			GraphSaver.Save(graph, "graph1.xml", SaveOptions.AddComments);
+			//graph = GraphLoader.Load("graph0.xml");
+			//GraphSaver.Save(graph, "graph1.xml", SaveOptions.AddComments);
 			graphControl1.LoadGraph(graph);
 		}
 

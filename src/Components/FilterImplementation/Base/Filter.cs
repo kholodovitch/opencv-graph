@@ -72,6 +72,7 @@ namespace FilterImplementation.Base
 			lock (_pins)
 			{
 				_pins.Add(pin);
+				pin.Filter = this;
 				OnPinsChanged(this, pin, PinChangedAction.Added);
 			}
 		}
@@ -81,6 +82,7 @@ namespace FilterImplementation.Base
 			lock (_pins)
 			{
 				_pins.Remove(pin);
+				pin.Filter = null;
 				OnPinsChanged(this, pin, PinChangedAction.Removed);
 			}
 		}
