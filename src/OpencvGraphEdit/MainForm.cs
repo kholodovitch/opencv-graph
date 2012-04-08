@@ -30,12 +30,14 @@ namespace OpencvGraphEdit
 			GraphSaver.Save(graph, "graph0.xml", SaveOptions.AddComments);
 			graph = GraphLoader.Load("graph0.xml");
 			GraphSaver.Save(graph, "graph1.xml", SaveOptions.AddComments);
+			graphControl1.LoadGraph(graph);
 		}
 
 		private static Graph CreateTestGraph()
 		{
 			var graph = new Graph();
 			var sourceFileImage = new SourceFileImage();
+			sourceFileImage.Name = "FileImage";
 			sourceFileImage.Properties.Values.First().Value = @"input.png";
 			graph.AddFilter(sourceFileImage);
 

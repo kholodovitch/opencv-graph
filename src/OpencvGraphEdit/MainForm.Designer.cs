@@ -28,12 +28,32 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
+			this.graphControl1 = new Visualizer.GraphControl();
+			this.SuspendLayout();
+			// 
+			// graphControl1
+			// 
+			this.graphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.graphControl1.Location = new System.Drawing.Point(0, 0);
+			this.graphControl1.Name = "graphControl1";
+			this.graphControl1.Size = new System.Drawing.Size(784, 562);
+			this.graphControl1.TabIndex = 0;
+			// 
+			// MainForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(784, 562);
+			this.Controls.Add(this.graphControl1);
+			this.Name = "MainForm";
 			this.Text = "MainForm";
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion
+
+		private Visualizer.GraphControl graphControl1;
 	}
 }
 

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
+﻿using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using DataStructures;
 
 namespace Visualizer
 {
@@ -14,6 +10,13 @@ namespace Visualizer
 		public GraphControl()
 		{
 			InitializeComponent();
+		}
+
+		public void LoadGraph(IGraph graph)
+		{
+			var graphNode = new GraphNode(graph.Filters.First());
+			graphNode.Location = new Point(16, 16);
+			Controls.Add(graphNode);
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace FilterImplementation.Base
 		{
 			get
 			{
-				lock (_pins) 
+				lock (_pins)
 					return _pins.Where(x => !x.IsOutput).ToArray();
 			}
 		}
@@ -30,7 +30,7 @@ namespace FilterImplementation.Base
 		{
 			get
 			{
-				lock (_pins) 
+				lock (_pins)
 					return _pins.Where(x => x.IsOutput).ToArray();
 			}
 		}
@@ -43,6 +43,15 @@ namespace FilterImplementation.Base
 
 		public string Name { get; set; }
 
+		public IEnumerable<IPin> Pins
+		{
+			get
+			{
+				lock (_pins)
+					return _pins.AsReadOnly();
+			}
+		}
+
 		public IDictionary<string, IFilterProperty> Properties
 		{
 			get
@@ -54,18 +63,26 @@ namespace FilterImplementation.Base
 
 		public abstract void Process();
 
+		public event PinsChangedHandler OnPinsChanged = (sender, args, action) => { };
+
 		#endregion
 
 		protected void AddPin(IPin pin)
 		{
 			lock (_pins)
+			{
 				_pins.Add(pin);
+				OnPinsChanged(this, pin, PinChangedAction.Added);
+			}
 		}
 
 		protected void RemovePin(IPin pin)
 		{
 			lock (_pins)
+			{
 				_pins.Remove(pin);
+				OnPinsChanged(this, pin, PinChangedAction.Removed);
+			}
 		}
 
 		protected void AddProperty(IFilterProperty property)

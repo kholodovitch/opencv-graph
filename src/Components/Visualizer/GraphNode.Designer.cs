@@ -1,6 +1,6 @@
 ﻿namespace Visualizer
 {
-	partial class GraphNode
+	internal partial class GraphNode
 	{
 		/// <summary> 
 		/// Required designer variable.
