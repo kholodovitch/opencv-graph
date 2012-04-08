@@ -39,12 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilterPropertyType.cs" />
+    <Compile Include="Enums\FilterPropertyType.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterProperty.cs" />
     <Compile Include="IGraph.cs" />
     <Compile Include="IPin.cs" />
-    <Compile Include="PinMediaType.cs" />
+    <Compile Include="Enums\PinMediaType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
