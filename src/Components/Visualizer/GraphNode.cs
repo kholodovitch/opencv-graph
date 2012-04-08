@@ -51,9 +51,11 @@ namespace Visualizer
 
 			var borderPen = new Pen(BorderColor);
 			e.Graphics.DrawRectangle(borderPen, new Rectangle(Point.Empty, Size.Subtract(Size, new Size(1, 1))));
-			e.Graphics.DrawString(_filter.Name, HeaderFont, Brushes.Black, 4, 3);
 			e.Graphics.DrawLine(borderPen, 0, HeaderHeight, Width, HeaderHeight);
 
+			string header = !string.IsNullOrEmpty(_filter.Name) ? _filter.Name : _filter.GetType().Name;
+			e.Graphics.DrawString(header, HeaderFont, Brushes.Black, 4, 3);
+			
 			DrawPinPorts(e.Graphics, _filter.Pins.Where(x => x.IsOutput).ToArray());
 			DrawPinPorts(e.Graphics, _filter.Pins.Where(x => !x.IsOutput).ToArray());
 		}

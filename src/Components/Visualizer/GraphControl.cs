@@ -9,9 +9,13 @@ namespace Visualizer
 {
 	public partial class GraphControl : UserControl
 	{
+		private const int ArrowSize = 8;
+		private int x = 0;
+		private int y = 0;
+
 		private IGraph _graph;
 		private Dictionary<Guid, GraphNode> _nodes = new Dictionary<Guid, GraphNode>();
-		private Color ColorConnection = Color.FromArgb(192, 192, 192);
+		private readonly Color ColorConnection = Color.FromArgb(192, 192, 192);
 
 		public GraphControl()
 		{
@@ -28,10 +32,28 @@ namespace Visualizer
 			{
 				var graphNode = new GraphNode(filter) {Location = location};
 				graphNode.LocationChanged += Node_LocationChanged;
+				graphNode.MouseDown += GraphNodeOnMouseDown;
+				graphNode.MouseMove += GraphNodeOnMouseMove;
 				_nodes[filter.NodeGuid] = graphNode;
 				Controls.Add(graphNode);
 				location.Offset(new Point(64, 64));
 			}
+		}
+
+		private void GraphNodeOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
+		{
+			var button1 = (GraphNode) sender;
+			if (mouseEventArgs.Button == MouseButtons.Left)
+			{
+				button1.Left = (button1.Left + mouseEventArgs.X) - x;
+				button1.Top = (button1.Top + mouseEventArgs.Y) - y;
+			}
+		}
+
+		private void GraphNodeOnMouseDown(object sender, MouseEventArgs mouseEventArgs)
+		{
+			x = mouseEventArgs.X;
+			y = mouseEventArgs.Y;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -57,8 +79,8 @@ namespace Visualizer
 					input.Offset(connectedToNode.Location);
 					input.Offset(0, 1);
 
-					e.Graphics.DrawBezier(new Pen(ColorConnection), output.X, output.Y, output.X + 64, output.Y, input.X - 64, input.Y, input.X - 8, input.Y);
-					e.Graphics.FillPolygon(new SolidBrush(ColorConnection), new[] { input, new Point(input.X - 8, input.Y - 4), new Point(input.X - 8, input.Y + 4) });
+					e.Graphics.DrawBezier(new Pen(ColorConnection), output.X, output.Y, output.X + 32, output.Y, input.X - 32 - ArrowSize, input.Y, input.X - ArrowSize, input.Y);
+					e.Graphics.FillPolygon(new SolidBrush(ColorConnection), new[] {input, new Point(input.X - ArrowSize, input.Y - ArrowSize/2), new Point(input.X - ArrowSize, input.Y + ArrowSize/2)});
 				}
 			}
 		}
