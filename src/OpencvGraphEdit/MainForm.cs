@@ -27,20 +27,22 @@ namespace OpencvGraphEdit
 				ThreadPool.QueueUserWorkItem(o => localFilter.Process());
 			}
 
-			GraphSaver.Save(graph, "graph.xml", SaveOptions.AddComments);
+			GraphSaver.Save(graph, "graph0.xml", SaveOptions.AddComments);
+			graph = GraphLoader.Load("graph0.xml");
+			GraphSaver.Save(graph, "graph1.xml", SaveOptions.AddComments);
 		}
 
 		private static Graph CreateTestGraph()
 		{
 			var graph = new Graph();
 			var sourceFileImage = new SourceFileImage();
-			sourceFileImage.Properties.First().Value = @"input.png";
+			sourceFileImage.Properties.Values.First().Value = @"input.png";
 			graph.AddFilter(sourceFileImage);
 
 			var assembly = FiltersHelper.GetFilterTypes().First().Assembly;
 			var clone = (Filter) assembly.CreateInstance(CloneName);
 			Debug.Assert(clone != null);
-			clone.Properties.First().Value = 1;
+			clone.Properties.Values.First().Value = 1;
 			sourceFileImage.OutputPins.First().Connect(clone.InputPins.First());
 			graph.AddFilter(clone);
 
@@ -65,12 +67,12 @@ namespace OpencvGraphEdit
 			graph.AddFilter(filter1);
 
 			var destFileImage3 = new DestFileImage();
-			destFileImage3.Properties.First().Value = @"output3.png";
+			destFileImage3.Properties.Values.First().Value = @"output3.png";
 			filter0_2.OutputPins.First().Connect(destFileImage3.InputPins.First());
 			graph.AddFilter(destFileImage3);
 
 			var destFileImage1 = new DestFileImage();
-			destFileImage1.Properties.First().Value = @"output1.png";
+			destFileImage1.Properties.Values.First().Value = @"output1.png";
 			filter1.OutputPins.First().Connect(destFileImage1.InputPins.First());
 			graph.AddFilter(destFileImage1);
 			return graph;

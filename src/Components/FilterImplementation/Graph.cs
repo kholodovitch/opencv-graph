@@ -7,9 +7,9 @@ namespace FilterImplementation
 {
 	public class Graph : IGraph
 	{
-		private readonly List<Filter> _filters = new List<Filter>();
+		private readonly List<IFilter> _filters = new List<IFilter>();
 
-		public IEnumerable<Filter> Filters
+		public IEnumerable<IFilter> Filters
 		{
 			get
 			{
@@ -25,12 +25,12 @@ namespace FilterImplementation
 					while (_filters.Count > 0)
 					{
 						int lastiIndex = _filters.Count - 1;
-						Filter loadedFilter = _filters[lastiIndex];
+						IFilter loadedFilter = _filters[lastiIndex];
 						OnRemovingFilter(loadedFilter);
 						_filters.RemoveAt(lastiIndex);
 					}
 
-					foreach (Filter newFilter in value)
+					foreach (IFilter newFilter in value)
 					{
 						AddFilter(newFilter);
 					}
@@ -38,18 +38,18 @@ namespace FilterImplementation
 			}
 		}
 
-		public void AddFilter(Filter newFilter)
+		public void AddFilter(IFilter newFilter)
 		{
 			OnAddingFilter(newFilter);
 			lock (_filters)
 				_filters.Add(newFilter);
 		}
 
-		private void OnAddingFilter(Filter newFilter)
+		private void OnAddingFilter(IFilter newFilter)
 		{
 		}
 
-		private void OnRemovingFilter(Filter loadedFilter)
+		private void OnRemovingFilter(IFilter loadedFilter)
 		{
 		}
 	}

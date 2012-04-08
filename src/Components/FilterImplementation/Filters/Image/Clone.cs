@@ -15,7 +15,7 @@ namespace FilterImplementation.Filters.Image
 
 		public Clone()
 		{
-			_countProperty = new Property("Count of copies", FilterPropertyType.UInteger);
+			_countProperty = new Property("Count of copies", FilterPropertyType.Integer);
 			_countProperty.OnValueChanged += OnChangedCountOfCopies;
 			AddProperty(_countProperty);
 
@@ -53,8 +53,8 @@ namespace FilterImplementation.Filters.Image
 			if (!(obj is int)) 
 				return;
 
-			var copies = (int)obj;
-			if (_outputs.Count == copies) 
+			int copies = (int)obj;
+			if (_outputs.Count == copies)
 				return;
 
 			lock (_outputs)
@@ -66,7 +66,7 @@ namespace FilterImplementation.Filters.Image
 				}
 				_outputs.Clear();
 
-				for (int i = 0; i < copies; i++)
+				for (uint i = 0; i < copies; i++)
 				{
 					var outputPin = new OutputPin("Copy № " + (i + 1), PinMediaType.Image);
 					_outputs.Add(outputPin);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using DataStructures;
@@ -8,7 +9,7 @@ namespace FilterImplementation
 {
 	public static class FiltersHelper
 	{
-		private static readonly Type[] Filters;
+		private static readonly Dictionary<Guid, Type> Filters;
 
 		static FiltersHelper()
 		{
@@ -17,12 +18,28 @@ namespace FilterImplementation
 				.GetTypes()
 				.Where(x => typeof (IFilter).IsAssignableFrom(x))
 				.Where(x => !x.IsAbstract)
-				.ToArray();
+				.Select(x =>
+				        	{
+				        		var instance = (IFilter) Assembly.GetExecutingAssembly().CreateInstance(x.FullName);
+				        		Debug.Assert(instance != null);
+
+				        		return new
+				        		       	{
+				        		       		instance.TypeGuid,
+				        		       		Type = x,
+				        		       	};
+				        	})
+				.ToDictionary(x => x.TypeGuid, x => x.Type);
 		}
 
 		public static IEnumerable<Type> GetFilterTypes()
 		{
-			return Filters;
+			return Filters.Values;
+		}
+
+		public static Type GetFilterType(Guid typeGuid)
+		{
+			return Filters[typeGuid];
 		}
 	}
 }

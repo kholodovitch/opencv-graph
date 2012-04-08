@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using DataStructures;
 
 namespace FilterImplementation.Base
@@ -42,21 +43,12 @@ namespace FilterImplementation.Base
 
 		public string Name { get; set; }
 
-		public IEnumerable<IFilterProperty> Properties
+		public IDictionary<string, IFilterProperty> Properties
 		{
 			get
 			{
 				lock (_properties)
-					return _properties.Values;
-			}
-			set
-			{
-				lock (_properties)
-				{
-					_properties.Clear();
-					foreach (var filterProperty in value)
-						_properties[filterProperty.Name] = filterProperty;
-				}
+					return _properties.AsReadOnly();
 			}
 		}
 

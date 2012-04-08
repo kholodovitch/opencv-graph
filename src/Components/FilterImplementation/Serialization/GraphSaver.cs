@@ -51,7 +51,7 @@ namespace FilterImplementation.Serialization
 				xDoc.Save(xw);
 		}
 
-		private IEnumerable<XNode> GetFilterNodes(Filter filter)
+		private IEnumerable<XNode> GetFilterNodes(IFilter filter)
 		{
 			if (AddComments)
 				yield return new XComment(string.Format(" {0} ", filter.GetType().Name));
@@ -67,6 +67,7 @@ namespace FilterImplementation.Serialization
 				filterNode.Add(new XAttribute(FileFormat.Node_Filter_Name, filter.Name));
 
 			filter.Properties
+				.Values
 				.SelectMany(GetFilterPropertyNodes)
 				.ToList()
 				.ForEach(filterNode.Add);
@@ -94,7 +95,7 @@ namespace FilterImplementation.Serialization
 		{
 			switch (filterPropertyType)
 			{
-				case FilterPropertyType.UInteger:
+				case FilterPropertyType.Integer:
 				case FilterPropertyType.String:
 					return true;
 

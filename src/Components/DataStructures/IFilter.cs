@@ -11,7 +11,7 @@ namespace DataStructures
 
 		string Name { get; set; }
 
-		IEnumerable<IFilterProperty> Properties { get; set; }
+		IDictionary<string, IFilterProperty> Properties { get; }
 
 		void Process();
 	}

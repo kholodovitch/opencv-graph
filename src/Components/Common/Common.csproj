@@ -5,13 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4C784233-D24D-4AD6-A9CB-9710BDDB5AF5}</ProjectGuid>
+    <ProjectGuid>{963C0889-9F66-4487-BE5B-6397D4A7CA57}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FilterImplementation</RootNamespace>
-    <AssemblyName>FilterImplementation</AssemblyName>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,49 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.CV">
-      <HintPath>..\..\Libraries\Emgu.CV.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.CV.UI">
-      <HintPath>..\..\Libraries\Emgu.CV.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Emgu.Util">
-      <HintPath>..\..\Libraries\Emgu.Util.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\Filter.cs" />
-    <Compile Include="Base\InputPin.cs" />
-    <Compile Include="Base\OutputPin.cs" />
-    <Compile Include="Base\Pin.cs" />
-    <Compile Include="Destination\DestFileImage.cs" />
-    <Compile Include="FiltersHelper.cs" />
-    <Compile Include="Filters\Image\Clone.cs" />
-    <Compile Include="Filters\Image\Blur.cs" />
-    <Compile Include="Base\Property.cs" />
-    <Compile Include="Graph.cs" />
+    <Compile Include="ReadOnlyDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\GraphFileFormat.cs" />
-    <Compile Include="Serialization\GraphLoader.cs" />
-    <Compile Include="Serialization\GraphSaver.cs" />
-    <Compile Include="Serialization\SaveOptions.cs" />
-    <Compile Include="Source\SourceFileImage.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{963C0889-9F66-4487-BE5B-6397D4A7CA57}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataStructures\DataStructures.csproj">
-      <Project>{D9CF4EE8-529A-4E57-9A06-6AA8903EE04F}</Project>
-      <Name>DataStructures</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
