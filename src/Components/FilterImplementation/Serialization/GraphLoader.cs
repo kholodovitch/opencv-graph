@@ -39,6 +39,11 @@ namespace FilterImplementation.Serialization
 					.Select(GetFilter)
 					.ToList()
 					.ForEach(result.Graph.AddFilter);
+
+				filtersNode
+					.Elements(GraphFileFormat.Ver_0_1.Node_Filter)
+					.ToList()
+					.ForEach(element=> ProcessConnections(element, result.Graph));
 			}
 
 			var locationsNode = xDoc.Root.Element(GraphFileFormat.Ver_0_1.Node_Locations);
@@ -52,6 +57,30 @@ namespace FilterImplementation.Serialization
 			}
 
 			return result;
+		}
+
+		private static void ProcessConnections(XElement element, IGraph graph)
+		{
+			var guid = new Guid(element.Attribute(GraphFileFormat.Ver_0_1.Node_Filter_NodeGuid).Value);
+			IFilter filter = graph.Filters.First(x1 => x1.NodeGuid == guid);
+
+			element.Elements("Pin")
+				.Where(pinNode => pinNode.Attribute("ConnectedToNode") != null)
+				.ToList()
+				.ForEach(x => PerformConnection(filter, x, graph));
+		}
+
+		private static void PerformConnection(IFilter srcFilter, XElement pinNode, IGraph graph)
+		{
+			var connectedToNode = new Guid(pinNode.Attribute("ConnectedToNode").Value);
+			string connectedToPin = pinNode.Attribute("ConnectedToPin").Value;
+			string pinName = pinNode.Attribute("Name").Value;
+
+			IFilter destFilter = graph.Filters.First(filter => filter.NodeGuid == connectedToNode);
+			IPin outputPin = srcFilter.Pins.First(pin => pin.Name == pinName);
+			IPin receivePin = destFilter.Pins.First(pin => pin.Name == connectedToPin);
+
+			outputPin.Connect(receivePin);
 		}
 
 		private static IFilter GetFilter(XElement filterNode)

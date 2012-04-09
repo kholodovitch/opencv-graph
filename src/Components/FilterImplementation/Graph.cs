@@ -1,40 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using DataStructures;
-using FilterImplementation.Base;
 
 namespace FilterImplementation
 {
 	public class Graph : IGraph
 	{
-		private readonly List<IFilter> _filters = new List<IFilter>();
+		private readonly Dictionary<Guid, IFilter> _filters = new Dictionary<Guid, IFilter>();
 
 		public IEnumerable<IFilter> Filters
 		{
 			get
 			{
 				lock (_filters)
-				{
-					return _filters.AsReadOnly();
-				}
-			}
-			set
-			{
-				lock (_filters)
-				{
-					while (_filters.Count > 0)
-					{
-						int lastiIndex = _filters.Count - 1;
-						IFilter loadedFilter = _filters[lastiIndex];
-						OnRemovingFilter(loadedFilter);
-						_filters.RemoveAt(lastiIndex);
-					}
-
-					foreach (IFilter newFilter in value)
-					{
-						AddFilter(newFilter);
-					}
-				}
+					return _filters.Values;
 			}
 		}
 
@@ -42,7 +21,7 @@ namespace FilterImplementation
 		{
 			OnAddingFilter(newFilter);
 			lock (_filters)
-				_filters.Add(newFilter);
+				_filters[newFilter.NodeGuid] = newFilter;
 		}
 
 		private void OnAddingFilter(IFilter newFilter)

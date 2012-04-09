@@ -81,6 +81,11 @@ namespace FilterImplementation.Serialization
 				.ToList()
 				.ForEach(filterNode.Add);
 
+			filter.Pins
+				.SelectMany(GetFilterConnectionNodes)
+				.ToList()
+				.ForEach(filterNode.Add);
+
 			yield return filterNode;
 		}
 
@@ -98,6 +103,20 @@ namespace FilterImplementation.Serialization
 			}
 
 			yield return filterPropertyNode;
+		}
+
+		private IEnumerable<XNode> GetFilterConnectionNodes(IPin pin)
+		{
+			if (!pin.IsOutput)
+				yield break;
+
+			var result = new XElement("Pin", new XAttribute("Name", pin.Name));
+			if (pin.IsConnected)
+			{
+				result.Add(new XAttribute("ConnectedToNode", pin.ConnectedTo.Filter.NodeGuid));
+				result.Add(new XAttribute("ConnectedToPin", pin.ConnectedTo.Name));
+			}
+			yield return result;
 		}
 
 		private XNode GetLocationNode(KeyValuePair<Guid, Point> location)

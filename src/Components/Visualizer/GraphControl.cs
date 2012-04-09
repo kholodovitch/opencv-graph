@@ -83,6 +83,8 @@ namespace Visualizer
 				for (int i = 0; i < array.Length; i++)
 				{
 					IPin connectedTo = array[i].ConnectedTo;
+					if (connectedTo == null) 
+						continue;
 					IFilter connectedToFilter = connectedTo.Filter;
 					int index = connectedToFilter.Pins.Where(x => !x.IsOutput).ToList().IndexOf(connectedTo);
 					GraphNode connectedToNode = _nodes[connectedToFilter.NodeGuid];

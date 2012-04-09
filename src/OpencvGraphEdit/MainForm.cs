@@ -29,7 +29,7 @@ namespace OpencvGraphEdit
 
 			var graphBundle = new GraphBundle(graph);
 			GraphSaver.Save(graphBundle, "graph0.xml", SaveOptions.AddComments);
-			//graphBundle = GraphLoader.Load("graph1.xml");
+			graphBundle = GraphLoader.Load("graph1.xml");
 			//GraphSaver.Save(graph, "graph1.xml", SaveOptions.AddComments);
 			graphControl1.LoadGraph(graphBundle);
 		}
