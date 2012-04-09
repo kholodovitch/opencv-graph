@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
 using DataStructures;
+using FilterImplementation.Base;
 
 namespace FilterImplementation.Serialization
 {
@@ -12,13 +15,13 @@ namespace FilterImplementation.Serialization
 		{
 		}
 
-		public static Graph Load(string path)
+		public static GraphBundle Load(string path)
 		{
 			var graphLoader = new GraphLoader();
 			return graphLoader.LoadInternal(path);
 		}
 
-		private Graph LoadInternal(string path)
+		private GraphBundle LoadInternal(string path)
 		{
 			var xDoc = XDocument.Load(path);
 			if (xDoc.Root == null)
@@ -27,7 +30,11 @@ namespace FilterImplementation.Serialization
 			if (xDoc.Root.Name != GraphFileFormat.NodeRoot)
 				return null;
 
-			var result = new Graph();
+			var result = new GraphBundle
+			             	{
+			             		Graph = new Graph(),
+			             		Locations = new Dictionary<Guid, Point>()
+			             	};
 			var filtersNode = xDoc.Root.Element(GraphFileFormat.Ver_0_1.Node_Filters);
 			if (filtersNode != null)
 			{
@@ -35,7 +42,7 @@ namespace FilterImplementation.Serialization
 					.Elements(GraphFileFormat.Ver_0_1.Node_Filter)
 					.Select(GetFilter)
 					.ToList()
-					.ForEach(result.AddFilter);
+					.ForEach(result.Graph.AddFilter);
 			}
 
 			return result;

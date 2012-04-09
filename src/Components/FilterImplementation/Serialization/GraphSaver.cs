@@ -18,13 +18,13 @@ namespace FilterImplementation.Serialization
 
 		private bool AddComments { get; set; }
 
-		public static void Save(Graph graph, string path, SaveOptions options = SaveOptions.Default)
+		public static void Save(GraphBundle graph, string path, SaveOptions options = SaveOptions.Default)
 		{
 			var graphLoader = new GraphSaver(options);
 			graphLoader.SaveInternal(graph, path);
 		}
 
-		private void SaveInternal(Graph graph, string path)
+		private void SaveInternal(GraphBundle graph, string path)
 		{
 			var xDoc = new XDocument();
 
@@ -32,12 +32,11 @@ namespace FilterImplementation.Serialization
 			root.Add(new XAttribute(GraphFileFormat.NodeFormatVersion, FileFormat.Version));
 
 			var filtersNode = new XElement(FileFormat.Node_Filters);
-			root.Add(filtersNode);
-
-			graph.Filters
+			graph.Graph.Filters
 				.SelectMany(GetFilterNodes)
 				.ToList()
 				.ForEach(filtersNode.Add);
+			root.Add(filtersNode);
 
 			xDoc.Add(root);
 

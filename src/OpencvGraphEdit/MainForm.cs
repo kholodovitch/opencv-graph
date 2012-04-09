@@ -27,10 +27,11 @@ namespace OpencvGraphEdit
 				ThreadPool.QueueUserWorkItem(o => localFilter.Process());
 			}
 
-			GraphSaver.Save(graph, "graph0.xml", SaveOptions.AddComments);
-			//graph = GraphLoader.Load("graph0.xml");
+			var graphBundle = new GraphBundle {Graph = graph};
+			GraphSaver.Save(graphBundle, "graph0.xml", SaveOptions.AddComments);
+			//graphBundle = GraphLoader.Load("graph0.xml");
 			//GraphSaver.Save(graph, "graph1.xml", SaveOptions.AddComments);
-			graphControl1.LoadGraph(graph);
+			graphControl1.LoadGraph(graphBundle);
 		}
 
 		private static Graph CreateTestGraph()

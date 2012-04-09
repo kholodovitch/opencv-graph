@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -43,6 +44,7 @@
     <Compile Include="IFilter.cs" />
     <Compile Include="IFilterProperty.cs" />
     <Compile Include="IGraph.cs" />
+    <Compile Include="IGraphBundle.cs" />
     <Compile Include="IPin.cs" />
     <Compile Include="Enums\PinMediaType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

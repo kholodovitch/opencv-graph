@@ -22,13 +22,13 @@ namespace Visualizer
 			InitializeComponent();
 		}
 
-		public void LoadGraph(IGraph graph)
+		public void LoadGraph(IGraphBundle bundle)
 		{
 			_nodes.Clear();
-			_graph = graph;
+			_graph = bundle.Graph;
 
 			var location = new Point(16, 16);
-			foreach (IFilter filter in graph.Filters)
+			foreach (IFilter filter in _graph.Filters)
 			{
 				var graphNode = new GraphNode(filter) {Location = location};
 				graphNode.LocationChanged += Node_LocationChanged;
