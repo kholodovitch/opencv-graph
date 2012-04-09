@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using DataStructures;
-using FilterImplementation.Base;
 using FileFormat = FilterImplementation.Serialization.GraphFileFormat.Ver_0_1;
 
 namespace FilterImplementation.Serialization
@@ -18,13 +18,13 @@ namespace FilterImplementation.Serialization
 
 		private bool AddComments { get; set; }
 
-		public static void Save(GraphBundle graph, string path, SaveOptions options = SaveOptions.Default)
+		public static void Save(IGraphBundle graph, string path, SaveOptions options = SaveOptions.Default)
 		{
 			var graphLoader = new GraphSaver(options);
 			graphLoader.SaveInternal(graph, path);
 		}
 
-		private void SaveInternal(GraphBundle graph, string path)
+		private void SaveInternal(IGraphBundle graph, string path)
 		{
 			var xDoc = new XDocument();
 
@@ -37,6 +37,16 @@ namespace FilterImplementation.Serialization
 				.ToList()
 				.ForEach(filtersNode.Add);
 			root.Add(filtersNode);
+
+			if (graph.Locations != null)
+			{
+				var locationsNode = new XElement(FileFormat.Node_Locations);
+				graph.Locations
+					.Select(GetLocationNode)
+					.ToList()
+					.ForEach(locationsNode.Add);
+				root.Add(locationsNode);
+			}
 
 			xDoc.Add(root);
 
@@ -88,6 +98,15 @@ namespace FilterImplementation.Serialization
 			}
 
 			yield return filterPropertyNode;
+		}
+
+		private XNode GetLocationNode(KeyValuePair<Guid, Point> location)
+		{
+			var locationNode = new XElement(FileFormat.Node_Location);
+			locationNode.Add(new XAttribute(FileFormat.Node_Location_Node, location.Key));
+			locationNode.Add(new XAttribute(FileFormat.Node_Location_X, location.Value.X));
+			locationNode.Add(new XAttribute(FileFormat.Node_Location_Y, location.Value.Y));
+			return locationNode;
 		}
 
 		private bool IsSerializableAsString(FilterPropertyType filterPropertyType)

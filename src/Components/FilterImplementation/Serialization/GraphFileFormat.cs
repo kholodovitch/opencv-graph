@@ -23,6 +23,13 @@ namespace FilterImplementation.Serialization
 			public static readonly XName Node_FilterProperty = "Property";
 			public static readonly XName Node_FilterProperty_Name = "Name";
 			public static readonly XName Node_FilterProperty_Value = "Value";
+
+			public static readonly XName Node_Locations = "Locations";
+
+			public static readonly XName Node_Location = "Location";
+			public static readonly XName Node_Location_Node = "Node";
+			public static readonly XName Node_Location_X = "X";
+			public static readonly XName Node_Location_Y = "Y";
 		}
 	}
 	// ReSharper restore InconsistentNaming

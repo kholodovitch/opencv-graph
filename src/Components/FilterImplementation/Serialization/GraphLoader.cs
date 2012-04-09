@@ -30,11 +30,7 @@ namespace FilterImplementation.Serialization
 			if (xDoc.Root.Name != GraphFileFormat.NodeRoot)
 				return null;
 
-			var result = new GraphBundle
-			             	{
-			             		Graph = new Graph(),
-			             		Locations = new Dictionary<Guid, Point>()
-			             	};
+			var result = new GraphBundle();
 			var filtersNode = xDoc.Root.Element(GraphFileFormat.Ver_0_1.Node_Filters);
 			if (filtersNode != null)
 			{
@@ -43,6 +39,16 @@ namespace FilterImplementation.Serialization
 					.Select(GetFilter)
 					.ToList()
 					.ForEach(result.Graph.AddFilter);
+			}
+
+			var locationsNode = xDoc.Root.Element(GraphFileFormat.Ver_0_1.Node_Locations);
+			if (locationsNode != null)
+			{
+				locationsNode
+					.Elements(GraphFileFormat.Ver_0_1.Node_Location)
+					.Select(GetLocation)
+					.ToList()
+					.ForEach(x => result.Locations[x.Key] = x.Value);
 			}
 
 			return result;
@@ -82,6 +88,14 @@ namespace FilterImplementation.Serialization
 			}
 			return filter;
 			// ReSharper restore PossibleNullReferenceException
+		}
+
+		private static KeyValuePair<Guid, Point> GetLocation(XElement locationNode)
+		{
+			string strGuid = locationNode.Attribute(GraphFileFormat.Ver_0_1.Node_Location_Node).Value;
+			string strX = locationNode.Attribute(GraphFileFormat.Ver_0_1.Node_Location_X).Value;
+			string strY = locationNode.Attribute(GraphFileFormat.Ver_0_1.Node_Location_Y).Value;
+			return new KeyValuePair<Guid, Point>(new Guid(strGuid), new Point(int.Parse(strX), int.Parse(strY)));
 		}
 	}
 }

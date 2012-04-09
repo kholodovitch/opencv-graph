@@ -13,7 +13,7 @@ namespace Visualizer
 		private int x = 0;
 		private int y = 0;
 
-		private IGraph _graph;
+		private IGraphBundle _bundle;
 		private Dictionary<Guid, GraphNode> _nodes = new Dictionary<Guid, GraphNode>();
 		private readonly Color ColorConnection = Color.FromArgb(192, 192, 192);
 
@@ -22,32 +22,47 @@ namespace Visualizer
 			InitializeComponent();
 		}
 
+		public IGraphBundle GraphBundle
+		{
+			get { return _bundle; }
+		}
+
 		public void LoadGraph(IGraphBundle bundle)
 		{
 			_nodes.Clear();
-			_graph = bundle.Graph;
+			_bundle = bundle;
 
 			var location = new Point(16, 16);
-			foreach (IFilter filter in _graph.Filters)
+			foreach (IFilter filter in _bundle.Graph.Filters)
 			{
-				var graphNode = new GraphNode(filter) {Location = location};
+				Guid nodeGuid = filter.NodeGuid;
+				var graphNode = new GraphNode(filter);
 				graphNode.LocationChanged += Node_LocationChanged;
 				graphNode.MouseDown += GraphNodeOnMouseDown;
 				graphNode.MouseMove += GraphNodeOnMouseMove;
-				_nodes[filter.NodeGuid] = graphNode;
+				_nodes[nodeGuid] = graphNode;
+				if (_bundle.Locations.ContainsKey(nodeGuid))
+				{
+					graphNode.Location = _bundle.Locations[nodeGuid];
+				}
+				else
+				{
+					graphNode.Location = location;
+					location.Offset(new Point(64, 64));
+				}
 				Controls.Add(graphNode);
-				location.Offset(new Point(64, 64));
 			}
 		}
 
 		private void GraphNodeOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
 		{
-			var button1 = (GraphNode) sender;
-			if (mouseEventArgs.Button == MouseButtons.Left)
-			{
-				button1.Left = (button1.Left + mouseEventArgs.X) - x;
-				button1.Top = (button1.Top + mouseEventArgs.Y) - y;
-			}
+			if (mouseEventArgs.Button != MouseButtons.Left) 
+				return;
+			
+			var node = (GraphNode)sender;
+			node.Left = (node.Left + mouseEventArgs.X) - x;
+			node.Top = (node.Top + mouseEventArgs.Y) - y;
+			_bundle.Locations[node.Filter.NodeGuid] = node.Location;
 		}
 
 		private void GraphNodeOnMouseDown(object sender, MouseEventArgs mouseEventArgs)
@@ -59,8 +74,10 @@ namespace Visualizer
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
+			if (DesignMode)
+				return;
 
-			foreach (IFilter filter in _graph.Filters)
+			foreach (IFilter filter in _bundle.Graph.Filters)
 			{
 				var array = filter.Pins.Where(x => x.IsOutput).ToArray();
 				for (int i = 0; i < array.Length; i++)

@@ -7,8 +7,19 @@ namespace FilterImplementation.Base
 {
 	public class GraphBundle : IGraphBundle
 	{
-		public IGraph Graph { get; set; }
+		public GraphBundle()
+			: this(new Graph())
+		{
+		}
 
-		public IDictionary<Guid, Point> Locations { get; set; }
+		public GraphBundle(Graph graph)
+		{
+			Graph = graph;
+			Locations = new Dictionary<Guid, Point>();
+		}
+
+		public IGraph Graph { get; private set; }
+
+		public IDictionary<Guid, Point> Locations { get; private set; }
 	}
 }

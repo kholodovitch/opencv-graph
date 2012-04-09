@@ -33,6 +33,7 @@
 			// 
 			// graphControl1
 			// 
+			this.graphControl1.BackColor = System.Drawing.SystemColors.Window;
 			this.graphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.graphControl1.Location = new System.Drawing.Point(0, 0);
 			this.graphControl1.Name = "graphControl1";
@@ -47,6 +48,7 @@
 			this.Controls.Add(this.graphControl1);
 			this.Name = "MainForm";
 			this.Text = "MainForm";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
 			this.ResumeLayout(false);
 
 		}
