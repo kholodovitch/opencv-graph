@@ -24,7 +24,8 @@ namespace FilterImplementation.Base
 		public void SetData(object value)
 		{
 			var inputPin = (InputPin) ConnectedTo;
-			inputPin.SetData(value);
+			if (inputPin != null) 
+				inputPin.SetData(value);
 		}
 
 		#endregion

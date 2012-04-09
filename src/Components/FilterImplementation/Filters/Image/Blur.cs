@@ -31,7 +31,6 @@ namespace FilterImplementation.Filters.Image
 			FireProcessingStateChanged(ProcessingState.Started);
 			var frame = (IImage) _input.GetData();
 			var mptr = (MIplImage)Marshal.PtrToStructure(frame.Ptr, typeof(MIplImage));
-			dynamic d = frame;
 
 			if (mptr.nChannels == 4 && mptr.depth == IPL_DEPTH.IPL_DEPTH_8U)
 			{
