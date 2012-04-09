@@ -20,6 +20,7 @@ namespace Visualizer
 
 		private readonly IFilter _filter;
 		private ProcessingState _state = ProcessingState.NotStarted;
+		private double _progress;
 
 		public GraphNode(IFilter filter)
 		{
@@ -51,6 +52,7 @@ namespace Visualizer
 			base.OnPaint(e);
 			e.Graphics.Clear(ColorBackground);
 			SolidBrush headerBrush;
+			
 			switch (_state)
 			{
 				case ProcessingState.Started:
@@ -65,7 +67,16 @@ namespace Visualizer
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			e.Graphics.FillRectangle(headerBrush, 0, 0, Width, HeaderHeight);
+
+			if (_state != ProcessingState.Started)
+			{
+				e.Graphics.FillRectangle(headerBrush, 0, 0, Width, HeaderHeight);
+			}
+			else
+			{
+				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 255)), 0, 0, Width, HeaderHeight);
+				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 255, 128)), 0, 0, (int)(Width * _progress), HeaderHeight);
+			}
 
 			var borderPen = new Pen(BorderColor);
 			e.Graphics.DrawRectangle(borderPen, new Rectangle(Point.Empty, Size.Subtract(Size, new Size(1, 1))));
@@ -85,7 +96,8 @@ namespace Visualizer
 
 		private void OnProcessingProgressChanged(IFilter sender, double progress)
 		{
-
+			_progress = progress;
+			Invalidate();
 		}
 
 		private void OnProcessingStateChanged(IFilter sender, ProcessingState state)
