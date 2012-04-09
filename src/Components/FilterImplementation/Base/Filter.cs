@@ -64,6 +64,8 @@ namespace FilterImplementation.Base
 		public abstract void Process();
 
 		public event PinsChangedHandler OnPinsChanged = (sender, args, action) => { };
+		public event ProcessingProgressChangedHandler OnProcessingProgressChanged = (sender, progress) => { }; 
+		public event ProcessingStateChangedHandler OnProcessingStateChanged = (sender, state) => { };
 
 		#endregion
 
@@ -91,6 +93,16 @@ namespace FilterImplementation.Base
 		{
 			lock (_properties)
 				_properties.Add(property.Name, property);
+		}
+
+		protected void FireProcessingProgressChanged(double progress)
+		{
+			OnProcessingProgressChanged(this, progress);
+		}
+
+		protected void FireProcessingStateChanged(ProcessingState state)
+		{
+			OnProcessingStateChanged(this, state);
 		}
 	}
 }

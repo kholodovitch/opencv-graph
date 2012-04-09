@@ -29,8 +29,10 @@ namespace FilterImplementation.Source
 
 		public override void Process()
 		{
+			FireProcessingStateChanged(ProcessingState.Started);
 			var image = new Image<Bgra, byte>((string) _filepathProperty.Value);
 			_outputPin.SetData(image);
+			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 
 		#endregion

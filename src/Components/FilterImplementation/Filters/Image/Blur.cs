@@ -28,17 +28,23 @@ namespace FilterImplementation.Filters.Image
 
 		public override void Process()
 		{
+			FireProcessingStateChanged(ProcessingState.Started);
 			var frame = (IImage) _input.GetData();
 			var mptr = (MIplImage)Marshal.PtrToStructure(frame.Ptr, typeof(MIplImage));
+			dynamic d = frame;
 
 			if (mptr.nChannels == 4 && mptr.depth == IPL_DEPTH.IPL_DEPTH_8U)
 			{
-				var image = (Image<Bgra, byte>) frame;
+				var image = (Image<Bgra, byte>)frame;
+				FireProcessingProgressChanged(0.1);
 				image = image.PyrDown();
+				FireProcessingProgressChanged(0.5);
 				frame = image.PyrUp();
+				FireProcessingProgressChanged(1);
 			}
 
 			_output.SetData(frame);
+			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 	}
 }

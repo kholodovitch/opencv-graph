@@ -29,9 +29,11 @@ namespace FilterImplementation.Destination
 
 		public override void Process()
 		{
+			FireProcessingStateChanged(ProcessingState.Started);
 			var image = (IImage)_inputPin.GetData();
-			
-			image.Save((string) _filepathProperty.Value);
+
+			image.Save((string)_filepathProperty.Value);
+			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 
 		#endregion

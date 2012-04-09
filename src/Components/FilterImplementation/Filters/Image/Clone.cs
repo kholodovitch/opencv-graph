@@ -34,16 +34,20 @@ namespace FilterImplementation.Filters.Image
 
 		public override void Process()
 		{
+			FireProcessingStateChanged(ProcessingState.Started);
 			var frame = (IImage)_input.GetData();
 			lock (_outputs)
 			{
-				foreach (OutputPin outputPin in _outputs)
+				for (int index = 0; index < _outputs.Count; index++)
 				{
+					OutputPin outputPin = _outputs[index];
 					object clone = frame.Clone();
 					outputPin.SetData(clone);
+					FireProcessingProgressChanged((index + 1)/(double) _outputs.Count);
 				}
 			}
 			_originalOutput.SetData(frame);
+			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 
 		#endregion

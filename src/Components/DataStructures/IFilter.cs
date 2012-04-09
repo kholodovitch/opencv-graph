@@ -18,7 +18,22 @@ namespace DataStructures
 		void Process();
 
 		event PinsChangedHandler OnPinsChanged;
+
+		event ProcessingProgressChangedHandler OnProcessingProgressChanged;
+
+		event ProcessingStateChangedHandler OnProcessingStateChanged;
 	}
+
+	public delegate void ProcessingStateChangedHandler(IFilter sender, ProcessingState state);
+
+	public enum ProcessingState
+	{
+		Started,
+		Finished,
+		NotStarted
+	}
+
+	public delegate void ProcessingProgressChangedHandler(IFilter sender, double progress);
 
 	public delegate void PinsChangedHandler(IFilter sender, IPin args, PinChangedAction action);
 
