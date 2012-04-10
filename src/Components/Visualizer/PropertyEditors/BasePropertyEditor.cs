@@ -5,6 +5,11 @@ namespace Visualizer.PropertyEditors
 {
 	public class BasePropertyEditor : UserControl, IPropertyEditor
 	{
+		public BasePropertyEditor()
+		{
+			BackColor = System.Drawing.Color.Transparent;
+		}
+
 		#region Implementation of IPropertyEditor
 
 		public virtual object Value { get; set; }

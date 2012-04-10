@@ -13,16 +13,22 @@ namespace Visualizer.PropertyEditors
 
 		public override object Value
 		{
-			get { return textBox1.Text; }
-			set { textBox1.Text = (string) value; }
+			get { return linkLabel1.Tag; }
+			set
+			{
+				linkLabel1.Text = Path.GetFileName((string)value);
+				linkLabel1.Tag = value;
+			}
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			if (mFolderBrowserDialog.ShowDialog() == DialogResult.OK)
 			{
-				textBox1.Text = mFolderBrowserDialog.FileName;
-				FireValueChanged(textBox1.Text);
+				string fileName = mFolderBrowserDialog.FileName;
+				linkLabel1.Tag = fileName;
+				linkLabel1.Text = Path.GetFileName(fileName);
+				FireValueChanged(linkLabel1.Tag);
 			}
 		}
 	}

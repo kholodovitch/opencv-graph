@@ -12,7 +12,7 @@ namespace Visualizer
 		private const int HeaderHeight = 20;
 		private const int PinPortSize = 4;
 		private const int FieldHeight = 16;
-		private const int PropertyHeight = 24;
+		private const int PropertyHeight = 16;
 
 		private static readonly Color ColorBackground = Color.FromArgb(224, 224, 224);
 		private static readonly Color ColorHeaderBackground = Color.FromArgb(208, 208, 208);
