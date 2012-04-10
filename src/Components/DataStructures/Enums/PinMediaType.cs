@@ -4,5 +4,6 @@ namespace DataStructures
 	{
 		Unknown,
 		Image,
+		ContoursArray
 	}
 }
