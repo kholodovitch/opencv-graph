@@ -4,9 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using DataStructures;
 using FilterImplementation;
 using FilterImplementation.Base;
 using FilterImplementation.Serialization;
+using FilterImplementation.Source;
 
 namespace OpencvGraphEdit
 {
@@ -18,11 +20,48 @@ namespace OpencvGraphEdit
 		{
 			InitializeComponent();
 
+
+			this.treeView1.AllowDrop = true;
+			this.graphControl1.AllowDrop = true;
+			this.treeView1.MouseDown += new MouseEventHandler(listBox1_MouseDown);
+			this.treeView1.DragOver += new DragEventHandler(listBox1_DragOver);
+
+			this.graphControl1.DragEnter += new DragEventHandler(treeView1_DragEnter);
+			this.graphControl1.DragDrop += new DragEventHandler(treeView1_DragDrop);
+
 			IDictionary<Guid, Type> filterTypes = FiltersHelper.GetFilterTypes();
 			UpdateTreeView(filterTypes);
 
 			GraphBundle graphBundle = GraphLoader.Load(PathToXml);
 			graphControl1.LoadGraph(graphBundle);
+		}
+
+		private void treeView1_DragDrop(object sender, DragEventArgs e)
+		{
+			object typeGuid = e.Data.GetData(typeof(Guid));
+			if (typeGuid == null) 
+				return;
+			
+			var filterType = FiltersHelper.GetFilterType((Guid)typeGuid);
+			var filter = (IFilter)filterType.Assembly.CreateInstance(filterType.FullName);
+			graphControl1.AddFilter(filter);
+		}
+
+		private void listBox1_DragOver(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Move;
+		}
+
+		private void treeView1_DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Move;
+		}
+
+		private void listBox1_MouseDown(object sender, MouseEventArgs e)
+		{
+			object tag = treeView1.SelectedNode.Tag;
+			if (tag is Guid)
+				treeView1.DoDragDrop(((Guid) tag), DragDropEffects.Move);
 		}
 
 		private void OnFormClosing(object sender, FormClosingEventArgs e)

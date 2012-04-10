@@ -46,6 +46,7 @@ namespace Visualizer
 						editor = new PathEditor();
 						break;
 
+					case FilterPropertyType.Float:
 					case FilterPropertyType.Integer:
 						editor = new NumericEditor();
 						break;

@@ -31,27 +31,24 @@ namespace Visualizer
 		{
 			_nodes.Clear();
 			_bundle = bundle;
-
-			var location = new Point(16, 16);
+			
 			foreach (IFilter filter in _bundle.Graph.Filters)
 			{
-				Guid nodeGuid = filter.NodeGuid;
-				var graphNode = new GraphNode(filter);
-				graphNode.LocationChanged += Node_LocationChanged;
-				graphNode.MouseDown += GraphNodeOnMouseDown;
-				graphNode.MouseMove += GraphNodeOnMouseMove;
-				_nodes[nodeGuid] = graphNode;
-				if (_bundle.Locations.ContainsKey(nodeGuid))
-				{
-					graphNode.Location = _bundle.Locations[nodeGuid];
-				}
-				else
-				{
-					graphNode.Location = location;
-					location.Offset(new Point(64, 64));
-				}
-				Controls.Add(graphNode);
+				AddFilter(filter);
 			}
+		}
+
+		public void AddFilter(IFilter filter)
+		{
+			Guid nodeGuid = filter.NodeGuid;
+			var graphNode = new GraphNode(filter);
+			graphNode.LocationChanged += Node_LocationChanged;
+			graphNode.MouseDown += GraphNodeOnMouseDown;
+			graphNode.MouseMove += GraphNodeOnMouseMove;
+			_nodes[nodeGuid] = graphNode;
+			if (_bundle.Locations.ContainsKey(nodeGuid))
+				graphNode.Location = _bundle.Locations[nodeGuid];
+			Controls.Add(graphNode);
 		}
 
 		private void GraphNodeOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
