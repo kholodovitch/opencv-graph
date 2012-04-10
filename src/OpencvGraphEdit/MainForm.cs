@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -17,32 +18,10 @@ namespace OpencvGraphEdit
 		{
 			InitializeComponent();
 
-			var t= FiltersHelper.GetFilterTypes()
-				.Select(x => new {TypeId = x.Key, x.Value.FullName});
+			IDictionary<Guid, Type> filterTypes = FiltersHelper.GetFilterTypes();
+			UpdateTreeView(filterTypes);
 
-			TreeNode lastNode = null;
-			string subPathAgg;
-			foreach (var path in t)
-			{
-				subPathAgg = string.Empty;
-				foreach (string subPath in path.FullName.Split('.'))
-				{
-					subPathAgg += subPath + '.';
-					TreeNode[] nodes = treeView1.Nodes.Find(subPathAgg, true);
-					if (nodes.Length == 0)
-						if (lastNode == null)
-							lastNode = treeView1.Nodes.Add(subPathAgg, subPath);
-						else
-							lastNode = lastNode.Nodes.Add(subPathAgg, subPath);
-					else
-						lastNode = nodes[0];
-				}
-				if (lastNode != null) 
-					lastNode.Tag = path.TypeId;
-			}
-
-
-			var graphBundle = GraphLoader.Load(PathToXml);
+			GraphBundle graphBundle = GraphLoader.Load(PathToXml);
 			graphControl1.LoadGraph(graphBundle);
 		}
 
@@ -58,6 +37,26 @@ namespace OpencvGraphEdit
 				Filter localFilter = filter;
 				ThreadPool.QueueUserWorkItem(o => localFilter.Process());
 			}
+		}
+
+		private void UpdateTreeView(IEnumerable<KeyValuePair<Guid, Type>> filterTypes)
+		{
+			foreach (var typePath in filterTypes.Select(x => new { TypeId = x.Key, x.Value.FullName }))
+			{
+				TreeNode node = typePath.FullName.Substring("FilterImplementation.".Length).Split('.')
+					.Aggregate<string, TreeNode>(null, (current, pathBits) => AddNode(pathBits, current != null ? current.Nodes : treeView1.Nodes));
+				if (node == null)
+					continue;
+
+				node.NodeFont = new Font(treeView1.Font, FontStyle.Bold);
+				node.Tag = typePath.TypeId;
+			}
+			treeView1.ExpandAll();
+		}
+
+		private TreeNode AddNode(string key, TreeNodeCollection nodeCollection)
+		{
+			return nodeCollection.ContainsKey(key) ? nodeCollection[key] : nodeCollection.Add(key, key);
 		}
 	}
 }
