@@ -7,6 +7,8 @@ namespace Visualizer.PropertyEditors
 	{
 		#region Implementation of IPropertyEditor
 
+		public virtual object Value { get; set; }
+
 		public event Action<object> OnValueChanged;
 
 		#endregion

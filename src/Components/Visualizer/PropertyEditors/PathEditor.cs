@@ -11,6 +11,12 @@ namespace Visualizer.PropertyEditors
 			InitializeComponent();
 		}
 
+		public override object Value
+		{
+			get { return textBox1.Text; }
+			set { textBox1.Text = (string) value; }
+		}
+
 		private void button1_Click(object sender, EventArgs e)
 		{
 			if (mFolderBrowserDialog.ShowDialog() == DialogResult.OK)

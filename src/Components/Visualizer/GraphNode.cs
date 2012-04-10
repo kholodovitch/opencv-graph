@@ -53,9 +53,9 @@ namespace Visualizer
 						throw new ArgumentOutOfRangeException();
 				}
 
-				editor.Width = Width - 2;
 				editor.Location = new Point(1, i * PropertyHeight + HeaderHeight + 2);
-				editor.Height = PropertyHeight;
+				editor.Size = new Size(Width - 2, PropertyHeight);
+				editor.Value = property.Value;
 				editor.OnValueChanged += newValue => { property.Value = newValue; };
 				Controls.Add(editor);
 			}

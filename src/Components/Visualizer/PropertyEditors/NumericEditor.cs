@@ -8,5 +8,11 @@ namespace Visualizer.PropertyEditors
 		{
 			InitializeComponent();
 		}
+
+		public override object Value
+		{
+			get { return base.Value; }
+			set { base.Value = value; }
+		}
 	}
 }
