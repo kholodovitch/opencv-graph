@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Common;
 using DataStructures;
 
 namespace FilterImplementation
@@ -32,9 +33,9 @@ namespace FilterImplementation
 				.ToDictionary(x => x.TypeGuid, x => x.Type);
 		}
 
-		public static IEnumerable<Type> GetFilterTypes()
+		public static IDictionary<Guid, Type> GetFilterTypes()
 		{
-			return Filters.Values;
+			return Filters.AsReadOnly();
 		}
 
 		public static Type GetFilterType(Guid typeGuid)

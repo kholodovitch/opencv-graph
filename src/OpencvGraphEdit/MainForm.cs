@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using FilterImplementation;
 using FilterImplementation.Base;
 using FilterImplementation.Serialization;
 
@@ -13,6 +16,31 @@ namespace OpencvGraphEdit
 		public MainForm()
 		{
 			InitializeComponent();
+
+			var t= FiltersHelper.GetFilterTypes()
+				.Select(x => new {TypeId = x.Key, x.Value.FullName});
+
+			TreeNode lastNode = null;
+			string subPathAgg;
+			foreach (var path in t)
+			{
+				subPathAgg = string.Empty;
+				foreach (string subPath in path.FullName.Split('.'))
+				{
+					subPathAgg += subPath + '.';
+					TreeNode[] nodes = treeView1.Nodes.Find(subPathAgg, true);
+					if (nodes.Length == 0)
+						if (lastNode == null)
+							lastNode = treeView1.Nodes.Add(subPathAgg, subPath);
+						else
+							lastNode = lastNode.Nodes.Add(subPathAgg, subPath);
+					else
+						lastNode = nodes[0];
+				}
+				if (lastNode != null) 
+					lastNode.Tag = path.TypeId;
+			}
+
 
 			var graphBundle = GraphLoader.Load(PathToXml);
 			graphControl1.LoadGraph(graphBundle);

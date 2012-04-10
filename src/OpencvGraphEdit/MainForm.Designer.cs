@@ -30,9 +30,14 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.graphControl1 = new Visualizer.GraphControl();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.treeView1 = new System.Windows.Forms.TreeView();
+			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+			this.graphControl1 = new Visualizer.GraphControl();
 			this.toolStrip1.SuspendLayout();
+			this.splitContainer1.Panel1.SuspendLayout();
+			this.splitContainer1.Panel2.SuspendLayout();
+			this.splitContainer1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -45,15 +50,6 @@
 			this.toolStrip1.TabIndex = 1;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
-			// graphControl1
-			// 
-			this.graphControl1.BackColor = System.Drawing.SystemColors.Window;
-			this.graphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.graphControl1.Location = new System.Drawing.Point(0, 25);
-			this.graphControl1.Name = "graphControl1";
-			this.graphControl1.Size = new System.Drawing.Size(784, 537);
-			this.graphControl1.TabIndex = 2;
-			// 
 			// toolStripButton1
 			// 
 			this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -64,18 +60,56 @@
 			this.toolStripButton1.Text = "toolStripButton1";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
 			// 
+			// treeView1
+			// 
+			this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.treeView1.Location = new System.Drawing.Point(0, 0);
+			this.treeView1.Name = "treeView1";
+			this.treeView1.Size = new System.Drawing.Size(161, 537);
+			this.treeView1.TabIndex = 2;
+			// 
+			// splitContainer1
+			// 
+			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+			this.splitContainer1.Name = "splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this.splitContainer1.Panel1.Controls.Add(this.treeView1);
+			// 
+			// splitContainer1.Panel2
+			// 
+			this.splitContainer1.Panel2.Controls.Add(this.graphControl1);
+			this.splitContainer1.Size = new System.Drawing.Size(784, 537);
+			this.splitContainer1.SplitterDistance = 161;
+			this.splitContainer1.TabIndex = 3;
+			// 
+			// graphControl1
+			// 
+			this.graphControl1.BackColor = System.Drawing.SystemColors.Window;
+			this.graphControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.graphControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.graphControl1.Location = new System.Drawing.Point(0, 0);
+			this.graphControl1.Name = "graphControl1";
+			this.graphControl1.Size = new System.Drawing.Size(619, 537);
+			this.graphControl1.TabIndex = 3;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 562);
-			this.Controls.Add(this.graphControl1);
+			this.Controls.Add(this.splitContainer1);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainForm";
 			this.Text = "MainForm";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
+			this.splitContainer1.Panel1.ResumeLayout(false);
+			this.splitContainer1.Panel2.ResumeLayout(false);
+			this.splitContainer1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -84,8 +118,10 @@
 		#endregion
 
 		private System.Windows.Forms.ToolStrip toolStrip1;
-		private Visualizer.GraphControl graphControl1;
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		private System.Windows.Forms.TreeView treeView1;
+		private System.Windows.Forms.SplitContainer splitContainer1;
+		private Visualizer.GraphControl graphControl1;
 	}
 }
 
