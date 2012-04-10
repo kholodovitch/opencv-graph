@@ -108,5 +108,74 @@ namespace Visualizer
 		{
 			Invalidate();
 		}
+
+		private void GraphControl_Click(object sender, EventArgs e)
+		{
+			//var point = Cursor.Position;
+			//var bezier = new Point[0];
+			//var nearest = GetNearestOnBezier(point, bezier);
+			//nearest.ToString();
+		}
+
+		private PointF GetNearestOnBezier(Point point, Point[] bezier)
+		{
+			var cx = 3*(bezier[1].X - bezier[0].X);
+			var cy = 3*(bezier[1].Y - bezier[0].Y);
+			var bx = 3*(bezier[2].X - bezier[1].X) - cx;
+			var by = 3*(bezier[2].Y - bezier[1].Y) - cy;
+			var ax = bezier[3].X - bezier[0].X - cx - bx;
+			var ay = bezier[3].Y - bezier[0].Y - cy - @by;
+
+			var points = Enumerable
+				.Range(0, 1000)
+				.Select(i => i/1000.0)
+				.Select(tg =>
+				        	{
+				        		var tsqr = tg*tg;
+				        		var tcube = tsqr*tg;
+				        		return new PointF(
+				        			(float) ((ax*tcube) + (bx*tsqr) + (cx*tg) + bezier[0].X),
+				        			(float) ((ay*tcube) + (@by*tsqr) + (cy*tg) + bezier[0].Y)
+				        			);
+				        	})
+				.ToArray();
+
+			PointF nearest = PointF.Empty;
+			float minDist = float.MaxValue;
+			for (int i = 0; i < points.Length - 1; i++)
+			{
+				PointF current = GetNearestOnSegment(points[i], points[i + 1], point);
+				var dx = (current.X - point.X);
+				var dy = (current.Y - point.Y);
+				var dist = (float) Math.Sqrt(dx*dx + dy*dy);
+				if (minDist <= dist) 
+					continue;
+
+				minDist = dist;
+				nearest = current;
+			}
+			return nearest;
+		}
+
+		private PointF GetNearestOnSegment(PointF p1, PointF p2, PointF p)
+		{
+			float vx = p2.X - p1.X;
+			float vy = p2.Y - p1.Y;
+			float wx = p.X - p1.X;
+			float wy = p.Y - p1.Y;
+
+			float c1 = vx * wx + vy * wy;
+			if (c1 <= 0)
+				return p1;
+
+			float c2 = vx * vx + vy * vy;
+			if (c2 <= c1)
+				return p2;
+
+			float ratio = c1 / c2;
+			float nx = p1.X + ratio * vx;
+			float ny = p1.Y + ratio * vy;
+			return new PointF(nx, ny);
+		}
 	}
 }

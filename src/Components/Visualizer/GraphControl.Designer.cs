@@ -37,6 +37,7 @@
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.Name = "GraphControl";
 			this.Size = new System.Drawing.Size(800, 600);
+			this.Click += new System.EventHandler(this.GraphControl_Click);
 			this.ResumeLayout(false);
 
 		}
