@@ -1,5 +1,6 @@
 using System;
 using DataStructures;
+using DataStructures.Enums;
 
 namespace FilterImplementation.Base
 {

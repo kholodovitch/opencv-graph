@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using DataStructures;
+using DataStructures.Enums;
 using Visualizer.PropertyEditors;
 
 namespace Visualizer

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Xml.Linq;
 using DataStructures;
+using DataStructures.Enums;
 using FilterImplementation.Base;
 
 namespace FilterImplementation.Serialization

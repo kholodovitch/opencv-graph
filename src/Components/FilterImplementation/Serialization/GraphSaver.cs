@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using DataStructures;
+using DataStructures.Enums;
 using FileFormat = FilterImplementation.Serialization.GraphFileFormat.Ver_0_1;
 
 namespace FilterImplementation.Serialization

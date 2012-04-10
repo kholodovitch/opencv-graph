@@ -1,3 +1,5 @@
+using DataStructures.Enums;
+
 namespace DataStructures
 {
 	public interface IPin

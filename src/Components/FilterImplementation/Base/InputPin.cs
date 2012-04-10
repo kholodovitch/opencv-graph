@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using DataStructures;
+using DataStructures.Enums;
 
 namespace FilterImplementation.Base
 {

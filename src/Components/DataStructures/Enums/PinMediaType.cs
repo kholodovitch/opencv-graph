@@ -1,4 +1,4 @@
-namespace DataStructures
+namespace DataStructures.Enums
 {
 	public enum PinMediaType
 	{

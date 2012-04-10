@@ -1,5 +1,6 @@
 ﻿using System;
 using DataStructures;
+using DataStructures.Enums;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using FilterImplementation.Base;
