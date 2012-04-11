@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using DataStructures;
@@ -110,7 +111,10 @@ namespace FilterImplementation.Serialization
 						filterProperty.Value = propertyValue;
 						break;
 					case FilterPropertyType.Integer:
-						filterProperty.Value = int.Parse(propertyValue);
+						filterProperty.Value = int.Parse(propertyValue, GraphFileFormat.Ver_0_1.NumberStyles);
+						break;
+					case FilterPropertyType.Float:
+						filterProperty.Value = float.Parse(propertyValue, GraphFileFormat.Ver_0_1.NumberStyles);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();

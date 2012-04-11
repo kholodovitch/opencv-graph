@@ -95,10 +95,15 @@ namespace FilterImplementation.Serialization
 			var filterPropertyNode = new XElement(FileFormat.Node_FilterProperty);
 			filterPropertyNode.Add(new XAttribute(FileFormat.Node_FilterProperty_Name, filterProperty.Name));
 
-			if (filterProperty.Value != null)
+			object propertyValue = filterProperty.Value;
+			if (propertyValue != null)
 			{
-				if (IsSerializableAsString(filterProperty.Type))
-					filterPropertyNode.Add(new XAttribute(FileFormat.Node_FilterProperty_Value, filterProperty.Value));
+				FilterPropertyType propertyType = filterProperty.Type;
+				if (IsSerializableAsString(propertyType))
+				{
+					string valueAsStr = SerializeAsString(propertyType, propertyValue);
+					filterPropertyNode.Add(new XAttribute(FileFormat.Node_FilterProperty_Value, valueAsStr));
+				}
 				else
 					throw new NotImplementedException();
 			}
@@ -133,9 +138,28 @@ namespace FilterImplementation.Serialization
 		{
 			switch (filterPropertyType)
 			{
+				case FilterPropertyType.Float:
 				case FilterPropertyType.Integer:
 				case FilterPropertyType.String:
 					return true;
+
+				default:
+					throw new ArgumentOutOfRangeException("filterPropertyType");
+			}
+		}
+
+		private string SerializeAsString(FilterPropertyType filterPropertyType, object value)
+		{
+			switch (filterPropertyType)
+			{
+				case FilterPropertyType.Float:
+					return ((float)value).ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+
+				case FilterPropertyType.Integer:
+					return ((int) value).ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+
+				case FilterPropertyType.String:
+					return value.ToString();
 
 				default:
 					throw new ArgumentOutOfRangeException("filterPropertyType");

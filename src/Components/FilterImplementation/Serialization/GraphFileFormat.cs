@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Xml.Linq;
 
 namespace FilterImplementation.Serialization
@@ -30,6 +31,18 @@ namespace FilterImplementation.Serialization
 			public static readonly XName Node_Location_Node = "Node";
 			public static readonly XName Node_Location_X = "X";
 			public static readonly XName Node_Location_Y = "Y";
+
+			public static IFormatProvider NumberStyles
+			{
+				get
+				{
+					return new NumberFormatInfo
+					       	{
+					       		NumberDecimalSeparator = ".",
+					       		NumberGroupSeparator = string.Empty,
+					       	};
+				}
+			}
 		}
 	}
 	// ReSharper restore InconsistentNaming
