@@ -11,8 +11,8 @@ namespace Visualizer
 	internal partial class GraphNode : UserControl
 	{
 		private const int HeaderHeight = 20;
-		internal const int PinPortSize = 4;
-		private const int FieldHeight = 16;
+		private const int PinPortSize = 5;
+		private const int FieldHeight = 17;
 		private const int PropertyHeight = 18;
 
 		private static readonly Color ColorBackground = Color.FromArgb(224, 224, 224);
@@ -96,12 +96,15 @@ namespace Visualizer
 		{
 			int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*index + 3;
 			int pinPortX = isOutput ? Width - PinPortSize - 1 : 1;
-			int pinPortY = fieldY + (FieldHeight - PinPortSize)/2;
-			if ((options & PinPointOptions.ToCenter) == PinPointOptions.ToCenter)
-			{
+			int pinPortY = fieldY + (FieldHeight - PinPortSize) / 2;
+			if ((options & PinPointOptions.ToCenterHorizontal) == PinPointOptions.ToCenterHorizontal)
 				pinPortX += PinPortSize/2;
-				pinPortY += PinPortSize/2;
-			}
+			if ((options & PinPointOptions.ToCenterVertical) == PinPointOptions.ToCenterVertical)
+				pinPortY += PinPortSize / 2;
+			if ((options & PinPointOptions.ToFarHorizontal) == PinPointOptions.ToFarHorizontal)
+				pinPortX += PinPortSize;
+			if ((options & PinPointOptions.ToFarVertical) == PinPointOptions.ToFarVertical)
+				pinPortY += PinPortSize;
 			if ((options & PinPointOptions.Absolute) == PinPointOptions.Absolute)
 			{
 				pinPortX += Location.X;
@@ -205,9 +208,14 @@ namespace Visualizer
 		[Flags]
 		internal enum PinPointOptions
 		{
-			None,
-			ToCenter,
-			Absolute
+			None = 0x00,
+			Absolute = 0x01,
+			ToCenterVertical = 0x02,
+			ToCenterHorizontal = 0x04,
+			ToCenter = ToCenterVertical | ToCenterHorizontal,
+			ToFarHorizontal = 0x08,
+			ToFarVertical = 0x10,
+			ToFar = ToFarVertical | ToFarHorizontal,
 		}
 
 		#endregion

@@ -191,17 +191,12 @@ namespace Visualizer
 					GraphNode connectedToNode = _nodes[connectedToFilter.NodeGuid];
 					GraphNode node = _nodes[filter.NodeGuid];
 
-					Point output = node.GetPinPort(i, true);
-					output.Offset(node.Location);
-					output.Offset(0, 1);
-
-					Point input = connectedToNode.GetPinPort(index, false);
-					input.Offset(connectedToNode.Location);
-					input.Offset(0, 1);
+					Point output = node.GetPinPort(i, true, GraphNode.PinPointOptions.ToCenterVertical | GraphNode.PinPointOptions.ToFarHorizontal | GraphNode.PinPointOptions.Absolute);
+					Point input = connectedToNode.GetPinPort(index, false, GraphNode.PinPointOptions.ToCenterVertical | GraphNode.PinPointOptions.Absolute);
 
 					string connectionKey = string.Format("{0}-{1}-{2}-{3}", filter.NodeGuid, i, connectedToFilter.NodeGuid, index);
 					if (!_connections.ContainsKey(connectionKey))
-						_connections[connectionKey] = new Connection(connectionKey, output, input);
+						_connections[connectionKey] = new Connection(output, input);
 					else
 						_connections[connectionKey].SetPoints(output, input);
 					DrawConnection(e.Graphics, _connections[connectionKey]);
@@ -209,7 +204,7 @@ namespace Visualizer
 			}
 
 			if (destPoint != null && srcPoint != null)
-				DrawConnection(e.Graphics, new Connection(null, srcPoint.Value, destPoint.Value) {IsSelected = true});
+				DrawConnection(e.Graphics, new Connection(srcPoint.Value, destPoint.Value) {IsSelected = true});
 
 			if (_potentialNeededPort != null)
 			{
@@ -322,14 +317,12 @@ namespace Visualizer
 
 		private class Connection
 		{
-			private readonly string _connectionKey;
 			private readonly Point[] _points = new Point[4];
 			private Point _input;
 			private Point _output;
 
-			public Connection(string connectionKey, Point output, Point input)
+			public Connection(Point output, Point input)
 			{
-				_connectionKey = connectionKey;
 				SetPoints(output, input);
 			}
 
@@ -360,7 +353,7 @@ namespace Visualizer
 				_output = output;
 				_input = input;
 
-				_points[0] = new Point(output.X, output.Y);
+				_points[0] = new Point(output.X + 1, output.Y);
 				_points[1] = new Point(output.X + 24, output.Y);
 				_points[2] = new Point(input.X - 24 - ArrowSize, input.Y);
 				_points[3] = new Point(input.X - ArrowSize, input.Y);
