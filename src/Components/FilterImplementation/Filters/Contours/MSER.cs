@@ -63,17 +63,17 @@ namespace FilterImplementation.Filters.Contours
 			FireProcessingStateChanged(ProcessingState.Started);
 			var image = (IImage) _input.GetData();
 			var detector = new MSERDetector
-			               	{
-			               		Delta = _deltaProperty.Value,
-			               		MaxArea = _maxAreaProperty.Value,
-			               		MinArea = _minAreaProperty.Value,
-			               		MaxVariation = _maxVariationProperty.Value,
-			               		MinDiversity = _minDiversityProperty.Value,
-			               		MaxEvolution = _maxEvolutionProperty.Value,
-			               		AreaThreshold = _areaThresholdProperty.Value,
-			               		MinMargin = _minMarginProperty.Value,
-			               		EdgeBlurSize = _edgeBlurSizeProperty.Value
-			               	};
+			               	(
+			               		_deltaProperty.Value,
+			               		_maxAreaProperty.Value,
+			               		_minAreaProperty.Value,
+			               		_maxVariationProperty.Value,
+			               		_minDiversityProperty.Value,
+			               		_maxEvolutionProperty.Value,
+			               		_areaThresholdProperty.Value,
+			               		_minMarginProperty.Value,
+			               		_edgeBlurSizeProperty.Value
+			               	);
 			using (var storage = new MemStorage())
 				detector.ExtractContours(image, null, storage);
 

@@ -89,12 +89,55 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Libraries\opencv_core220.dll">
-      <Link>opencv_core220.dll</Link>
+    <Content Include="..\Libraries\cvextern.dll">
+      <Link>cvextern.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Libraries\opencv_imgproc220.dll">
-      <Link>opencv_imgproc220.dll</Link>
+    <Content Include="..\Libraries\opencv_calib3d231.dll">
+      <Link>opencv_calib3d231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_contrib231.dll">
+      <Link>opencv_contrib231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_core231.dll">
+      <Link>opencv_core231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_features2d231.dll">
+      <Link>opencv_features2d231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_flann231.dll">
+      <Link>opencv_flann231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_highgui231.dll">
+      <Link>opencv_highgui231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_imgproc231.dll">
+      <Link>opencv_imgproc231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_legacy231.dll">
+      <Link>opencv_legacy231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_ml231.dll">
+      <Link>opencv_ml231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_objdetect231.dll">
+      <Link>opencv_objdetect231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Libraries\opencv_video231.dll">
+      <Link>opencv_video231.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="input.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
