@@ -35,6 +35,9 @@ namespace FilterImplementation.Base
 			get { return _connectedTo; }
 			private set
 			{
+				if (IsConnected)
+					Disconnect();
+
 				_connectedTo = value;
 				OnConnected(_connectedTo);
 			}
@@ -63,8 +66,8 @@ namespace FilterImplementation.Base
 			if (ConnectedTo == null)
 				return;
 
-			ConnectedTo.Disconnect();
-			ConnectedTo = null;
+			((Pin)ConnectedTo)._connectedTo = null;
+			_connectedTo = null;
 		}
 
 		#endregion

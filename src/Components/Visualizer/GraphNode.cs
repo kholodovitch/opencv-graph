@@ -22,8 +22,8 @@ namespace Visualizer
 		private static readonly Font HeaderFont = new Font(FontFamily.GenericSansSerif, 10);
 
 		private readonly IFilter _filter;
-		private ProcessingState _state = ProcessingState.NotStarted;
 		private double _progress;
+		private ProcessingState _state = ProcessingState.NotStarted;
 
 		public GraphNode(IFilter filter)
 		{
@@ -55,7 +55,7 @@ namespace Visualizer
 						throw new ArgumentOutOfRangeException();
 				}
 
-				editor.Location = new Point(1, i * PropertyHeight + HeaderHeight + 2);
+				editor.Location = new Point(1, i*PropertyHeight + HeaderHeight + 2);
 				editor.Size = new Size(Width - 2, PropertyHeight);
 				editor.Value = property.Value;
 				editor.OnValueChanged += newValue => { property.Value = newValue; };
@@ -68,11 +68,22 @@ namespace Visualizer
 			get { return _filter; }
 		}
 
-		public Point GetPinPort(int index, bool isOutput)
+		public Point GetPinPort(int index, bool isOutput, PinPointOptions options = PinPointOptions.None)
 		{
-			int fieldY = HeaderHeight + _filter.Properties.Count * PropertyHeight + FieldHeight * index + 1;
+			int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*index + 1;
 			int pinPortX = isOutput ? Width - PinPortSize - 1 : 1;
 			int pinPortY = fieldY + (FieldHeight - PinPortSize)/2;
+			if ((options & PinPointOptions.ToCenter) == PinPointOptions.ToCenter)
+			{
+				pinPortX += PinPortSize/2;
+				pinPortY += PinPortSize / 2;
+			}
+			if ((options & PinPointOptions.Absolute) == PinPointOptions.Absolute)
+			{
+				pinPortX += Location.X;
+				pinPortY += Location.Y;
+			}
+
 			return new Point(pinPortX, pinPortY);
 		}
 
@@ -81,7 +92,7 @@ namespace Visualizer
 			base.OnPaint(e);
 			e.Graphics.Clear(ColorBackground);
 			SolidBrush headerBrush;
-			
+
 			switch (_state)
 			{
 				case ProcessingState.Started:
@@ -104,14 +115,14 @@ namespace Visualizer
 			else
 			{
 				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 255)), 0, 0, Width, HeaderHeight);
-				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 255, 128)), 0, 0, (int)(Width * _progress), HeaderHeight);
+				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 255, 128)), 0, 0, (int) (Width*_progress), HeaderHeight);
 			}
 
 			var borderPen = new Pen(BorderColor);
 			e.Graphics.DrawRectangle(borderPen, new Rectangle(Point.Empty, Size.Subtract(Size, new Size(1, 1))));
 			e.Graphics.DrawLine(borderPen, 0, HeaderHeight, Width, HeaderHeight);
 			if (_filter.Properties.Count > 0)
-			e.Graphics.DrawLine(borderPen, 0, HeaderHeight + _filter.Properties.Count * PropertyHeight, Width, HeaderHeight + _filter.Properties.Count * PropertyHeight);
+				e.Graphics.DrawLine(borderPen, 0, HeaderHeight + _filter.Properties.Count*PropertyHeight, Width, HeaderHeight + _filter.Properties.Count*PropertyHeight);
 
 			string header = !string.IsNullOrEmpty(_filter.Name) ? _filter.Name : _filter.GetType().Name;
 			e.Graphics.DrawString(header, HeaderFont, Brushes.Black, 4, 3);
@@ -143,7 +154,7 @@ namespace Visualizer
 			{
 				IPin pin = array[i];
 				Point pinPortLocation = GetPinPort(i, pin.IsOutput);
-				int fieldY = HeaderHeight + _filter.Properties.Count * PropertyHeight + FieldHeight * i;
+				int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*i;
 
 				SizeF nameSize = graphics.MeasureString(pin.Name, FieldFont);
 				float fieldX = pin.IsOutput ? pinPortLocation.X - nameSize.Width - 2 : pinPortLocation.X + PinPortSize + 2;
@@ -157,9 +168,21 @@ namespace Visualizer
 		{
 			IPin[] pins = sender.Pins.ToArray();
 			int count = Math.Max(pins.Count(x => x.IsOutput), pins.Count(x => !x.IsOutput));
-			var size = new Size(140, FieldHeight * count + _filter.Properties.Count * PropertyHeight + HeaderHeight);
+			var size = new Size(140, FieldHeight*count + _filter.Properties.Count*PropertyHeight + HeaderHeight);
 
 			Size = size;
 		}
+
+		#region Nested type: PinPointOptions
+
+		[Flags]
+		internal enum PinPointOptions
+		{
+			None,
+			ToCenter,
+			Absolute
+		}
+
+		#endregion
 	}
 }

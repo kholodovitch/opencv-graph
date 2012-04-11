@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,34 +14,47 @@ namespace Visualizer
 		private readonly Dictionary<string, Connection> _connections = new Dictionary<string, Connection>();
 		private readonly Dictionary<Guid, GraphNode> _nodes = new Dictionary<Guid, GraphNode>();
 		private IGraphBundle _bundle;
+		private IPin _potentialNeededPort;
 		private int _x;
 		private int _y;
 
 		private Point? destPoint;
-
-		private GraphNode _outputNode;
-		private int _outputIndex;
+		private Point? srcPoint;
 
 		public GraphControl()
 		{
 			InitializeComponent();
 
-			DragOver += new DragEventHandler(_DragOver);
-			DragEnter += new DragEventHandler(_DragEnter);
-			DragDrop += new DragEventHandler(_DragDrop);
+			DragOver += _DragOver;
+			DragEnter += _DragEnter;
+			DragDrop += _DragDrop;
+
+			SetStyle(ControlStyles.UserPaint, true);
+			SetStyle(ControlStyles.DoubleBuffer, true);
+			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+		}
+
+		public IGraphBundle GraphBundle
+		{
+			get { return _bundle; }
 		}
 
 		private void _DragDrop(object sender, DragEventArgs e)
 		{
-			object pin = e.Data.GetFormats()
+			IOutputPin pin = e.Data.GetFormats()
 				.Select(format => e.Data.GetData(format))
-				.FirstOrDefault(x=>x is IOutputPin);
+				.OfType<IOutputPin>()
+				.FirstOrDefault();
 			if (pin == null)
 				return;
 
-			Invalidate();
+			if (!_potentialNeededPort.IsConnected)
+				pin.Connect(_potentialNeededPort);
+
+			srcPoint = null;
 			destPoint = null;
-			e.Effect = DragDropEffects.Move;
+			e.Effect = DragDropEffects.None;
+			Invalidate();
 		}
 
 		private void _DragEnter(object sender, DragEventArgs e)
@@ -53,28 +65,57 @@ namespace Visualizer
 		private void _DragOver(object sender, DragEventArgs e)
 		{
 			e.Effect = DragDropEffects.Move;
+
 			Point screen = PointToScreen(Point.Empty);
 			destPoint = new Point(e.X - screen.X, e.Y - screen.Y);
+
+			_potentialNeededPort = PotentialNeededPort(destPoint.Value);
 			Invalidate();
 		}
 
-		public IGraphBundle GraphBundle
+		private IPin PotentialNeededPort(Point location)
 		{
-			get { return _bundle; }
+			IPin potentialNeededPort = null;
+			const GraphNode.PinPointOptions options = GraphNode.PinPointOptions.ToCenter | GraphNode.PinPointOptions.Absolute;
+			foreach (GraphNode node in _nodes.Values)
+			{
+				GraphNode localNode = node;
+				if (potentialNeededPort != null)
+					break;
+				potentialNeededPort = node
+					.Filter.Pins
+					.Where(x => !x.IsOutput)
+					.Select((x, i) =>
+					        new
+					        	{
+					        		Pin = x,
+					        		PortLocation = localNode.GetPinPort(i, false, options)
+					        	})
+					.Where(x => IsNearPin(location, x.PortLocation))
+					.Select(x => x.Pin)
+					.FirstOrDefault();
+			}
+			return potentialNeededPort;
 		}
 
 		public void LoadGraph(IGraphBundle bundle)
 		{
 			_nodes.Clear();
 			_bundle = bundle;
-			
+
 			foreach (IFilter filter in _bundle.Graph.Filters)
 			{
-				AddFilter(filter);
+				AddFilterNode(filter);
 			}
 		}
 
 		public void AddFilter(IFilter filter)
+		{
+			_bundle.Graph.AddFilter(filter);
+			AddFilterNode(filter);
+		}
+
+		public void AddFilterNode(IFilter filter)
 		{
 			Guid nodeGuid = filter.NodeGuid;
 			var graphNode = new GraphNode(filter);
@@ -85,10 +126,10 @@ namespace Visualizer
 			if (_bundle.Locations.ContainsKey(nodeGuid))
 				graphNode.Location = _bundle.Locations[nodeGuid];
 			Controls.Add(graphNode);
-			
-			graphNode.DragOver += new DragEventHandler(_DragOver);
-			graphNode.DragEnter += new DragEventHandler(_DragEnter);
-			graphNode.DragDrop += new DragEventHandler(_DragDrop);
+
+			graphNode.DragOver += _DragOver;
+			graphNode.DragEnter += _DragEnter;
+			graphNode.DragDrop += _DragDrop;
 		}
 
 		private void GraphNodeOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
@@ -104,24 +145,30 @@ namespace Visualizer
 
 		private void GraphNodeOnMouseDown(object sender, MouseEventArgs mouseEventArgs)
 		{
-			var node = (GraphNode)sender;
-			var output = node.Filter.Pins
+			var node = (GraphNode) sender;
+			IPin[] output = node.Filter.Pins
 				.Where(pin => pin.IsOutput)
 				.ToArray();
+
 			for (int i = 0; i < output.Length; i++)
 			{
-				var pinPort = node.GetPinPort(i, true);
-				pinPort.Offset(GraphNode.PinPortSize / 2, GraphNode.PinPortSize / 2);
-				if (pinPort.X - 3 < mouseEventArgs.X && pinPort.X + 3 > mouseEventArgs.X &&
-					pinPort.Y - 3 < mouseEventArgs.Y && pinPort.Y + 3 > mouseEventArgs.Y )
-				{
-					_outputNode = node;
-					_outputIndex = i;
-					DoDragDrop((IPin)output[i], DragDropEffects.Move);
-				}
+				Point pinPort = node.GetPinPort(i, true, GraphNode.PinPointOptions.ToCenter);
+				if (!IsNearPin(mouseEventArgs.Location, pinPort))
+					continue;
+
+				pinPort.Offset(node.Location);
+				srcPoint = pinPort;
+				DoDragDrop(output[i], DragDropEffects.Move);
 			}
 			_x = mouseEventArgs.X;
 			_y = mouseEventArgs.Y;
+		}
+
+		private static bool IsNearPin(Point location, Point pinPort)
+		{
+			int F = 6;
+			bool isNearPin = pinPort.X - F < location.X && pinPort.X + F > location.X && pinPort.Y - F < location.Y && pinPort.Y + F > location.Y;
+			return isNearPin;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -130,6 +177,7 @@ namespace Visualizer
 			if (DesignMode)
 				return;
 
+			SuspendLayout();
 			foreach (IFilter filter in _bundle.Graph.Filters)
 			{
 				IPin[] array = filter.Pins.Where(x => x.IsOutput).ToArray();
@@ -160,12 +208,19 @@ namespace Visualizer
 				}
 			}
 
-			if (destPoint != null && _outputNode != null)
+			if (destPoint != null && srcPoint != null)
+				DrawConnection(e.Graphics, new Connection(null, srcPoint.Value, destPoint.Value) {IsSelected = true});
+
+			if (_potentialNeededPort != null)
 			{
-				var y = _outputNode.GetPinPort(_outputIndex, true);
-				y.Offset(_outputNode.Location);
-				DrawConnection(e.Graphics, new Connection(null, y, destPoint.Value));
+				int indexOf = _potentialNeededPort.Filter.Pins.Where(x => !x.IsOutput).ToList().IndexOf(_potentialNeededPort);
+				Point t = _nodes[_potentialNeededPort.Filter.NodeGuid]
+					.GetPinPort(indexOf, false);
+
+				var f = new Rectangle(t, new Size(4, 4));
+				_nodes[_potentialNeededPort.Filter.NodeGuid].CreateGraphics().FillRectangle(Brushes.Black, f);
 			}
+			ResumeLayout();
 		}
 
 		private void DrawConnection(Graphics graphics, Connection connection)
