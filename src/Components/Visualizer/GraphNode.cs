@@ -11,7 +11,7 @@ namespace Visualizer
 	internal partial class GraphNode : UserControl
 	{
 		private const int HeaderHeight = 20;
-		private const int PinPortSize = 4;
+		internal const int PinPortSize = 4;
 		private const int FieldHeight = 16;
 		private const int PropertyHeight = 16;
 

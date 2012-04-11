@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,6 +17,9 @@ namespace Visualizer
 		private IGraphBundle _bundle;
 		private int x;
 		private int y;
+
+		private GraphNode _outputNode;
+		private int _outputIndex;
 
 		public GraphControl()
 		{
@@ -64,6 +68,21 @@ namespace Visualizer
 
 		private void GraphNodeOnMouseDown(object sender, MouseEventArgs mouseEventArgs)
 		{
+			var node = (GraphNode)sender;
+			var output = node.Filter.Pins
+				.Where(pin => pin.IsOutput)
+				.ToArray();
+			for (int i = 0; i < output.Length; i++)
+			{
+				var pinPort = node.GetPinPort(i, true);
+				pinPort.Offset(GraphNode.PinPortSize / 2, GraphNode.PinPortSize / 2);
+				if (pinPort.X - 3 < mouseEventArgs.X && pinPort.X + 3 > mouseEventArgs.X &&
+					pinPort.Y - 3 < mouseEventArgs.Y && pinPort.Y + 3 > mouseEventArgs.Y )
+				{
+					_outputNode = node;
+					_outputIndex = i;
+				}
+			}
 			x = mouseEventArgs.X;
 			y = mouseEventArgs.Y;
 		}
