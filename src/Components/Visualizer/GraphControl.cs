@@ -15,8 +15,10 @@ namespace Visualizer
 		private readonly Dictionary<string, Connection> _connections = new Dictionary<string, Connection>();
 		private readonly Dictionary<Guid, GraphNode> _nodes = new Dictionary<Guid, GraphNode>();
 		private IGraphBundle _bundle;
-		private int x;
-		private int y;
+		private int _x;
+		private int _y;
+
+		private Point? destPoint;
 
 		private GraphNode _outputNode;
 		private int _outputIndex;
@@ -24,6 +26,36 @@ namespace Visualizer
 		public GraphControl()
 		{
 			InitializeComponent();
+
+			DragOver += new DragEventHandler(_DragOver);
+			DragEnter += new DragEventHandler(_DragEnter);
+			DragDrop += new DragEventHandler(_DragDrop);
+		}
+
+		private void _DragDrop(object sender, DragEventArgs e)
+		{
+			object pin = e.Data.GetFormats()
+				.Select(format => e.Data.GetData(format))
+				.FirstOrDefault(x=>x is IOutputPin);
+			if (pin == null)
+				return;
+
+			Invalidate();
+			destPoint = null;
+			e.Effect = DragDropEffects.Move;
+		}
+
+		private void _DragEnter(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Move;
+		}
+
+		private void _DragOver(object sender, DragEventArgs e)
+		{
+			e.Effect = DragDropEffects.Move;
+			Point screen = PointToScreen(Point.Empty);
+			destPoint = new Point(e.X - screen.X, e.Y - screen.Y);
+			Invalidate();
 		}
 
 		public IGraphBundle GraphBundle
@@ -53,6 +85,10 @@ namespace Visualizer
 			if (_bundle.Locations.ContainsKey(nodeGuid))
 				graphNode.Location = _bundle.Locations[nodeGuid];
 			Controls.Add(graphNode);
+			
+			graphNode.DragOver += new DragEventHandler(_DragOver);
+			graphNode.DragEnter += new DragEventHandler(_DragEnter);
+			graphNode.DragDrop += new DragEventHandler(_DragDrop);
 		}
 
 		private void GraphNodeOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
@@ -61,8 +97,8 @@ namespace Visualizer
 				return;
 
 			var node = (GraphNode) sender;
-			node.Left = (node.Left + mouseEventArgs.X) - x;
-			node.Top = (node.Top + mouseEventArgs.Y) - y;
+			node.Left = (node.Left + mouseEventArgs.X) - _x;
+			node.Top = (node.Top + mouseEventArgs.Y) - _y;
 			_bundle.Locations[node.Filter.NodeGuid] = node.Location;
 		}
 
@@ -81,10 +117,11 @@ namespace Visualizer
 				{
 					_outputNode = node;
 					_outputIndex = i;
+					DoDragDrop((IPin)output[i], DragDropEffects.Move);
 				}
 			}
-			x = mouseEventArgs.X;
-			y = mouseEventArgs.Y;
+			_x = mouseEventArgs.X;
+			_y = mouseEventArgs.Y;
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -121,6 +158,13 @@ namespace Visualizer
 						_connections[connectionKey].SetPoints(output, input);
 					DrawConnection(e.Graphics, _connections[connectionKey]);
 				}
+			}
+
+			if (destPoint != null && _outputNode != null)
+			{
+				var y = _outputNode.GetPinPort(_outputIndex, true);
+				y.Offset(_outputNode.Location);
+				DrawConnection(e.Graphics, new Connection(null, y, destPoint.Value));
 			}
 		}
 
