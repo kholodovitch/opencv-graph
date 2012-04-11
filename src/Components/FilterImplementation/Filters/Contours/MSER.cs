@@ -4,6 +4,7 @@ using DataStructures.Enums;
 using Emgu.CV;
 using Emgu.CV.Features2D;
 using FilterImplementation.Base;
+using FilterImplementation.FilterProperties;
 
 namespace FilterImplementation.Filters.Contours
 {
@@ -11,28 +12,29 @@ namespace FilterImplementation.Filters.Contours
 	{
 		private readonly InputPin _input;
 		private readonly OutputPin _output;
-		
-		private readonly Property _areaThresholdProperty;
-		private readonly Property _deltaProperty;
-		private readonly Property _edgeBlurSizeProperty;
-		private readonly Property _maxAreaProperty;
-		private readonly Property _maxEvolutionProperty;
-		private readonly Property _maxVariationProperty;
-		private readonly Property _minAreaProperty;
-		private readonly Property _minDiversityProperty;
-		private readonly Property _minMarginProperty;
+
+		private readonly FloatProperty _areaThresholdProperty;
+		private readonly IntegerProperty _deltaProperty;
+		private readonly IntegerProperty _edgeBlurSizeProperty;
+		private readonly IntegerProperty _maxAreaProperty;
+		private readonly IntegerProperty _maxEvolutionProperty;
+		private readonly FloatProperty _maxVariationProperty;
+		private readonly IntegerProperty _minAreaProperty;
+		private readonly FloatProperty _minDiversityProperty;
+		private readonly FloatProperty _minMarginProperty;
 		
 		public MSER()
 		{
-			_deltaProperty = new Property("Delta", FilterPropertyType.Integer);
-			_maxAreaProperty = new Property("MaxArea", FilterPropertyType.Integer);
-			_minAreaProperty = new Property("MinArea", FilterPropertyType.Integer);
-			_maxVariationProperty = new Property("MaxVariation", FilterPropertyType.Float);
-			_minDiversityProperty = new Property("MinDiversity", FilterPropertyType.Float);
-			_maxEvolutionProperty = new Property("MaxEvolution", FilterPropertyType.Integer);
-			_areaThresholdProperty = new Property("AreaThreshold", FilterPropertyType.Float);
-			_minMarginProperty = new Property("MinMargin", FilterPropertyType.Float);
-			_edgeBlurSizeProperty = new Property("EdgeBlurSize", FilterPropertyType.Integer);
+			var mserDetector = new MSERDetector();
+			_deltaProperty = new IntegerProperty("Delta") {Value = mserDetector.Delta};
+			_maxAreaProperty = new IntegerProperty("MaxArea") { Value = mserDetector.MaxArea };
+			_minAreaProperty = new IntegerProperty("MinArea") { Value = mserDetector.MinArea };
+			_maxVariationProperty = new FloatProperty("MaxVariation") { Value = mserDetector.MaxVariation };
+			_minDiversityProperty = new FloatProperty("MinDiversity") { Value = mserDetector.MinDiversity };
+			_maxEvolutionProperty = new IntegerProperty("MaxEvolution") { Value = mserDetector.MaxEvolution };
+			_areaThresholdProperty = new FloatProperty("AreaThreshold") { Value = (float) mserDetector.AreaThreshold };
+			_minMarginProperty = new FloatProperty("MinMargin") { Value = (float) mserDetector.MinMargin };
+			_edgeBlurSizeProperty = new IntegerProperty("EdgeBlurSize") { Value = mserDetector.EdgeBlurSize };
 			AddProperty(_deltaProperty);
 			AddProperty(_maxAreaProperty);
 			AddProperty(_minAreaProperty);
@@ -62,16 +64,18 @@ namespace FilterImplementation.Filters.Contours
 			var image = (IImage) _input.GetData();
 			var detector = new MSERDetector
 			               	{
-			               		Delta = (int) _deltaProperty.Value,
-			               		MaxArea = (int) _maxAreaProperty.Value,
-			               		MinArea = (int) _minAreaProperty.Value,
-			               		MaxVariation = (float) _maxVariationProperty.Value,
-			               		MinDiversity = (float) _minDiversityProperty.Value,
-			               		MaxEvolution = (int) _maxEvolutionProperty.Value,
-			               		AreaThreshold = (double) _areaThresholdProperty.Value,
-			               		MinMargin = (double) _minMarginProperty.Value,
-			               		EdgeBlurSize = (int) _edgeBlurSizeProperty.Value
+			               		Delta = _deltaProperty.Value,
+			               		MaxArea = _maxAreaProperty.Value,
+			               		MinArea = _minAreaProperty.Value,
+			               		MaxVariation = _maxVariationProperty.Value,
+			               		MinDiversity = _minDiversityProperty.Value,
+			               		MaxEvolution = _maxEvolutionProperty.Value,
+			               		AreaThreshold = _areaThresholdProperty.Value,
+			               		MinMargin = _minMarginProperty.Value,
+			               		EdgeBlurSize = _edgeBlurSizeProperty.Value
 			               	};
+			using (var storage = new MemStorage())
+				detector.ExtractContours(image, null, storage);
 
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}

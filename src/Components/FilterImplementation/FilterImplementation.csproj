@@ -54,6 +54,8 @@
     <Compile Include="Base\Pin.cs" />
     <Compile Include="Destination\DestFileImage.cs" />
     <Compile Include="FiltersHelper.cs" />
+    <Compile Include="FilterProperties\IntegerProperty.cs" />
+    <Compile Include="FilterProperties\FloatProperty.cs" />
     <Compile Include="Filters\Contours\MSER.cs" />
     <Compile Include="Filters\Image\Clone.cs" />
     <Compile Include="Filters\Image\Blur.cs" />
