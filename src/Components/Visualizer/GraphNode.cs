@@ -13,7 +13,7 @@ namespace Visualizer
 		private const int HeaderHeight = 20;
 		internal const int PinPortSize = 4;
 		private const int FieldHeight = 16;
-		private const int PropertyHeight = 16;
+		private const int PropertyHeight = 18;
 
 		private static readonly Color ColorBackground = Color.FromArgb(224, 224, 224);
 		private static readonly Color ColorHeaderBackground = Color.FromArgb(208, 208, 208);
@@ -70,13 +70,13 @@ namespace Visualizer
 
 		public Point GetPinPort(int index, bool isOutput, PinPointOptions options = PinPointOptions.None)
 		{
-			int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*index + 1;
+			int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*index + 3;
 			int pinPortX = isOutput ? Width - PinPortSize - 1 : 1;
 			int pinPortY = fieldY + (FieldHeight - PinPortSize)/2;
 			if ((options & PinPointOptions.ToCenter) == PinPointOptions.ToCenter)
 			{
 				pinPortX += PinPortSize/2;
-				pinPortY += PinPortSize / 2;
+				pinPortY += PinPortSize/2;
 			}
 			if ((options & PinPointOptions.Absolute) == PinPointOptions.Absolute)
 			{
@@ -110,19 +110,22 @@ namespace Visualizer
 
 			if (_state != ProcessingState.Started)
 			{
-				e.Graphics.FillRectangle(headerBrush, 0, 0, Width, HeaderHeight);
+				e.Graphics.FillRectangle(headerBrush, 0, 1, Width, HeaderHeight);
 			}
 			else
 			{
-				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 255)), 0, 0, Width, HeaderHeight);
-				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 255, 128)), 0, 0, (int) (Width*_progress), HeaderHeight);
+				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 128, 255)), 0, 1, Width, HeaderHeight);
+				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 255, 128)), 0, 1, (int) (Width*_progress), HeaderHeight);
 			}
 
 			var borderPen = new Pen(BorderColor);
 			e.Graphics.DrawRectangle(borderPen, new Rectangle(Point.Empty, Size.Subtract(Size, new Size(1, 1))));
-			e.Graphics.DrawLine(borderPen, 0, HeaderHeight, Width, HeaderHeight);
+			e.Graphics.DrawLine(borderPen, 0, HeaderHeight + 1, Width, HeaderHeight + 1);
 			if (_filter.Properties.Count > 0)
-				e.Graphics.DrawLine(borderPen, 0, HeaderHeight + _filter.Properties.Count*PropertyHeight, Width, HeaderHeight + _filter.Properties.Count*PropertyHeight);
+			{
+				int y1 = HeaderHeight + _filter.Properties.Count*PropertyHeight + 2;
+				e.Graphics.DrawLine(borderPen, 0, y1, Width, y1);
+			}
 
 			string header = !string.IsNullOrEmpty(_filter.Name) ? _filter.Name : _filter.GetType().Name;
 			e.Graphics.DrawString(header, HeaderFont, Brushes.Black, 4, 3);
@@ -154,7 +157,7 @@ namespace Visualizer
 			{
 				IPin pin = array[i];
 				Point pinPortLocation = GetPinPort(i, pin.IsOutput);
-				int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*i;
+				int fieldY = HeaderHeight + _filter.Properties.Count*PropertyHeight + FieldHeight*i + 3;
 
 				SizeF nameSize = graphics.MeasureString(pin.Name, FieldFont);
 				float fieldX = pin.IsOutput ? pinPortLocation.X - nameSize.Width - 2 : pinPortLocation.X + PinPortSize + 2;
@@ -168,7 +171,7 @@ namespace Visualizer
 		{
 			IPin[] pins = sender.Pins.ToArray();
 			int count = Math.Max(pins.Count(x => x.IsOutput), pins.Count(x => !x.IsOutput));
-			var size = new Size(140, FieldHeight*count + _filter.Properties.Count*PropertyHeight + HeaderHeight);
+			var size = new Size(140, FieldHeight*count + _filter.Properties.Count*PropertyHeight + HeaderHeight + 4);
 
 			Size = size;
 		}
