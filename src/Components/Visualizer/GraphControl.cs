@@ -361,8 +361,8 @@ namespace Visualizer
 				_input = input;
 
 				_points[0] = new Point(output.X, output.Y);
-				_points[1] = new Point(output.X + 32, output.Y);
-				_points[2] = new Point(input.X - 32 - ArrowSize, input.Y);
+				_points[1] = new Point(output.X + 24, output.Y);
+				_points[2] = new Point(input.X - 24 - ArrowSize, input.Y);
 				_points[3] = new Point(input.X - ArrowSize, input.Y);
 			}
 		}

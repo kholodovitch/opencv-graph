@@ -36,6 +36,14 @@ namespace Visualizer
 
 			UpdateSize(_filter);
 
+			var table = new TableLayoutPanel
+			            	{
+			            		Size = new Size(Width - 2, _filter.Properties.Count*PropertyHeight),
+			            		Location = new Point(1, HeaderHeight + 2)
+			            	};
+			table.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+			table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+			
 			for (int i = 0; i < _filter.Properties.Count; i++)
 			{
 				IFilterProperty property = _filter.Properties.Skip(i).First().Value;
@@ -43,24 +51,40 @@ namespace Visualizer
 				switch (property.Type)
 				{
 					case FilterPropertyType.String:
-						editor = new PathEditor();
+						editor = new PathEditor {Value = property.Value};
 						break;
 
 					case FilterPropertyType.Float:
 					case FilterPropertyType.Integer:
-						editor = new NumericEditor();
+						editor = new NumericEditor((INumericProperty)property) { Value = Convert.ToDecimal(property.Value) };
 						break;
 
 					default:
 						throw new ArgumentOutOfRangeException();
 				}
 
-				editor.Location = new Point(1, i*PropertyHeight + HeaderHeight + 2);
-				editor.Size = new Size(Width - 2, PropertyHeight);
-				editor.Value = property.Value;
+				editor.Dock = DockStyle.Fill;
+				editor.Margin = new Padding(0);
 				editor.OnValueChanged += newValue => { property.Value = newValue; };
-				Controls.Add(editor);
+
+				table.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+				table.SetRow(editor, i);
+				table.SetColumn(editor, 1);
+
+				var label = new Label
+				            	{
+				            		Text = property.Name, 
+									Margin = new Padding(0),
+									Dock = DockStyle.Right,
+									AutoSize = true,
+									Anchor = AnchorStyles.Right
+				            	};
+				table.SetRow(label, i);
+				table.SetColumn(label, 0);
+				table.Controls.Add(label);
+				table.Controls.Add(editor);
 			}
+			Controls.Add(table);
 		}
 
 		public IFilter Filter

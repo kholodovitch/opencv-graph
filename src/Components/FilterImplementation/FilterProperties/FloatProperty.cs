@@ -1,11 +1,11 @@
 using DataStructures.Enums;
-using FilterImplementation.Base;
 
 namespace FilterImplementation.FilterProperties
 {
-	internal class FloatProperty : Property
+	internal class FloatProperty : NumericProperty
 	{
-		public FloatProperty(string name) : base(name, FilterPropertyType.Float)
+		internal FloatProperty(string name, decimal min, decimal max, decimal step, int decimalPlaces)
+			: base(name, FilterPropertyType.Float, min, max, step, decimalPlaces)
 		{
 		}
 
@@ -14,6 +14,5 @@ namespace FilterImplementation.FilterProperties
 			get { return (float) base.Value; }
 			set { base.Value = value; }
 		}
-		
 	}
 }

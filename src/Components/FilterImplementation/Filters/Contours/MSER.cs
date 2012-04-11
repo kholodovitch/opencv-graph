@@ -26,15 +26,15 @@ namespace FilterImplementation.Filters.Contours
 		public MSER()
 		{
 			var mserDetector = new MSERDetector();
-			_deltaProperty = new IntegerProperty("Delta") {Value = mserDetector.Delta};
-			_maxAreaProperty = new IntegerProperty("MaxArea") { Value = mserDetector.MaxArea };
-			_minAreaProperty = new IntegerProperty("MinArea") { Value = mserDetector.MinArea };
-			_maxVariationProperty = new FloatProperty("MaxVariation") { Value = mserDetector.MaxVariation };
-			_minDiversityProperty = new FloatProperty("MinDiversity") { Value = mserDetector.MinDiversity };
-			_maxEvolutionProperty = new IntegerProperty("MaxEvolution") { Value = mserDetector.MaxEvolution };
-			_areaThresholdProperty = new FloatProperty("AreaThreshold") { Value = (float) mserDetector.AreaThreshold };
-			_minMarginProperty = new FloatProperty("MinMargin") { Value = (float) mserDetector.MinMargin };
-			_edgeBlurSizeProperty = new IntegerProperty("EdgeBlurSize") { Value = mserDetector.EdgeBlurSize };
+			_deltaProperty = new IntegerProperty("Delta", 1, 100, 1) { Value = mserDetector.Delta };
+			_maxAreaProperty = new IntegerProperty("MaxArea", 10, 288000, 250) { Value = mserDetector.MaxArea };
+			_minAreaProperty = new IntegerProperty("MinArea", 1, 16000, 100) { Value = mserDetector.MinArea };
+			_maxVariationProperty = new FloatProperty("MaxVariation", 0, 1, (decimal)0.01f, 2) { Value = mserDetector.MaxVariation };
+			_minDiversityProperty = new FloatProperty("MinDiversity", 0, 1, (decimal)0.01f, 2) { Value = mserDetector.MinDiversity };
+			_maxEvolutionProperty = new IntegerProperty("MaxEvolution", 0, 1000, 1) { Value = mserDetector.MaxEvolution };
+			_areaThresholdProperty = new FloatProperty("AreaThreshold", 0, 5, (decimal)0.01f, 2) { Value = (float)mserDetector.AreaThreshold };
+			_minMarginProperty = new FloatProperty("MinMargin", 0, 1, (decimal)0.001f, 3) { Value = (float)mserDetector.MinMargin };
+			_edgeBlurSizeProperty = new IntegerProperty("EdgeBlurSize", 0, 100, 1) { Value = mserDetector.EdgeBlurSize };
 			AddProperty(_deltaProperty);
 			AddProperty(_maxAreaProperty);
 			AddProperty(_minAreaProperty);

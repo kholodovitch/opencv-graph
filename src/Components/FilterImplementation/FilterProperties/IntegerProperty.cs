@@ -1,12 +1,11 @@
 using DataStructures.Enums;
-using FilterImplementation.Base;
 
 namespace FilterImplementation.FilterProperties
 {
-	internal class IntegerProperty : Property
+	internal class IntegerProperty : NumericProperty
 	{
-		public IntegerProperty(string name)
-			: base(name, FilterPropertyType.Integer)
+		internal IntegerProperty(string name, decimal min, decimal max, decimal step)
+			: base(name, FilterPropertyType.Integer, min, max, step, 0)
 		{
 		}
 

@@ -4,6 +4,7 @@ using DataStructures;
 using DataStructures.Enums;
 using Emgu.CV;
 using FilterImplementation.Base;
+using FilterImplementation.FilterProperties;
 
 namespace FilterImplementation.Filters.Image
 {
@@ -16,7 +17,7 @@ namespace FilterImplementation.Filters.Image
 
 		public Clone()
 		{
-			_countProperty = new Property("Count of copies", FilterPropertyType.Integer);
+			_countProperty = new IntegerProperty("Count of copies", 0, 10, 1);
 			_countProperty.OnValueChanged += OnChangedCountOfCopies;
 			AddProperty(_countProperty);
 
