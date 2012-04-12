@@ -41,6 +41,9 @@ namespace Visualizer
 
 		private void _DragDrop(object sender, DragEventArgs e)
 		{
+			if (_potentialNeededPort == null)
+				return;
+
 			IOutputPin pin = e.Data.GetFormats()
 				.Select(format => e.Data.GetData(format))
 				.OfType<IOutputPin>()

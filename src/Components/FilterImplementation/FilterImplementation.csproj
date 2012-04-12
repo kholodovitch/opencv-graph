@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -52,6 +53,7 @@
     <Compile Include="Base\InputPin.cs" />
     <Compile Include="Base\OutputPin.cs" />
     <Compile Include="Base\Pin.cs" />
+    <Compile Include="Destination\WinFormsRenderer.cs" />
     <Compile Include="Destination\DestFileImage.cs" />
     <Compile Include="FilterProperties\NumericProperty.cs" />
     <Compile Include="FiltersHelper.cs" />
