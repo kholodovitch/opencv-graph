@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -9,6 +10,7 @@ using FilterImplementation;
 using FilterImplementation.Base;
 using FilterImplementation.Serialization;
 using FilterImplementation.Source;
+using OpencvGraphEdit.Properties;
 
 namespace OpencvGraphEdit
 {
@@ -20,6 +22,13 @@ namespace OpencvGraphEdit
 		{
 			InitializeComponent();
 
+			if (!Settings.Default.LastSize.IsEmpty)
+			{
+				StartPosition = FormStartPosition.Manual;
+				Location = Settings.Default.LastLocation;
+				Size = Settings.Default.LastSize;
+				splitContainer1.SplitterDistance = Settings.Default.SplitterPosition;
+			}
 
 			this.treeView1.AllowDrop = true;
 			this.graphControl1.AllowDrop = true;
@@ -32,8 +41,15 @@ namespace OpencvGraphEdit
 			IDictionary<Guid, Type> filterTypes = FiltersHelper.GetFilterTypes();
 			UpdateTreeView(filterTypes);
 
-			GraphBundle graphBundle = GraphLoader.Load(PathToXml);
-			graphControl1.LoadGraph(graphBundle);
+			if (File.Exists(PathToXml))
+			{
+				GraphBundle graphBundle = GraphLoader.Load(PathToXml);
+				graphControl1.LoadGraph(graphBundle);
+			}
+			else
+			{
+				graphControl1.LoadGraph(new GraphBundle());
+			}
 		}
 
 		private void treeView1_DragDrop(object sender, DragEventArgs e)
@@ -71,6 +87,11 @@ namespace OpencvGraphEdit
 		private void OnFormClosing(object sender, FormClosingEventArgs e)
 		{
 			GraphSaver.Save(graphControl1.GraphBundle, PathToXml, SaveOptions.AddComments);
+
+			Settings.Default.LastLocation = Location;
+			Settings.Default.LastSize = Size;
+			Settings.Default.SplitterPosition = splitContainer1.SplitterDistance;
+			Settings.Default.Save();
 		}
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
