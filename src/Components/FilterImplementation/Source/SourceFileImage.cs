@@ -14,7 +14,7 @@ namespace FilterImplementation.Source
 
 		public SourceFileImage()
 		{
-			_filepathProperty = new Property("FilePath", FilterPropertyType.String);
+			_filepathProperty = new Property("FilePath", FilterPropertyType.String) {Value = "filename.png"};
 			AddProperty(_filepathProperty);
 
 			_outputPin = new OutputPin("Image", PinMediaType.Image);

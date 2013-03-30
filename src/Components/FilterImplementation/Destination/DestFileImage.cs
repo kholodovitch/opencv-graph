@@ -14,7 +14,7 @@ namespace FilterImplementation.Destination
 
 		public DestFileImage()
 		{
-			_filepathProperty = new Property("FilePath", FilterPropertyType.String);
+			_filepathProperty = new Property("FilePath", FilterPropertyType.String) {Value = "filename.png"};
 			AddProperty(_filepathProperty);
 
 			_inputPin = new InputPin("Image", PinMediaType.Image);
