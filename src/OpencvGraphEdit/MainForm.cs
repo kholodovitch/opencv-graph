@@ -59,6 +59,10 @@ namespace OpencvGraphEdit
 
 		private void listBox1_MouseDown(object sender, MouseEventArgs e)
 		{
+			TreeNode newNode = treeView1.GetNodeAt(e.Location);
+			if (treeView1.SelectedNode != newNode)
+				treeView1.SelectedNode = newNode;
+			
 			object tag = treeView1.SelectedNode.Tag;
 			if (tag is Guid)
 				treeView1.DoDragDrop(((Guid) tag), DragDropEffects.Move);
