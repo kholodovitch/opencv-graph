@@ -197,7 +197,7 @@ namespace Visualizer
 					Point output = node.GetPinPort(i, true, GraphNode.PinPointOptions.ToCenterVertical | GraphNode.PinPointOptions.ToFarHorizontal | GraphNode.PinPointOptions.Absolute);
 					Point input = connectedToNode.GetPinPort(index, false, GraphNode.PinPointOptions.ToCenterVertical | GraphNode.PinPointOptions.Absolute);
 
-					string connectionKey = string.Format("{0}-{1}-{2}-{3}", filter.NodeGuid, i, connectedToFilter.NodeGuid, index);
+					string connectionKey = string.Format("{0}#{1}#{2}#{3}", filter.NodeGuid, i, connectedToFilter.NodeGuid, index);
 					if (!_connections.ContainsKey(connectionKey))
 						_connections[connectionKey] = new Connection(output, input);
 					else
@@ -219,6 +219,32 @@ namespace Visualizer
 				_nodes[_potentialNeededPort.Filter.NodeGuid].CreateGraphics().FillRectangle(Brushes.Black, f);
 			}
 			ResumeLayout();
+		}
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Delete)
+			{
+				var selectedConnections = _connections
+					.Where(a => a.Value.IsSelected)
+					.ToList();
+				foreach (var pair in selectedConnections)
+				{
+					var splittedId = pair.Key.Split('#');
+					var sourceFilterId = new Guid(splittedId[0]);
+					var sourcePinIndex = int.Parse(splittedId[1]);
+					var output = _nodes[sourceFilterId]
+						.Filter.Pins
+						.Where(x => x.IsOutput)
+						.Skip(sourcePinIndex)
+						.First();
+					output.Disconnect();
+					_connections.Remove(pair.Key);
+				}
+				Refresh();
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		private void DrawConnection(Graphics graphics, Connection connection)
