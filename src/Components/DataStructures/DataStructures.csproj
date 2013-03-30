@@ -48,6 +48,7 @@
     <Compile Include="INumericProperty.cs" />
     <Compile Include="IPin.cs" />
     <Compile Include="Enums\PinMediaType.cs" />
+    <Compile Include="IPointProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

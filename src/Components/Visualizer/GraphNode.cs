@@ -59,6 +59,11 @@ namespace Visualizer
 						editor = new NumericEditor((INumericProperty)property) { Value = Convert.ToDecimal(property.Value) };
 						break;
 
+					case FilterPropertyType.Size:
+					case FilterPropertyType.Point:
+						editor = new PointEditor((IPointProperty) property) { Value = property.Value };
+						break;
+
 					default:
 						throw new ArgumentOutOfRangeException();
 				}

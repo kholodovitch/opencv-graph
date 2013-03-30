@@ -27,7 +27,7 @@
 		</Filter>
 		<!-- Blur -->
 		<Filter NodeGuid="628f5f01-51fe-4e50-a4a7-37fd57e9ddcf" TypeGuid="48421e5c-5d99-4182-8b4e-1633d2567300">
-			<Pin Name="Output" ConnectedToNode="a0cac845-6809-47c4-a5a6-ce2a2fed9f36" ConnectedToPin="Image" />
+			<Pin Name="Output" ConnectedToNode="0ba8488d-70d0-4497-84f9-1e222f05bedc" ConnectedToPin="Input" />
 		</Filter>
 		<!-- DestFileImage -->
 		<Filter NodeGuid="79d8973a-96e6-457d-ab2c-ea6d440014f7" TypeGuid="f3c2e875-0d6e-40df-a6c4-e7f31526f21c">
@@ -50,6 +50,43 @@
 			<Property Name="EdgeBlurSize" Value="5" />
 			<Pin Name="Contours" />
 		</Filter>
+		<!-- Split -->
+		<Filter NodeGuid="4af7fbd2-940f-471a-8c69-80a497642b31" TypeGuid="e67796a6-f73a-4e64-b4d7-766b612be02b">
+			<Pin Name="R" ConnectedToNode="61a3f14a-8427-4d67-862a-7d35a174b891" ConnectedToPin="Image" />
+			<Pin Name="G" ConnectedToNode="5b4c63ff-88c2-4623-bea2-d56b51630ee4" ConnectedToPin="Image" />
+			<Pin Name="B" ConnectedToNode="e2bf921f-3d41-4f8c-8a23-baaeedbcd0cb" ConnectedToPin="Image" />
+		</Filter>
+		<!-- WinFormsRenderer -->
+		<Filter NodeGuid="ee26b0ec-fd1e-4c0a-abec-643ac66d443d" TypeGuid="39ef4f36-2239-4e02-92e2-d65e8b63b396">
+			<Property Name="Name" Value="5" />
+			<Property Name="Size" Value="420,315" />
+			<Property Name="Point" Value="0,0" />
+		</Filter>
+		<!-- Clone -->
+		<Filter NodeGuid="0ba8488d-70d0-4497-84f9-1e222f05bedc" TypeGuid="27a97ffe-065b-4684-9035-80793463eb7b">
+			<Property Name="Count of copies" Value="2" />
+			<Pin Name="Original" ConnectedToNode="a0cac845-6809-47c4-a5a6-ce2a2fed9f36" ConnectedToPin="Image" />
+			<Pin Name="Copy № 1" ConnectedToNode="4af7fbd2-940f-471a-8c69-80a497642b31" ConnectedToPin="Input" />
+			<Pin Name="Copy № 2" ConnectedToNode="ee26b0ec-fd1e-4c0a-abec-643ac66d443d" ConnectedToPin="Image" />
+		</Filter>
+		<!-- WinFormsRenderer -->
+		<Filter NodeGuid="61a3f14a-8427-4d67-862a-7d35a174b891" TypeGuid="39ef4f36-2239-4e02-92e2-d65e8b63b396">
+			<Property Name="Name" Value="R" />
+			<Property Name="Size" Value="420,315" />
+			<Property Name="Point" Value="420,0" />
+		</Filter>
+		<!-- WinFormsRenderer -->
+		<Filter NodeGuid="e2bf921f-3d41-4f8c-8a23-baaeedbcd0cb" TypeGuid="39ef4f36-2239-4e02-92e2-d65e8b63b396">
+			<Property Name="Name" Value="G" />
+			<Property Name="Size" Value="420,315" />
+			<Property Name="Point" Value="1260,0" />
+		</Filter>
+		<!-- WinFormsRenderer -->
+		<Filter NodeGuid="5b4c63ff-88c2-4623-bea2-d56b51630ee4" TypeGuid="39ef4f36-2239-4e02-92e2-d65e8b63b396">
+			<Property Name="Name" Value="B" />
+			<Property Name="Size" Value="420,315" />
+			<Property Name="Point" Value="840,0" />
+		</Filter>
 	</Filters>
 	<Locations>
 		<Location Node="c56e74c6-02b9-41db-9357-e8d30f86db22" X="20" Y="40" />
@@ -59,7 +96,13 @@
 		<Location Node="0ec4d2c7-abaf-46e8-83d8-38e898679daa" X="740" Y="40" />
 		<Location Node="79d8973a-96e6-457d-ab2c-ea6d440014f7" X="920" Y="40" />
 		<Location Node="628f5f01-51fe-4e50-a4a7-37fd57e9ddcf" X="380" Y="100" />
-		<Location Node="a0cac845-6809-47c4-a5a6-ce2a2fed9f36" X="560" Y="100" />
-		<Location Node="dd37f2b2-d9d0-456a-9191-2b7d42e3af45" X="380" Y="160" />
+		<Location Node="a0cac845-6809-47c4-a5a6-ce2a2fed9f36" X="719" Y="152" />
+		<Location Node="dd37f2b2-d9d0-456a-9191-2b7d42e3af45" X="380" Y="156" />
+		<Location Node="4af7fbd2-940f-471a-8c69-80a497642b31" X="722" Y="231" />
+		<Location Node="ee26b0ec-fd1e-4c0a-abec-643ac66d443d" X="724" Y="331" />
+		<Location Node="0ba8488d-70d0-4497-84f9-1e222f05bedc" X="547" Y="177" />
+		<Location Node="61a3f14a-8427-4d67-862a-7d35a174b891" X="963" Y="131" />
+		<Location Node="e2bf921f-3d41-4f8c-8a23-baaeedbcd0cb" X="962" Y="354" />
+		<Location Node="5b4c63ff-88c2-4623-bea2-d56b51630ee4" X="963" Y="241" />
 	</Locations>
 </OCVGraph>

@@ -102,7 +102,8 @@ namespace FilterImplementation.Serialization
 			foreach (XElement element in filterPropertyNodes)
 			{
 				var propertyName = element.Attribute(GraphFileFormat.Ver_0_1.Node_FilterProperty_Name).Value;
-				var propertyValue = element.Attribute(GraphFileFormat.Ver_0_1.Node_FilterProperty_Value).Value;
+				var propertyValueAttribute = element.Attribute(GraphFileFormat.Ver_0_1.Node_FilterProperty_Value);
+				var propertyValue = propertyValueAttribute != null ? propertyValueAttribute.Value : null;
 				var filterProperty = filter.Properties[propertyName];
 
 				switch (filterProperty.Type)
@@ -115,6 +116,18 @@ namespace FilterImplementation.Serialization
 						break;
 					case FilterPropertyType.Float:
 						filterProperty.Value = float.Parse(propertyValue, GraphFileFormat.Ver_0_1.NumberStyles);
+						break;
+					case FilterPropertyType.Size:
+						var sizeParts = propertyValue.Split(',');
+						var width = int.Parse(sizeParts[0], GraphFileFormat.Ver_0_1.NumberStyles);
+						var height = int.Parse(sizeParts[1], GraphFileFormat.Ver_0_1.NumberStyles);
+						filterProperty.Value = new Size(width, height);
+						break;
+					case FilterPropertyType.Point:
+						var pointParts = propertyValue.Split(',');
+						var x = int.Parse(pointParts[0], GraphFileFormat.Ver_0_1.NumberStyles);
+						var y = int.Parse(pointParts[1], GraphFileFormat.Ver_0_1.NumberStyles);
+						filterProperty.Value = new Point(x, y);
 						break;
 					default:
 						throw new ArgumentOutOfRangeException();

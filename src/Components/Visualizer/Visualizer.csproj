@@ -56,6 +56,12 @@
     <Compile Include="PropertyEditors\BasePropertyEditor.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="PropertyEditors\PointEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PropertyEditors\PointEditor.Designer.cs">
+      <DependentUpon>PointEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="PropertyEditors\IPropertyEditor.cs" />
     <Compile Include="PropertyEditors\NumericEditor.cs">
       <SubType>UserControl</SubType>
@@ -73,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="GraphControl.resx">
       <DependentUpon>GraphControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PropertyEditors\PointEditor.resx">
+      <DependentUpon>PointEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PropertyEditors\NumericEditor.resx">
       <DependentUpon>NumericEditor.cs</DependentUpon>

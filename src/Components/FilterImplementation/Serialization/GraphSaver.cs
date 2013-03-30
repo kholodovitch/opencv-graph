@@ -141,6 +141,8 @@ namespace FilterImplementation.Serialization
 				case FilterPropertyType.Float:
 				case FilterPropertyType.Integer:
 				case FilterPropertyType.String:
+				case FilterPropertyType.Point:
+				case FilterPropertyType.Size:
 					return true;
 
 				default:
@@ -156,10 +158,22 @@ namespace FilterImplementation.Serialization
 					return ((float)value).ToString(GraphFileFormat.Ver_0_1.NumberStyles);
 
 				case FilterPropertyType.Integer:
-					return ((int) value).ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+					return ((int)value).ToString(GraphFileFormat.Ver_0_1.NumberStyles);
 
 				case FilterPropertyType.String:
 					return value.ToString();
+
+				case FilterPropertyType.Point:
+					var point = (Point) value;
+					var x = point.X.ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+					var y = point.Y.ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+					return x + "," + y;
+
+				case FilterPropertyType.Size:
+					var size = (Size)value;
+					var width = size.Width.ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+					var height = size.Height.ToString(GraphFileFormat.Ver_0_1.NumberStyles);
+					return width + "," + height;
 
 				default:
 					throw new ArgumentOutOfRangeException("filterPropertyType");
