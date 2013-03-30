@@ -50,6 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\Filter.cs" />
+    <Compile Include="Filters\Image\Merge.cs" />
+    <Compile Include="Filters\Logic\And.cs" />
+    <Compile Include="Filters\Logic\Xor.cs" />
+    <Compile Include="Filters\Logic\Or.cs" />
+    <Compile Include="Filters\Logic\Not.cs" />
     <Compile Include="Base\InputPin.cs" />
     <Compile Include="Base\OutputPin.cs" />
     <Compile Include="Base\Pin.cs" />
