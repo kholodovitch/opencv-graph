@@ -75,7 +75,10 @@ namespace OpencvGraphEdit
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			foreach (Filter filter in graphControl1.GraphBundle.Graph.Filters)
+			IEnumerable<IFilter> filters = graphControl1
+				.GraphBundle.Graph.Filters
+				.Where(x => x.Pins.Where(y => !y.IsOutput).All(y => y.IsConnected));
+			foreach (Filter filter in filters)
 			{
 				Filter localFilter = filter;
 				ThreadPool.QueueUserWorkItem(o => localFilter.Process());
