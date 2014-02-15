@@ -119,6 +119,7 @@ namespace OpencvGraphEdit
 				node.Tag = typePath.TypeId;
 			}
 			treeView1.ExpandAll();
+			treeView1.Sort();
 		}
 
 		private TreeNode AddNode(string key, TreeNodeCollection nodeCollection)

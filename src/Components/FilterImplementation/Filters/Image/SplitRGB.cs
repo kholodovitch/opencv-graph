@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using DataStructures;
 using DataStructures.Enums;
 using Emgu.CV;
-using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using FilterImplementation.Base;
 
 namespace FilterImplementation.Filters.Image
 {
-	internal class Split : Filter
+	internal class SplitRgb : Filter
 	{
 		private readonly OutputPin _outputR;
 		private readonly OutputPin _outputG;
 		private readonly OutputPin _outputB;
-		private InputPin _input;
+		private readonly InputPin _input;
 
-		public Split()
+		public SplitRgb()
 		{
 			_input = new InputPin("Input", PinMediaType.Image);
 			_outputB = new OutputPin("B", PinMediaType.Image);

@@ -10,7 +10,7 @@
 		<Filter NodeGuid="59ff27e7-834c-42d2-bbfe-18af707518f9" TypeGuid="ed85ca19-a382-4bbc-905f-fc53a46c512b">
 			<Pin Name="Output" ConnectedToNode="4618b53b-9ba8-4eab-99e9-27652320cd5f" ConnectedToPin="Image" />
 		</Filter>
-		<!-- Split -->
+		<!-- SplitRGB -->
 		<Filter NodeGuid="d5ee694d-d86c-4ffd-be9f-fded272e2f41" TypeGuid="e67796a6-f73a-4e64-b4d7-766b612be02b">
 			<Pin Name="R" ConnectedToNode="59ff27e7-834c-42d2-bbfe-18af707518f9" ConnectedToPin="R" />
 			<Pin Name="G" ConnectedToNode="59ff27e7-834c-42d2-bbfe-18af707518f9" ConnectedToPin="G" />
@@ -33,7 +33,7 @@
 			<Pin Name="Original" ConnectedToNode="e7cdbc82-1781-4713-80e7-4d330ecfd828" ConnectedToPin="Image" />
 			<Pin Name="Copy № 1" ConnectedToNode="d5ee694d-d86c-4ffd-be9f-fded272e2f41" ConnectedToPin="Input" />
 		</Filter>
-		<!-- Split -->
+		<!-- SplitRGB -->
 		<Filter NodeGuid="3fc4d2a6-b433-42b9-8467-c9ab54f57049" TypeGuid="e67796a6-f73a-4e64-b4d7-766b612be02b">
 			<Pin Name="R" />
 			<Pin Name="G" />
