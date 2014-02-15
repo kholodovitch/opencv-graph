@@ -45,7 +45,7 @@ namespace FilterImplementation.Filters.Image
 
 			if (gray != null)
 			{
-				Image<Gray, byte> output = gray.InRange(new Gray(_minProperty.Value / 255.0), new Gray(_maxProperty.Value / 255.0));
+				Image<Gray, byte> output = gray.InRange(new Gray(_minProperty.Value), new Gray(_maxProperty.Value));
 				_output.SetData(output);
 			}
 			else

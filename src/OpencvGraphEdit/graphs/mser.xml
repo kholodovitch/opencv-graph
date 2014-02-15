@@ -89,7 +89,7 @@
 		</Filter>
 		<!-- SourceFileImage -->
 		<Filter NodeGuid="45dad3a8-e6cd-42c5-bb4a-6e47387e548e" TypeGuid="23949518-127f-4909-801e-72ec65340046">
-			<Property Name="FilePath" Value="C:\Users\Public\Pictures\Sample Pictures\Chrysanthemum.jpg" />
+			<Property Name="FilePath" Value="C:\Users\spbAngel\Desktop\Untitled.png" />
 			<Pin Name="Image" ConnectedToNode="df4bd632-0cf8-4ade-8db1-93d5f5de1394" ConnectedToPin="Input" />
 		</Filter>
 		<!-- ConvertToHsv -->
@@ -98,9 +98,9 @@
 		</Filter>
 		<!-- SplitHsv -->
 		<Filter NodeGuid="7663eb53-d284-4836-a29b-9ae8b90e2452" TypeGuid="559f2ecf-acb9-4e7b-bd46-4f6b19b8e6bc">
-			<Pin Name="H" />
-			<Pin Name="S" />
-			<Pin Name="V" ConnectedToNode="8dde5997-d368-4a99-8868-e2f7515823b3" ConnectedToPin="Image" />
+			<Pin Name="H" ConnectedToNode="8dde5997-d368-4a99-8868-e2f7515823b3" ConnectedToPin="Image" />
+			<Pin Name="S" ConnectedToNode="4caa9663-1fd4-4707-a42f-c78683bab6cb" ConnectedToPin="Input" />
+			<Pin Name="V" />
 		</Filter>
 		<!-- WinFormsRenderer -->
 		<Filter NodeGuid="8dde5997-d368-4a99-8868-e2f7515823b3" TypeGuid="39ef4f36-2239-4e02-92e2-d65e8b63b396">
@@ -110,7 +110,7 @@
 		</Filter>
 		<!-- InRange -->
 		<Filter NodeGuid="4caa9663-1fd4-4707-a42f-c78683bab6cb" TypeGuid="b095957a-eeb6-498e-bfe7-34b3d8ee1693">
-			<Property Name="Min value" Value="120" />
+			<Property Name="Min value" Value="255" />
 			<Property Name="Max value" Value="255" />
 			<Pin Name="Filtered" ConnectedToNode="94bda558-ab67-481d-be70-86c49edf23ac" ConnectedToPin="Image" />
 		</Filter>
@@ -131,7 +131,7 @@
 		<Filter NodeGuid="be1c4718-3b05-49a4-be9d-420b82c2479e" TypeGuid="e67796a6-f73a-4e64-b4d7-766b612be02b">
 			<Pin Name="R" />
 			<Pin Name="G" />
-			<Pin Name="B" ConnectedToNode="4caa9663-1fd4-4707-a42f-c78683bab6cb" ConnectedToPin="Input" />
+			<Pin Name="B" />
 		</Filter>
 		<!-- WinFormsRenderer -->
 		<Filter NodeGuid="c049ee86-7a93-4a19-bef5-e931e66fcf81" TypeGuid="39ef4f36-2239-4e02-92e2-d65e8b63b396">
@@ -159,8 +159,8 @@
 		<Location Node="45dad3a8-e6cd-42c5-bb4a-6e47387e548e" X="41" Y="519" />
 		<Location Node="0d66652f-4f1d-43ab-b789-463b3e200fd9" X="420" Y="524" />
 		<Location Node="7663eb53-d284-4836-a29b-9ae8b90e2452" X="635" Y="535" />
-		<Location Node="8dde5997-d368-4a99-8868-e2f7515823b3" X="1023" Y="579" />
-		<Location Node="4caa9663-1fd4-4707-a42f-c78683bab6cb" X="671" Y="654" />
+		<Location Node="8dde5997-d368-4a99-8868-e2f7515823b3" X="1017" Y="504" />
+		<Location Node="4caa9663-1fd4-4707-a42f-c78683bab6cb" X="833" Y="624" />
 		<Location Node="df4bd632-0cf8-4ade-8db1-93d5f5de1394" X="211" Y="506" />
 		<Location Node="94bda558-ab67-481d-be70-86c49edf23ac" X="1000" Y="746" />
 		<Location Node="be1c4718-3b05-49a4-be9d-420b82c2479e" X="420" Y="584" />
