@@ -3,7 +3,7 @@
 	<Filters>
 		<!-- SourceFileImage -->
 		<Filter NodeGuid="ba5a0693-1705-4699-ba9d-dbb6acffff19" TypeGuid="23949518-127f-4909-801e-72ec65340046">
-			<Property Name="FilePath" Value="D:\Projects\freelance\billiard_ar\testdata\frames\Judd Trump vs Mark Allen - 2012 Premier League - Frame 4 [1080p HD].mp4_snapshot_02.29_[2013.02.06_21.51.23].png" />
+			<Property Name="FilePath" Value="D:\Projects\freelance\billiard_ar\testdata\frames\Judd Trump Dispatches Dominic Dale - 2012 Wuxi Classic [1080p HD].mp4_snapshot_07.41_[2013.02.07_03.51.27].png" />
 			<Pin Name="Image" ConnectedToNode="378b2d56-244c-4f28-b615-a06358d31922" ConnectedToPin="Input" />
 		</Filter>
 		<!-- ConvertToHsv -->
@@ -69,10 +69,10 @@
 		<Location Node="cd869323-3798-4f5e-94c6-5968cd7163f5" X="682" Y="109" />
 		<Location Node="cb6e1510-5b1c-469f-a29b-a4aca22f5261" X="487" Y="235" />
 		<Location Node="e8626ac9-dbba-4c57-b6cc-a31072f9b6d8" X="680" Y="206" />
-		<Location Node="8a875437-fe08-4913-9502-276f6c17b13b" X="1243" Y="106" />
+		<Location Node="8a875437-fe08-4913-9502-276f6c17b13b" X="1187" Y="186" />
 		<Location Node="1b274c46-2717-47c8-859e-deba041d9eb4" X="345" Y="188" />
 		<Location Node="378b2d56-244c-4f28-b615-a06358d31922" X="175" Y="110" />
-		<Location Node="b25b86f6-da54-4bf3-8c3e-f460d3c97f0c" X="868" Y="88" />
-		<Location Node="4e85cdcf-de51-489c-beb4-d203d6f8fcf8" X="1036" Y="160" />
+		<Location Node="b25b86f6-da54-4bf3-8c3e-f460d3c97f0c" X="850" Y="90" />
+		<Location Node="4e85cdcf-de51-489c-beb4-d203d6f8fcf8" X="1018" Y="164" />
 	</Locations>
 </OCVGraph>

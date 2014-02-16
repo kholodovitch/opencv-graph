@@ -4,7 +4,7 @@ using DataStructures;
 using DataStructures.Enums;
 using FilterImplementation.Base;
 
-namespace FilterImplementation.Destination
+namespace FilterImplementation.FilterProperties
 {
 	internal class PointProperty : Property, IPointProperty
 	{

@@ -6,6 +6,7 @@ using DataStructures.Enums;
 using Emgu.CV;
 using Emgu.CV.UI;
 using FilterImplementation.Base;
+using FilterImplementation.FilterProperties;
 
 namespace FilterImplementation.Destination
 {

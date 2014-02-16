@@ -62,7 +62,7 @@
     <Compile Include="Base\InputPin.cs" />
     <Compile Include="Base\OutputPin.cs" />
     <Compile Include="Base\Pin.cs" />
-    <Compile Include="Destination\PointProperty.cs" />
+    <Compile Include="FilterProperties\PointProperty.cs" />
     <Compile Include="Destination\WinFormsRenderer.cs" />
     <Compile Include="Destination\DestFileImage.cs" />
     <Compile Include="FilterProperties\NumericProperty.cs" />
