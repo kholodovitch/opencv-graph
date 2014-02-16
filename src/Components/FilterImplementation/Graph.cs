@@ -24,6 +24,17 @@ namespace FilterImplementation
 				_filters[newFilter.NodeGuid] = newFilter;
 		}
 
+		public void RemoveFilter(Guid id)
+		{
+			IFilter filter;
+
+			lock (_filters)
+				filter = _filters[id];
+			OnRemovingFilter(filter);
+			lock (_filters)
+				_filters.Remove(id);
+		}
+
 		private void OnAddingFilter(IFilter newFilter)
 		{
 		}

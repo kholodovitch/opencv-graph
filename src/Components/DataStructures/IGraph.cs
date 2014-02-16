@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
@@ -7,5 +8,6 @@ namespace DataStructures
 		IEnumerable<IFilter> Filters { get; }
 
 		void AddFilter(IFilter filter);
+		void RemoveFilter(Guid id);
 	}
 }

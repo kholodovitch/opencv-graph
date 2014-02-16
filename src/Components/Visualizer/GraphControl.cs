@@ -123,6 +123,7 @@ namespace Visualizer
 			Guid nodeGuid = filter.NodeGuid;
 			var graphNode = new GraphNode(filter);
 			graphNode.LocationChanged += Node_LocationChanged;
+			graphNode.Click += GraphNodeClick;
 			graphNode.MouseDown += GraphNodeOnMouseDown;
 			graphNode.MouseMove += GraphNodeOnMouseMove;
 			_nodes[nodeGuid] = graphNode;
@@ -133,6 +134,18 @@ namespace Visualizer
 			graphNode.DragOver += _DragOver;
 			graphNode.DragEnter += _DragEnter;
 			graphNode.DragDrop += _DragDrop;
+		}
+
+		private void GraphNodeClick(object sender, EventArgs e)
+		{
+			var node = (GraphNode)sender;
+
+			var selectedNodes = _nodes
+				.Where(x => x.Value.IsSelected)
+				.ToList();
+			selectedNodes.ForEach(x=>x.Value.IsSelected = false);
+			node.IsSelected = true;
+			Refresh();
 		}
 
 		private void GraphNodeOnMouseMove(object sender, MouseEventArgs mouseEventArgs)
@@ -241,6 +254,32 @@ namespace Visualizer
 					output.Disconnect();
 					_connections.Remove(pair.Key);
 				}
+
+				var selectedNodes = _nodes
+					.Where(x => x.Value.IsSelected)
+					.ToList();
+				foreach (var pair in selectedNodes)
+				{
+					GraphNode graphNode = pair.Value;
+					graphNode
+						.Filter.Pins
+						.Where(x => x.IsConnected)
+						.Where(x => !x.IsOutput)
+						.ToList()
+						.ForEach(x=>x.Disconnect());
+					_bundle.Graph.RemoveFilter(pair.Key);
+					_nodes.Remove(pair.Key);
+
+					graphNode.LocationChanged -= Node_LocationChanged;
+					graphNode.Click -= GraphNodeClick;
+					graphNode.MouseDown -= GraphNodeOnMouseDown;
+					graphNode.MouseMove -= GraphNodeOnMouseMove;
+					graphNode.DragOver -= _DragOver;
+					graphNode.DragEnter -= _DragEnter;
+					graphNode.DragDrop -= _DragDrop;
+					Controls.Remove(graphNode);
+				}
+
 				Refresh();
 			}
 

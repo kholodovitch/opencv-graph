@@ -92,6 +92,8 @@ namespace Visualizer
 			Controls.Add(table);
 		}
 
+		public bool IsSelected { get; set; }
+
 		public IFilter Filter
 		{
 			get { return _filter; }
