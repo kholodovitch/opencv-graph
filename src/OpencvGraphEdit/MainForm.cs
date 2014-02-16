@@ -16,7 +16,7 @@ namespace OpencvGraphEdit
 {
 	public partial class MainForm : Form
 	{
-		private const string PathToXml = @"..\..\graphs\mser.xml";
+		private const string PathToXml = @"..\..\graphs\sample.xml";
 
 		public MainForm()
 		{
