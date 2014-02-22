@@ -109,6 +109,7 @@ namespace FilterImplementation.Serialization
 				switch (filterProperty.Type)
 				{
 					case FilterPropertyType.String:
+					case FilterPropertyType.Enum:
 						filterProperty.Value = propertyValue;
 						break;
 					case FilterPropertyType.Integer:

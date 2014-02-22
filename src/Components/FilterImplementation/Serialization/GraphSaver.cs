@@ -143,6 +143,7 @@ namespace FilterImplementation.Serialization
 				case FilterPropertyType.String:
 				case FilterPropertyType.Point:
 				case FilterPropertyType.Size:
+				case FilterPropertyType.Enum:
 					return true;
 
 				default:
@@ -161,6 +162,7 @@ namespace FilterImplementation.Serialization
 					return ((int)value).ToString(GraphFileFormat.Ver_0_1.NumberStyles);
 
 				case FilterPropertyType.String:
+				case FilterPropertyType.Enum:
 					return value.ToString();
 
 				case FilterPropertyType.Point:

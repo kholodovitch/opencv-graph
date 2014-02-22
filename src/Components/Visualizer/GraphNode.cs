@@ -65,7 +65,11 @@ namespace Visualizer
 
 					case FilterPropertyType.Size:
 					case FilterPropertyType.Point:
-						editor = new PointEditor((IPointProperty) property) { Value = property.Value };
+						editor = new PointEditor((IPointProperty)property) { Value = property.Value };
+						break;
+
+					case FilterPropertyType.Enum:
+						editor = new EnumEditor((IEnumProperty)property) { Value = property.Value };
 						break;
 
 					default:

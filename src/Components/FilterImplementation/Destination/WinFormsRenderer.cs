@@ -15,6 +15,7 @@ namespace FilterImplementation.Destination
 		private readonly Property _nameProperty;
 		private readonly Property _sizeProperty;
 		private readonly Property _locationProperty;
+		private readonly EnumProperty _borderStyleProperty;
 		private readonly InputPin _inputPin;
 		private ImageViewer _viewer;
 		private object _ = new object();
@@ -29,6 +30,9 @@ namespace FilterImplementation.Destination
 
 			_locationProperty = new PointProperty("Point", FilterPropertyType.Point) { Value = Point.Empty };
 			AddProperty(_locationProperty);
+
+			_borderStyleProperty = new EnumProperty("Border", FilterPropertyType.Enum, Enum.GetNames(typeof(FormBorderStyle))) { Value = FormBorderStyle.Sizable.ToString() };
+			AddProperty(_borderStyleProperty);
 
 			_inputPin = new InputPin("Image", PinMediaType.Image);
 			AddPin(_inputPin);
@@ -54,11 +58,12 @@ namespace FilterImplementation.Destination
 				_viewer = new ImageViewer
 					{
 						StartPosition = FormStartPosition.Manual,
+						FormBorderStyle = (FormBorderStyle)Enum.Parse(typeof(FormBorderStyle), _borderStyleProperty.Value.ToString()),
 						Size = (Size) _sizeProperty.Value,
 						Location = (Point) _locationProperty.Value,
 						Text = _nameProperty.Value as string,
+						Image = (IImage) _inputPin.GetData(),
 					};
-				_viewer.Image = (IImage) _inputPin.GetData();
 			}
 			Application.Run(_viewer);
 			_viewer = null;

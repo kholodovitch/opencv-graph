@@ -7,6 +7,7 @@ namespace DataStructures.Enums
 		Integer = 0x0010,
 		Float,
 		Point,
-		Size
+		Size,
+		Enum
 	}
 }
