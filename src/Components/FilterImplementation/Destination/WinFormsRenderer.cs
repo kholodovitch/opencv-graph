@@ -17,6 +17,7 @@ namespace FilterImplementation.Destination
 		private readonly Property _locationProperty;
 		private readonly EnumProperty _borderStyleProperty;
 		private readonly InputPin _inputPin;
+		private readonly IntegerProperty _zoomProperty;
 		private ImageViewer _viewer;
 		private object _ = new object();
 
@@ -33,6 +34,9 @@ namespace FilterImplementation.Destination
 
 			_borderStyleProperty = new EnumProperty("Border", FilterPropertyType.Enum, Enum.GetNames(typeof(FormBorderStyle))) { Value = FormBorderStyle.Sizable.ToString() };
 			AddProperty(_borderStyleProperty);
+
+			_zoomProperty = new IntegerProperty("Zoom", 5, 1000, 5) { Value = 100 };
+			AddProperty(_zoomProperty);
 
 			_inputPin = new InputPin("Image", PinMediaType.Image);
 			AddPin(_inputPin);
@@ -63,7 +67,9 @@ namespace FilterImplementation.Destination
 						Location = (Point) _locationProperty.Value,
 						Text = _nameProperty.Value as string,
 						Image = (IImage) _inputPin.GetData(),
+						TopMost = true,
 					};
+				_viewer.ImageBox.SetZoomScale(_zoomProperty.Value / 100f, Point.Empty);
 			}
 			Application.Run(_viewer);
 			_viewer = null;
