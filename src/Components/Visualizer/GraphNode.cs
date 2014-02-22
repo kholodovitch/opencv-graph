@@ -16,14 +16,18 @@ namespace Visualizer
 		private const int PropertyHeight = 18;
 
 		private static readonly Color ColorBackground = Color.FromArgb(224, 224, 224);
+		private static readonly Color SelectedColorBackground = Color.FromArgb(255, 224, 224);
 		private static readonly Color ColorHeaderBackground = Color.FromArgb(208, 208, 208);
+		private static readonly Color SelectedColorHeaderBackground = Color.FromArgb(255, 192, 192);
 		private static readonly Color BorderColor = Color.FromArgb(192, 192, 192);
+		private static readonly Color SelectedBorderColor = Color.FromArgb(255, 128, 128);
 		private static readonly Font FieldFont = new Font(FontFamily.GenericSansSerif, 8);
 		private static readonly Font HeaderFont = new Font(FontFamily.GenericSansSerif, 10);
 
 		private readonly IFilter _filter;
 		private double _progress;
 		private ProcessingState _state = ProcessingState.NotStarted;
+		private bool _isSelected;
 
 		public GraphNode(IFilter filter)
 		{
@@ -92,7 +96,15 @@ namespace Visualizer
 			Controls.Add(table);
 		}
 
-		public bool IsSelected { get; set; }
+		public bool IsSelected
+		{
+			get { return _isSelected; }
+			set
+			{
+				_isSelected = value;
+				Invalidate();
+			}
+		}
 
 		public IFilter Filter
 		{
@@ -124,7 +136,7 @@ namespace Visualizer
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			e.Graphics.Clear(ColorBackground);
+			e.Graphics.Clear(IsSelected ? SelectedColorBackground : ColorBackground);
 			SolidBrush headerBrush;
 
 			switch (_state)
@@ -136,7 +148,7 @@ namespace Visualizer
 					headerBrush = new SolidBrush(Color.FromArgb(128, 255, 128));
 					break;
 				case ProcessingState.NotStarted:
-					headerBrush = new SolidBrush(ColorHeaderBackground);
+					headerBrush = new SolidBrush(IsSelected ? SelectedColorHeaderBackground : ColorHeaderBackground);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
@@ -152,7 +164,7 @@ namespace Visualizer
 				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(128, 255, 128)), 0, 1, (int) (Width*_progress), HeaderHeight);
 			}
 
-			var borderPen = new Pen(BorderColor);
+			var borderPen = new Pen(IsSelected ? SelectedBorderColor : BorderColor);
 			e.Graphics.DrawRectangle(borderPen, new Rectangle(Point.Empty, Size.Subtract(Size, new Size(1, 1))));
 			e.Graphics.DrawLine(borderPen, 0, HeaderHeight + 1, Width, HeaderHeight + 1);
 			if (_filter.Properties.Count > 0)
