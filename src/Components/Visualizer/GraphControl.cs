@@ -41,18 +41,18 @@ namespace Visualizer
 
 		private void _DragDrop(object sender, DragEventArgs e)
 		{
-			if (_potentialNeededPort == null)
-				return;
+			if (_potentialNeededPort != null)
+			{
+				IOutputPin pin = e
+					.Data
+					.GetFormats()
+					.Select(format => e.Data.GetData(format))
+					.OfType<IOutputPin>()
+					.FirstOrDefault();
 
-			IOutputPin pin = e.Data.GetFormats()
-				.Select(format => e.Data.GetData(format))
-				.OfType<IOutputPin>()
-				.FirstOrDefault();
-			if (pin == null)
-				return;
-
-			if (!_potentialNeededPort.IsConnected)
-				pin.Connect(_potentialNeededPort);
+				if (pin != null && !_potentialNeededPort.IsConnected)
+					pin.Connect(_potentialNeededPort);
+			}
 
 			srcPoint = null;
 			destPoint = null;
@@ -140,10 +140,8 @@ namespace Visualizer
 		{
 			var node = (GraphNode)sender;
 
-			var selectedNodes = _nodes
-				.Where(x => x.Value.IsSelected)
-				.ToList();
-			selectedNodes.ForEach(x=>x.Value.IsSelected = false);
+			DeselectConnection();
+			DeselectNode();
 			node.IsSelected = true;
 			Refresh();
 		}
@@ -178,6 +176,19 @@ namespace Visualizer
 			}
 			_x = mouseEventArgs.X;
 			_y = mouseEventArgs.Y;
+		}
+
+		private void DeselectConnection()
+		{
+			_connections.ToList().ForEach(a => a.Value.IsSelected = false);
+		}
+
+		private void DeselectNode()
+		{
+			var selectedNodes = _nodes
+				.Where(x => x.Value.IsSelected)
+				.ToList();
+			selectedNodes.ForEach(x => x.Value.IsSelected = false);
 		}
 
 		private static bool IsNearPin(Point location, Point pinPort)
@@ -301,7 +312,7 @@ namespace Visualizer
 		private void GraphControl_Click(object sender, EventArgs e)
 		{
 			Point point = PointToClient(Cursor.Position);
-			_connections.ToList().ForEach(a => a.Value.IsSelected = false);
+			DeselectConnection();
 
 			var nearestConnection = _connections
 				.Select(pair => new {Item = pair.Value, Point = GetNearestOnBezier(point, pair.Value.Points)})
@@ -311,6 +322,7 @@ namespace Visualizer
 			if (nearestConnection != null && nearestConnection.Distance < 5)
 				nearestConnection.Item.IsSelected = true;
 
+			DeselectNode();
 			Invalidate();
 		}
 
