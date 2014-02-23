@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\Filter.cs" />
+    <Compile Include="Filters\Image\Resize.cs" />
     <Compile Include="FilterProperties\EnumProperty.cs" />
     <Compile Include="Filters\ImageProcessing\FastNlMeansDenoisingColored.cs" />
     <Compile Include="Filters\Image\ConvertToHsv.cs" />
