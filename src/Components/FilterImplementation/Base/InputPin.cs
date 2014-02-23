@@ -29,7 +29,14 @@ namespace FilterImplementation.Base
 		public object GetData()
 		{
 			_dataReciveEvent.WaitOne();
-			return _data;
+			try
+			{
+				return _data;
+			}
+			finally
+			{
+				_data = null;
+			}
 		}
 
 		#endregion

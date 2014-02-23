@@ -16,7 +16,7 @@ namespace OpencvGraphEdit
 {
 	public partial class MainForm : Form
 	{
-		private const string PathToXml = @"..\..\graphs\sample.xml";
+		private const string PathToXml = @"..\..\graphs\mser.xml";
 
 		public MainForm()
 		{
@@ -100,16 +100,26 @@ namespace OpencvGraphEdit
 				.GraphBundle.Graph.Filters
 				.Where(x => x.Pins.Where(y => !y.IsOutput).All(y => y.IsConnected));
 
-			foreach (Filter filter in graphControl1.GraphBundle.Graph.Filters)
-				filter.Reset();
-
-			GC.Collect();
+			ResetFilters();
 
 			foreach (Filter filter in filters)
 			{
 				Filter localFilter = filter;
 				ThreadPool.QueueUserWorkItem(o => localFilter.Process());
 			}
+		}
+
+		private void toolStripButton2_Click(object sender, EventArgs e)
+		{
+			ResetFilters();
+		}
+
+		private void ResetFilters()
+		{
+			foreach (Filter filter in graphControl1.GraphBundle.Graph.Filters)
+				filter.Reset();
+
+			GC.Collect();
 		}
 
 		private void UpdateTreeView(IEnumerable<KeyValuePair<Guid, Type>> filterTypes)
