@@ -53,10 +53,6 @@ namespace FilterImplementation.Destination
 		{
 			FireProcessingStateChanged(ProcessingState.Started);
 
-			lock(_)
-			if (_viewer != null)
-				_viewer.Invoke((Action)(() => _viewer.Close()));
-
 			lock (_)
 			{
 				_viewer = new ImageViewer
@@ -75,6 +71,25 @@ namespace FilterImplementation.Destination
 			_viewer = null;
 
 			FireProcessingStateChanged(ProcessingState.Finished);
+		}
+
+		public override void Reset()
+		{
+			lock (_)
+			{
+				if (_viewer == null)
+					return;
+
+				_viewer.Invoke((Action) (() =>
+					{
+						if (_viewer.Image != null)
+							_viewer.Image.Dispose();
+						_viewer.Close();
+					}));
+				_viewer = null;
+			}
+
+			base.Reset();
 		}
 
 		#endregion

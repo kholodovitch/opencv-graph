@@ -63,6 +63,11 @@ namespace FilterImplementation.Base
 
 		public abstract void Process();
 
+		public virtual void Reset()
+		{
+			OnProcessingStateChanged(this, ProcessingState.NotStarted);
+		}
+
 		public event PinsChangedHandler OnPinsChanged = (sender, args, action) => { };
 		public event ProcessingProgressChangedHandler OnProcessingProgressChanged = (sender, progress) => { }; 
 		public event ProcessingStateChangedHandler OnProcessingStateChanged = (sender, state) => { };

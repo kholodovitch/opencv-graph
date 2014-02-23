@@ -99,6 +99,12 @@ namespace OpencvGraphEdit
 			IEnumerable<IFilter> filters = graphControl1
 				.GraphBundle.Graph.Filters
 				.Where(x => x.Pins.Where(y => !y.IsOutput).All(y => y.IsConnected));
+
+			foreach (Filter filter in graphControl1.GraphBundle.Graph.Filters)
+				filter.Reset();
+
+			GC.Collect();
+
 			foreach (Filter filter in filters)
 			{
 				Filter localFilter = filter;

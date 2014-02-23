@@ -34,6 +34,7 @@ namespace FilterImplementation.Destination
 			var image = (IImage)_inputPin.GetData();
 
 			image.Save((string)_filepathProperty.Value);
+			image.Dispose();
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 

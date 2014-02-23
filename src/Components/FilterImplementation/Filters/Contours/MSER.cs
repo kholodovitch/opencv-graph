@@ -76,6 +76,8 @@ namespace FilterImplementation.Filters.Contours
 			               	);
 			using (var storage = new MemStorage())
 				detector.ExtractContours(image, null, storage);
+			detector.Dispose();
+			image.Dispose();
 
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}

@@ -54,6 +54,7 @@ namespace FilterImplementation.Filters.Image
 				_outputG.SetData(channels[1]);
 				_outputB.SetData(channels[2]);
 			}
+			frame.Dispose();
 
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}

@@ -38,6 +38,7 @@ namespace FilterImplementation.Filters.ImageProcessing
 
 			var gray0 = frame0 as Image<Gray, byte>;
 			throw new NotImplementedException();
+			frame0.Dispose();
 
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}

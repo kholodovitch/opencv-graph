@@ -37,9 +37,11 @@ namespace FilterImplementation.Filters.Image
 			{
 				var image = (Image<Bgr, byte>)frame;
 				FireProcessingProgressChanged(0.1);
-				image = image.PyrDown();
+				var image1 = image.PyrDown();
+				image.Dispose();
 				FireProcessingProgressChanged(0.5);
-				frame = image.PyrUp();
+				frame = image1.PyrUp();
+				image1.Dispose();
 				FireProcessingProgressChanged(1);
 			}
 

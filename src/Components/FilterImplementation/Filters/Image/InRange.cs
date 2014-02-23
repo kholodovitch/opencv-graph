@@ -53,6 +53,8 @@ namespace FilterImplementation.Filters.Image
 				throw new NotImplementedException();
 			}
 
+			frame.Dispose();
+
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 	}

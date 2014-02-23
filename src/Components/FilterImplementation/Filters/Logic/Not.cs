@@ -37,6 +37,8 @@ namespace FilterImplementation.Filters.Logic
 			else
 				throw new NotImplementedException();
 
+			frame.Dispose();
+
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 	}

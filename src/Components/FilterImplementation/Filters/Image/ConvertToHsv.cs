@@ -38,6 +38,8 @@ namespace FilterImplementation.Filters.Image
 				_output.SetData((frame as Image<Bgr, byte>).Convert<Hsv, byte>());
 			else
 				throw new NotImplementedException();
+			
+			frame.Dispose();
 
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}

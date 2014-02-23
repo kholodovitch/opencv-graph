@@ -17,6 +17,8 @@ namespace DataStructures
 
 		void Process();
 
+		void Reset();
+
 		event PinsChangedHandler OnPinsChanged;
 
 		event ProcessingProgressChangedHandler OnProcessingProgressChanged;

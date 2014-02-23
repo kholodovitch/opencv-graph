@@ -42,6 +42,10 @@ namespace FilterImplementation.Filters.Image
 
 			_output.SetData(new Image<Bgr, byte>(new[] {frameB, frameG, frameR}));
 
+			frameB.Dispose();
+			frameG.Dispose();
+			frameR.Dispose();
+
 			FireProcessingStateChanged(ProcessingState.Finished);
 		}
 
