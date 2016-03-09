@@ -41,7 +41,14 @@ namespace FilterImplementation.Filters.Logic
 			if (gray0 != null && gray1 != null)
 				_output.SetData(gray0.And(gray1));
 			else
-				throw new NotImplementedException();
+			{
+				var rgb0 = frame0 as Image<Bgr, byte>;
+				var rgb1 = frame1 as Image<Bgr, byte>;
+				if (rgb0 != null && rgb1 != null)
+					_output.SetData(rgb0.And(rgb1));
+				else
+					throw new NotImplementedException();
+			}
 
 			frame0.Dispose();
 			frame1.Dispose();
